@@ -1,0 +1,66 @@
+# Continuação do desenvolvimento do sistema SaaS de restaurantes - Próximos 10%
+
+Você já desenvolveu a base do módulo core com a infraestrutura inicial do sistema (primeiros 10%), incluindo configuração de banco de dados, funções de segurança, autenticação e estrutura multi-tenant. Agora, precisamos avançar com mais 10% do projeto, continuando o módulo core e iniciando o módulo de assinaturas (subscription).
+
+## FASE ATUAL DE DESENVOLVIMENTO
+
+### O que precisa ser implementado nesta fase:
+
+1. Completar o módulo core com:
+   - Estrutura MVC completa incluindo controllers e views base
+   - Sistema de rotas para redirecionamento de URLs
+   - Classes de resposta para API REST
+   - Componentes para tratamento de erros e exceções
+   - Implementação do módulo de log de atividades
+   - Migrations para criação das tabelas do core (usuários, tenants, logs)
+
+2. Iniciar o módulo de assinaturas (subscription) com:
+   - Modelo de dados para planos e assinaturas
+   - Integração básica com Stripe (SDK)
+   - Controladores para gerenciamento de planos e assinaturas
+   - Migrations para as tabelas relacionadas a assinaturas
+
+## REQUISITOS TÉCNICOS ESPECÍFICOS
+
+1. Sistema de rotas para o MVC:
+   - Formato de URL amigável: `dominio.com/controlador/acao/parametros`
+   - Suporte a middlewares e grupos de rotas
+   - Captura de parâmetros via URL
+   - Mapeamento automático para métodos dos controladores
+
+2. Estrutura MVC:
+   - Controladores base com métodos padrão (index, show, create, store, edit, update, delete)
+   - Views utilizando um sistema de template simples
+   - Estrutura para carregar componentes de UI reutilizáveis
+
+3. Integração com Stripe:
+   - Cadastro de clientes no Stripe
+   - Criação de planos e produtos
+   - Processamento de webhooks para atualizações de status
+
+4. Migrações de banco de dados:
+   - Implementar sistema de migrations para versionar o banco de dados
+   - Criar as tabelas base do sistema: users, roles, permissions, tenants, plans, subscriptions, etc.
+
+## FORMATO DO CÓDIGO
+
+Para cada arquivo, utilize o seguinte formato para facilitar a extração automática:
+
+```php
+// File: caminho/do/arquivo.php
+// código aqui
+```
+
+## ENTREGÁVEIS ESPERADOS
+
+1. Código-fonte completo do sistema de rotas
+2. Código-fonte da estrutura MVC base
+3. Implementação do sistema de migrations
+4. Scripts de criação de tabelas do core e subscription
+5. Controladores para gerenciamento de assinaturas
+6. Modelos para planos e assinaturas
+7. Integração básica com Stripe para pagamentos recorrentes
+8. Documentação de uso da API Stripe
+9. Instruções para configuração e testes
+
+Por favor, siga os padrões PSR-12 para estilo de código, utilize namespaces adequados (RestauranteSaas\Module\Component) e documente todas as classes e métodos com PHPDoc.

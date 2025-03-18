@@ -1,0 +1,3225 @@
+
+
+# Projeto Completo - Sistema de Gestão de Restaurantes SaaS
+
+## 1. Tecnologias que devem ser usadas
+
+HTML,CSS,Javascript,PHP, mysql essa aplicaçao dever ser feita em web apenas
+
+## 1. Visão Geral do Projeto
+
+### 1.1 Descrição do Projeto
+
+O projeto consiste em um sistema de gestão de restaurantes oferecido como serviço por assinatura (SaaS - Software as a Service). O sistema atende a diversos tipos de estabelecimentos (à la carte, fast food, pizzaria, rodízio, etc.) com funcionalidades adaptadas para cada modelo de negócio, permitindo operações através de QR Code ou atendimento tradicional com garçons.
+
+### 1.2 Objetivos Principais
+
+1. Oferecer um sistema completo e personalizável para gestão de restaurantes
+2. Permitir flexibilidade para diferentes modelos de negócio
+3. Implementar uma estrutura escalável baseada em assinaturas
+4. Garantir uma experiência otimizada tanto para restaurantes quanto para clientes finais
+5. Proporcionar integração com serviços externos (Stripe, iFood, etc.)
+
+### 1.3 Público-Alvo
+
+- Restaurantes tradicionais à la carte
+- Fast-foods e lanchonetes
+- Pizzarias e delivery
+- Rodízios e bufês
+- Bares e pubs
+- Food trucks
+- Redes de restaurantes
+
+### 1.4 Proposta de Valor
+
+- Redução de custos operacionais
+- Aumento da eficiência no atendimento
+- Melhoria da experiência do cliente
+- Maior controle financeiro e operacional
+- Insights de negócio baseados em dados
+- Flexibilidade para diferentes modelos e tamanhos de operação
+
+## 2. Arquitetura do Sistema
+
+### 2.1 Visão Geral da Arquitetura
+
+O sistema utiliza uma arquitetura de três camadas:
+
+1. **Camada de Apresentação**: Interfaces web e mobile para diferentes perfis de usuário
+2. **Camada de Aplicação**: Lógica de negócio, processamento e serviços
+3. **Camada de Dados**: Persistência e gerenciamento de dados
+
+### 2.2 Modelo Multi-Tenant
+
+O sistema é construído com arquitetura multi-tenant, onde múltiplos restaurantes (tenants) compartilham a mesma infraestrutura, mas com dados completamente isolados:
+
+- Cada tenant possui um identificador único
+- Todas as operações de banco de dados incluem filtro por tenant
+- Recursos são alocados conforme o plano de assinatura
+- Backups são individualizados por tenant
+
+### 2.3 Infraestrutura de Nuvem
+
+A plataforma será hospedada em infraestrutura de nuvem para garantir:
+
+- Alta disponibilidade (99.9+%)
+- Escalabilidade horizontal e vertical
+- Balanceamento de carga
+- Backups automatizados
+- Recuperação de desastres
+- Distribuição geográfica
+
+### 2.4 Integrações Externas
+
+O sistema se integrará com diversos serviços externos:
+
+- Stripe para processamento de pagamentos e assinaturas
+- iFood e outras plataformas de delivery
+- Sistemas fiscais e emissão de notas
+- Serviços de email e SMS
+- Gateways de pagamento para operações do restaurante
+
+## 3. Implementação da Plataforma SaaS
+
+### 3.1 Sistema de Assinaturas
+
+#### 3.1.1 Estrutura de Planos
+
+Implementação de diferentes níveis de planos:
+
+- **Plano Básico**: Funcionalidades essenciais para pequenos estabelecimentos
+- **Plano Padrão**: Recursos intermediários para médios restaurantes
+- **Plano Premium**: Funcionalidades completas para grandes operações
+- **Plano Enterprise**: Soluções personalizadas para redes e franquias
+
+#### 3.1.2 Gerenciamento de Assinaturas
+
+Desenvolvimento do fluxo completo de gestão de assinaturas:
+
+- Cadastro e onboarding
+- Período de teste gratuito
+- Conversão para assinatura paga
+- Gestão de métodos de pagamento
+- Renovações automáticas
+- Upgrades e downgrades de plano
+- Cancelamentos e retenção
+
+#### 3.1.3 Integração com Stripe
+
+Implementação da integração completa com a API do Stripe:
+
+- Criação de produtos e planos no Stripe
+- Processamento de pagamentos recorrentes
+- Gestão de cartões e métodos de pagamento
+- Webhooks para eventos de pagamento
+- Tratamento de falhas e disputas
+- Geração de faturas e recibos
+
+#### 3.1.4 Controle de Limites e Recursos
+
+Desenvolvimento de mecanismos para controlar a utilização conforme o plano:
+
+- Verificação de limites (mesas, usuários, etc.)
+- Monitoramento de uso de recursos
+- Notificações de limite próximo
+- Opções de upgrade quando necessário
+- Controle de acesso a módulos premium
+
+### 3.2 Portal Administrativo
+
+#### 3.2.1 Gestão de Clientes
+
+Criação de interfaces para administradores da plataforma:
+
+- Dashboard de clientes ativos
+- Detalhes de conta e consumo
+- Histórico de pagamentos
+- Ferramentas de suporte
+- Ações administrativas (suspender, cancelar, etc.)
+
+#### 3.2.2 Relatórios e Analytics
+
+Implementação de ferramentas de análise para a operação SaaS:
+
+- Métricas de aquisição de clientes
+- Taxas de conversão e retenção
+- Receita recorrente mensal (MRR)
+- Valor do tempo de vida do cliente (LTV)
+- Custos de aquisição de cliente (CAC)
+- Churn e renovações
+
+#### 3.2.3 Sistema de Suporte
+
+Desenvolvimento de ferramentas para atendimento ao cliente:
+
+- Sistema de tickets
+- Base de conhecimento
+- Chat ao vivo
+- Suporte por email
+- Escalamento para diferentes níveis
+- Métricas de satisfação e tempo de resposta
+
+## 4. Implementação do Sistema de Gestão de Restaurantes
+
+### 4.1 Personalização por Tipo de Restaurante
+
+#### 4.1.1 Onboarding e Configuração
+
+Criação do processo de configuração inicial:
+
+- Seleção do tipo de restaurante
+- Comparação entre tipos
+- Configuração de informações básicas
+- Setup inicial de mesas e ambiente
+- Cadastro de cardápio inicial
+- Configuração de funcionários e acessos
+
+#### 4.1.2 Interfaces Específicas
+
+Desenvolvimento de interfaces adaptadas para cada tipo:
+
+- À la carte: Foco em mesas e reservas
+- Fast Food: Foco em fila de pedidos e agilidade
+- Pizzaria: Construtor de pizza meio a meio
+- Rodízio: Controle de passadas e tempos
+- Delivery: Rastreamento e rotas
+- Self-service: Integração com balanças
+- Food Truck: Interface simplificada e mobile-first
+
+#### 4.1.3 Fluxos de Trabalho Personalizados
+
+Implementação de fluxos adaptados para cada modelo:
+
+- Lógica de negócio específica por tipo
+- Regras de priorização de pedidos
+- Controles especializados (forno, passadas, pesagem)
+- Relatórios e métricas relevantes para cada modelo
+
+### 4.2 Módulo de Comandas e Pedidos
+
+#### 4.2.1 Gestão de Mesas
+
+Desenvolvimento do sistema de controle de mesas:
+
+- Mapa visual de mesas
+- Status em tempo real
+- Controle de ocupação
+- Timer de permanência
+- Histórico de uso
+
+#### 4.2.2 Sistema de Pedidos
+
+Implementação do fluxo completo de pedidos:
+
+- Registro de pedidos (via QR Code e garçom)
+- Modificações e adições
+- Encaminhamento para cozinha
+- Notificações de status
+- Fechamento e pagamento
+
+#### 4.2.3 QR Code para Clientes
+
+Desenvolvimento da experiência de pedido via QR Code:
+
+- Geração de QR Codes para mesas
+- Interface adaptada para mobile
+- Registro de dados do cliente
+- Cardápio digital interativo
+- Carrinho de pedidos
+- Solicitação de atendimento
+- Pagamento pelo smartphone
+
+#### 4.2.4 Divisão de Contas
+
+Implementação de mecanismos para divisão de contas:
+
+- Divisão por item
+- Divisão igual entre participantes
+- Divisão percentual
+- Múltiplos pagamentos
+- Contas parciais
+
+### 4.3 Módulo de Cozinha
+
+#### 4.3.1 Painel de Produção
+
+Desenvolvimento da interface para cozinha:
+
+- Fila de pedidos em tempo real
+- Classificação por prioridade
+- Temporizadores de preparo
+- Status visual por pedido
+- Alertas para pedidos atrasados
+
+#### 4.3.2 Gestão de Estoque
+
+Implementação do controle de estoque integrado:
+
+- Cadastro de ingredientes e insumos
+- Abate automático do estoque
+- Alertas de estoque baixo
+- Previsão de necessidade
+- Pedidos automáticos
+
+#### 4.3.3 Controles Específicos
+
+Criação de funcionalidades especializadas:
+
+- Temporizadores para forno
+- Controle de passadas para rodízio
+- Separação de delivery e local
+- Alertas para alérgenos
+
+### 4.4 Módulo de Pagamentos
+
+#### 4.4.1 Processamento de Pagamentos
+
+Implementação dos fluxos de pagamento:
+
+- Integração com Stripe para pagamentos
+- Suporte a cartões de crédito/débito
+- Pagamentos via PIX
+- Dinheiro e outras formas locais
+- Conciliação financeira
+
+#### 4.4.2 Fechamento de Caixa
+
+Desenvolvimento do processo de fechamento:
+
+- Abertura e fechamento de caixa
+- Registro de entradas e saídas
+- Contagem física
+- Detecção de diferenças
+- Relatório de fechamento
+
+#### 4.4.3 Emissão de Comprovantes
+
+Implementação da geração de documentos:
+
+- Recibos digitais
+- Envio por email ou WhatsApp
+- Integração com sistemas fiscais
+- Armazenamento de comprovantes
+
+### 4.5 Módulo de Funcionários
+
+#### 4.5.1 Controle de Acesso
+
+Desenvolvimento do sistema de acesso:
+
+- Cadastro de funcionários
+- Perfis de permissão
+- Autenticação segura
+- Registro de atividades
+- Políticas de segurança
+
+#### 4.5.2 Registro de Ponto
+
+Implementação do controle de ponto:
+
+- Registro de entrada e saída
+- Validação por localização
+- Cálculo de horas trabalhadas
+- Controle de intervalos
+- Exportação para folha de pagamento
+
+#### 4.5.3 Desempenho e Comissões
+
+Criação de ferramentas para gestão de desempenho:
+
+- Métricas por funcionário
+- Cálculo de comissões
+- Avaliação de desempenho
+- Classificação por objetivos
+- Feedback e desenvolvimento
+
+### 4.6 Módulo de Fornecedores
+
+#### 4.6.1 Cadastro e Gestão
+
+Implementação do gerenciamento de fornecedores:
+
+- Cadastro detalhado de fornecedores
+- Categorização por tipo de produto
+- Condições comerciais
+- Contatos de emergência
+- Avaliação de desempenho
+
+#### 4.6.2 Pedidos e Reposição
+
+Desenvolvimento do fluxo de compras:
+
+- Pedidos rápidos
+- Sugestão automática de reposição
+- Aprovação de pedidos
+- Acompanhamento de entrega
+- Recebimento e conferência
+
+#### 4.6.3 Histórico e Avaliação
+
+Criação de ferramentas para análise de fornecedores:
+
+- Histórico de pedidos
+- Cumprimento de prazos
+- Qualidade de produtos
+- Competitividade de preços
+- Ranking de fornecedores
+
+### 4.7 Módulo de Relatórios
+
+#### 4.7.1 Relatórios Operacionais
+
+Implementação de relatórios para a operação diária:
+
+- Vendas por período
+- Ocupação de mesas
+- Tempo médio de atendimento
+- Itens mais vendidos
+- Cancelamentos e devoluções
+
+#### 4.7.2 Relatórios Financeiros
+
+Desenvolvimento de análises financeiras:
+
+- Faturamento por período
+- Custos e despesas
+- Lucratividade por produto
+- Fluxo de caixa
+- Projeções e comparativos
+
+#### 4.7.3 Dashboards e Analytics
+
+Criação de painéis visuais e análises:
+
+- Dashboard executivo
+- Gráficos e visualizações
+- Tendências e sazonalidade
+- Análise de dados em tempo real
+- Exportação para Excel/PDF
+
+### 4.8 Módulo de Marketing e CRM
+
+#### 4.8.1 Cadastro de Clientes
+
+Implementação do gerenciamento de clientes:
+
+- Captura de dados via QR Code
+- Histórico de pedidos
+- Preferências e restrições
+- Segmentação de clientes
+- Privacidade e LGPD
+
+#### 4.8.2 Programa de Fidelidade
+
+Desenvolvimento de sistema de fidelização:
+
+- Acúmulo de pontos por compra
+- Níveis de fidelidade
+- Recompensas e benefícios
+- Promoções personalizadas
+- Análise de engajamento
+
+#### 4.8.3 Campanhas e Promoções
+
+Criação de ferramentas para ações de marketing:
+
+- Criação de campanhas
+- Descontos e ofertas especiais
+- Comunicação por email e SMS
+- Aniversariantes do mês
+- Mensuração de resultados
+
+## 5. Integrações com Serviços Externos
+
+### 5.1 Integração com Plataformas de Delivery
+
+#### 5.1.1 iFood e Outras Plataformas
+
+Implementação de conexão com marketplaces:
+
+- Recebimento de pedidos em tempo real
+- Aceitação/rejeição automática
+- Atualização de status
+- Sincronização de cardápio
+- Conciliação financeira
+
+#### 5.1.2 Delivery Próprio
+
+Desenvolvimento de sistema próprio de delivery:
+
+- Cadastro de entregadores
+- Roteirização de entregas
+- Rastreamento em tempo real
+- Áreas e taxas de entrega
+- Gestão de frota
+
+### 5.2 Integração com Sistemas Fiscais
+
+#### 5.2.1 Emissão de Notas Fiscais
+
+Implementação de processos fiscais:
+
+- Emissão de NFC-e, NF-e
+- Validação com WebServices da SEFAZ
+- Armazenamento e envio de documentos
+- Tratamento de contingência
+- Relatórios fiscais
+
+#### 5.2.2 Conciliação Contábil
+
+Desenvolvimento de ferramentas para contabilidade:
+
+- Exportação para sistemas contábeis
+- Plano de contas configurável
+- Relatórios para DRE
+- Apuração de impostos
+- Fechamento mensal
+
+### 5.3 Integração com Balanças
+
+#### 5.3.1 Para Self-Service
+
+Implementação de conexão com balanças:
+
+- Leitura de peso em tempo real
+- Cálculo automático de valor
+- Calibração e configuração
+- Modo offline para contingência
+- Registro de pesagens
+
+#### 5.3.2 Para Controle de Estoque
+
+Desenvolvimento de pesagem para estoque:
+
+- Pesagem de insumos
+- Conversão de unidades
+- Controle de quebra e perdas
+- Rastreabilidade
+- Inventário físico
+
+### 5.4 Integração com Equipamentos
+
+#### 5.4.1 Impressoras e Comandas
+
+Implementação de sistema de impressão:
+
+- Impressão de comandas para cozinha
+- Impressão de contas e recibos
+- Suporte a diversas marcas de impressoras
+- Configuração de layouts
+- Tratamento de falhas
+
+#### 5.4.2 Displays de Cozinha
+
+Desenvolvimento de integração com displays:
+
+- Exibição de pedidos em andamento
+- Alertas visuais e sonoros
+- Temporizadores
+- Confirmação por toque
+- Sincronização em tempo real
+
+## 6. Infraestrutura e Hospedagem
+
+### 6.1 Ambiente de Produção
+
+#### 6.1.1 Servidores Web
+
+Configuração da infraestrutura web:
+
+- Servidores web redundantes
+- Balanceadores de carga
+- Certificados SSL/TLS
+- Cache e otimização
+- Monitoramento 24/7
+
+#### 6.1.2 Banco de Dados
+
+Implementação da camada de dados:
+
+- Cluster de banco de dados MySQL
+- Replicação e alta disponibilidade
+- Backups automatizados
+- Particionamento por tenant
+- Otimização de performance
+
+#### 6.1.3 Armazenamento
+
+Configuração de sistemas de armazenamento:
+
+- Sistema de arquivos distribuído
+- Armazenamento para backups
+- CDN para assets estáticos
+- Políticas de retenção
+- Compressão e otimização
+
+### 6.2 Escalabilidade
+
+#### 6.2.1 Horizontal
+
+Implementação de mecanismos de crescimento:
+
+- Auto-scaling de servidores
+- Gerenciamento de capacidade
+- Distribuição geográfica
+- Load balancing avançado
+- Contêineres e orquestração
+
+#### 6.2.2 Vertical
+
+Planejamento para crescimento de recursos:
+
+- Upgrades de hardware
+- Otimização de software
+- Benchmarking e performance
+- Ajuste de recursos por demanda
+- Monitoramento de gargalos
+
+### 6.3 Monitoramento e Logging
+
+#### 6.3.1 Monitoramento de Sistema
+
+Implementação de sistemas de observabilidade:
+
+- Monitoramento em tempo real
+- Alertas automáticos
+- Dashboards operacionais
+- Análise de tendências
+- Detecção de anomalias
+
+#### 6.3.2 Logging e Auditoria
+
+Desenvolvimento de registro de eventos:
+
+- Centralização de logs
+- Retenção configurável
+- Busca e análise
+- Trilhas de auditoria
+- Exportação e conformidade
+
+### 6.4 Continuidade de Negócio
+
+#### 6.4.1 Backups
+
+Implementação de estratégia de backups:
+
+- Backups diários automatizados
+- Backups incrementais
+- Verificação de integridade
+- Restauração testada
+- Armazenamento offsite
+
+#### 6.4.2 Disaster Recovery
+
+Desenvolvimento de plano de recuperação:
+
+- Site alternativo
+- Procedimentos documentados
+- Tempo de recuperação definido
+- Testes regulares
+- Comunicação de incidentes
+
+#### 6.4.3 Modo Offline
+
+Implementação de funcionamento offline:
+
+- Operações básicas sem internet
+- Sincronização automática
+- Buffer local de transações
+- Reconciliação após reconexão
+- Notificações de status
+
+## 7. Testes e Garantia de Qualidade
+
+### 7.1 Estratégia de Testes
+
+#### 7.1.1 Testes Unitários
+
+Implementação de testes de componentes:
+
+- Cobertura de código
+- Testes automatizados
+- Mock de dependências
+- Validação de regras de negócio
+- Integração com CI/CD
+
+#### 7.1.2 Testes de Integração
+
+Desenvolvimento de validação de integrações:
+
+- Teste de APIs
+- Simulações de serviços externos
+- Validação de fluxos completos
+- Ambientes de teste isolados
+- Automação de casos de teste
+
+#### 7.1.3 Testes de Aceitação
+
+Implementação de validação do usuário:
+
+- Testes de usabilidade
+- Cenários de uso real
+- Validação com stakeholders
+- Feedback documentado
+- Aprovação formal
+
+### 7.2 Garantia de Qualidade
+
+#### 7.2.1 Revisão de Código
+
+Estabelecimento de processos de revisão:
+
+- Padrões de codificação
+- Pull/merge requests
+- Code reviews
+- Análise estática
+- Métricas de qualidade
+
+#### 7.2.2 Controle de Versão
+
+Implementação de gerenciamento de versões:
+
+- Git flow ou similar
+- Ambientes separados (DEV/STG/PROD)
+- Tagging de versões
+- Gestão de releases
+- Changelogs e documentação
+
+#### 7.2.3 Testes de Performance
+
+Desenvolvimento de validação de desempenho:
+
+- Testes de carga
+- Benchmarking
+- Otimização de recursos
+- Monitoramento de impacto
+- Simulação de multi-tenancy
+
+## 8. Segurança e Conformidade
+
+### 8.1 Segurança de Aplicação
+
+#### 8.1.1 Autenticação e Autorização
+
+Implementação de controle de acesso:
+
+- Autenticação forte (2FA)
+- Gerenciamento de sessões
+- Controle de acesso baseado em perfil
+- Políticas de senha
+- Proteção contra força bruta
+
+#### 8.1.2 Proteção de Dados
+
+Desenvolvimento de mecanismos de proteção:
+
+- Criptografia em trânsito (TLS)
+- Criptografia em repouso
+- Tokenização de dados sensíveis
+- Mascaramento de informações
+- Acesso baseado em necessidade
+
+#### 8.1.3 Segurança de API
+
+Implementação de proteção de endpoints:
+
+- Autenticação por token (JWT)
+- Rate limiting
+- Validação de entrada
+- CORS configurado
+- Proteção contra ataques comuns
+
+### 8.2 Conformidade
+
+#### 8.2.1 LGPD/GDPR
+
+Adequação à legislação de privacidade:
+
+- Inventário de dados pessoais
+- Termos de uso e privacidade
+- Mecanismos de consentimento
+- Direitos do titular (acesso, exclusão)
+- Relatórios de impacto
+
+#### 8.2.2 PCI DSS
+
+Conformidade para processamento de pagamentos:
+
+- Segurança de dados de cartão
+- Tokenização via Stripe
+- Escopo reduzido de PCI
+- Varreduras de segurança
+- Treinamento e conscientização
+
+#### 8.2.3 Auditoria e Compliance
+
+Implementação de práticas de conformidade:
+
+- Trilhas de auditoria
+- Logs imutáveis
+- Evidências de controle
+- Relatórios de compliance
+- Revisões periódicas
+
+## 9. Lançamento e Operações
+
+### 9.1 Estratégia de Lançamento
+
+#### 9.1.1 MVP e Roadmap
+
+Planejamento de evolução do produto:
+
+- Definição do MVP inicial
+- Priorização de funcionalidades
+- Roadmap de médio prazo
+- Feedback loops planejados
+- Marcos e métricas de sucesso
+
+#### 9.1.2 Beta e Early Adopters
+
+Implementação de programa inicial:
+
+- Seleção de clientes beta
+- Incentivos para early adopters
+- Coleta estruturada de feedback
+- Ciclos rápidos de iteração
+- Estratégia de expansão
+
+#### 9.1.3 Go-to-Market
+
+Desenvolvimento de estratégia comercial:
+
+- Posicionamento de mercado
+- Estratégia de preços
+- Canais de aquisição
+- Materiais de marketing
+- Plano de vendas
+
+### 9.2 Operações Contínuas
+
+#### 9.2.1 Suporte ao Cliente
+
+Implementação de estrutura de atendimento:
+
+- Equipe de suporte escalonada
+- Base de conhecimento
+- Procedimentos documentados
+- Métricas de atendimento
+- Feedback e melhoria contínua
+
+#### 9.2.2 Monitoramento de Uso
+
+Desenvolvimento de análise de utilização:
+
+- Telemetria de uso
+- Detecção de problemas
+- Métricas de engajamento
+- Análise de churn
+- Oportunidades de upsell
+
+#### 9.2.3 SLA e Garantias
+
+Estabelecimento de acordos de nível de serviço:
+
+- Disponibilidade garantida
+- Tempo de resposta para suporte
+- Resolução de incidentes
+- Compensações por falhas
+- Comunicação proativa
+
+## 10. Manutenção e Evolução
+
+### 10.1 Desenvolvimento Contínuo
+
+#### 10.1.1 Novas Funcionalidades
+
+Planejamento de evolução do produto:
+
+- Processo de coleta de requisitos
+- Priorização baseada em valor
+- Desenvolvimento ágil
+- Testes de conceito
+- Validação com usuários
+
+#### 10.1.2 Correções e Melhorias
+
+Implementação de processo de manutenção:
+
+- Triagem de bugs e issues
+- Priorização por impacto
+- Janelas de manutenção
+- Hotfixes para problemas críticos
+- Refatoração planejada
+
+#### 10.1.3 Atualizações de Tecnologia
+
+Plano para evolução tecnológica:
+
+- Atualizações de segurança
+- Atualização de frameworks
+- Migração planejada
+- Testes de compatibilidade
+- Comunicação de mudanças
+
+### 10.2 Análise e Otimização
+
+#### 10.2.1 Performance
+
+Monitoramento e melhoria contínua:
+
+- Análise de gargalos
+- Otimização de consultas
+- Refinamento de caching
+- Monitoramento de uso de recursos
+- Benchmarking periódico
+
+#### 10.2.2 Custo-Benefício
+
+Avaliação financeira constante:
+
+- Análise de custos operacionais
+- Otimização de recursos
+- Renegociação com fornecedores
+- Eficiência energética
+- Automação de processos
+
+#### 10.2.3 Experiência do Usuário
+
+Melhoria contínua da UX:
+
+- Testes de usabilidade
+- Análise de caminhos e conversão
+- Feedback estruturado
+- A/B testing
+- Pesquisas de satisfação
+
+## 11. Diretório Completo do Projeto
+
+```
+restaurante-sistema/
+│
+├── assets/                        # Arquivos estáticos
+│   ├── css/                       # Estilos CSS
+│   │   ├── main.css               # Estilo principal
+│   │   ├── login.css              # Estilos da página de login
+│   │   ├── dashboard.css          # Estilos do painel principal
+│   │   ├── tables.css             # Estilos do mapa de mesas
+│   │   ├── menu.css               # Estilos do cardápio digital
+│   │   ├── kitchen.css            # Estilos do painel da cozinha
+│   │   ├── reports.css            # Estilos dos relatórios
+│   │   ├── ponto.css              # Estilos para o sistema de ponto
+│   │   ├── fornecedores.css       # Estilos para gestão de fornecedores
+│   │   ├── customer-mobile.css    # Estilos para interface mobile do cliente
+│   │   ├── subscription.css       # Estilos para páginas de assinatura
+│   │   ├── pricing.css            # Estilos para página de preços e planos
+│   │   ├── billing.css            # Estilos para gerenciamento de faturas
+│   │   ├── restaurant-types/      # Estilos específicos por tipo de restaurante
+│   │   │   ├── alacarte.css       # Estilo para restaurante à la carte
+│   │   │   ├── fastfood.css       # Estilo para fast food
+│   │   │   ├── pizzaria.css       # Estilo para pizzaria
+│   │   │   ├── rodizio.css        # Estilo para rodízio
+│   │   │   ├── selfservice.css    # Estilo para self-service/bufê
+│   │   │   ├── delivery.css       # Estilo para delivery
+│   │   │   ├── foodtruck.css      # Estilo para food truck
+│   │   │   ├── bar.css            # Estilo para bar/pub
+│   │   │   ├── cafeteria.css      # Estilo para cafeteria
+│   │   │   └── multiunit.css      # Estilo para rede de restaurantes
+│   │   └── onboarding.css         # Estilos para o processo de onboarding
+│   │
+│   ├── js/                        # Arquivos JavaScript
+│   │   ├── main.js                # JavaScript principal
+│   │   ├── login.js               # Lógica de login
+│   │   ├── dashboard.js           # Funcionalidades do dashboard
+│   │   ├── tables.js              # Gerenciamento de mesas
+│   │   ├── orders.js              # Processamento de pedidos
+│   │   ├── menu.js                # Cardápio digital
+│   │   ├── kitchen.js             # Painel da cozinha
+│   │   ├── inventory.js           # Controle de estoque
+│   │   ├── payments.js            # Processamento de pagamentos
+│   │   ├── stripe-integration.js  # Integração com Stripe
+│   │   ├── subscription.js        # Lógica de gerenciamento de assinaturas
+│   │   ├── pricing-calculator.js  # Calculadora de preços e planos
+│   │   ├── billing-portal.js      # Portal de gerenciamento de faturas
+│   │   ├── charts.js              # Lógica para gráficos e visualizações
+│   │   ├── ponto.js               # Lógica de registro de ponto
+│   │   ├── supplier-manager.js    # Gestão de fornecedores
+│   │   ├── group-orders.js        # Lógica de pedidos em grupo
+│   │   ├── bill-splitter.js       # Divisão de contas
+│   │   ├── restaurant-types/      # Scripts específicos por tipo de restaurante
+│   │   │   ├── alacarte.js        # Lógica para restaurante à la carte
+│   │   │   ├── fastfood.js        # Lógica para fast food
+│   │   │   ├── pizzaria.js        # Lógica para pizzaria
+│   │   │   ├── rodizio.js         # Lógica para rodízio (controle de passadas)
+│   │   │   ├── selfservice.js     # Lógica para self-service (integração com balanças)
+│   │   │   ├── delivery.js        # Lógica para delivery (rastreamento)
+│   │   │   └── multiunit.js       # Lógica para rede de restaurantes
+│   │   └── onboarding.js          # Lógica para o processo de onboarding
+│   │
+│   ├── images/                    # Imagens
+│   │   ├── logo/                  # Logotipos
+│   │   ├── icons/                 # Ícones
+│   │   │   ├── menu/              # Ícones para categorias do menu
+│   │   │   ├── status/            # Ícones de status
+│   │   │   ├── actions/           # Ícones para ações
+│   │   │   ├── payment/           # Ícones para métodos de pagamento
+│   │   │   └── subscription/      # Ícones para planos de assinatura
+│   │   ├── menu/                  # Imagens dos pratos
+│   │   ├── ui/                    # Elementos da interface
+│   │   ├── plans/                 # Imagens para os planos de assinatura
+│   │   └── restaurant-types/      # Imagens específicas por tipo de restaurante
+│   │       ├── alacarte/          # Imagens para restaurante à la carte
+│   │       ├── fastfood/          # Imagens para fast food
+│   │       ├── pizzaria/          # Imagens para pizzaria
+│   │       └── ...                # Outros tipos
+│   │
+│   └── fonts/                     # Fontes
+│
+├── config/                        # Arquivos de configuração
+│   ├── database.php               # Configuração da conexão com o banco
+│   ├── constants.php              # Constantes da aplicação
+│   ├── stripe.php                 # Configuração da API do Stripe
+│   ├── email.php                  # Configuração de emails
+│   ├── sms.php                    # Configuração de SMS
+│   ├── qrcode.php                 # Configuração de geração de QR Code
+│   ├── ifood.php                  # Configuração da API do iFood
+│   ├── restaurant_types.php       # Configuração de tipos de restaurante
+│   ├── interface_settings.php     # Configurações de interface por tipo
+│   ├── order_methods.php          # Configurações de métodos de pedido
+│   ├── subscription_plans.php     # Configuração de planos de assinatura
+│   ├── tenant.php                 # Configuração multi-tenant
+│   └── feature_limits.php         # Limites de recursos por plano
+│
+├── controllers/                   # Controladores
+│   ├── AuthController.php         # Controlador de autenticação
+│   ├── SubscriptionController.php # Controlador de assinaturas
+│   │   ├── PlansController.php    # Controlador de planos
+│   │   ├── BillingController.php  # Controlador de faturamento
+│   │   └── FeatureController.php  # Controlador de recursos disponíveis
+│   ├── TenantController.php       # Controlador multi-tenant
+│   ├── OnboardingController.php   # Controlador de configuração inicial
+│   ├── DashboardController.php    # Controlador do dashboard
+│   │   ├── AlacarteDashboardController.php  # Dashboard específico para à la carte
+│   │   ├── FastFoodDashboardController.php  # Dashboard específico para fast food
+│   │   ├── PizzariaDashboardController.php  # Dashboard específico para pizzaria
+│   │   ├── RodizioDashboardController.php   # Dashboard específico para rodízio
+│   │   └── DeliveryDashboardController.php  # Dashboard específico para delivery
+│   ├── TableController.php        # Controlador de mesas
+│   ├── OrderController.php        # Controlador de pedidos
+│   │   ├── SingleOrderController.php    # Pedidos individuais
+│   │   └── GroupOrderController.php     # Pedidos em grupo
+│   ├── MenuController.php         # Controlador do cardápio
+│   │   ├── AlacarteMenuController.php   # Cardápio para à la carte
+│   │   ├── FastFoodMenuController.php   # Cardápio para fast food
+│   │   ├── PizzariaMenuController.php   # Cardápio para pizzaria
+│   │   ├── RodizioMenuController.php    # Cardápio para rodízio
+│   │   └── SelfServiceMenuController.php # Cardápio para self-service
+│   ├── KitchenController.php      # Controlador da cozinha
+│   ├── InventoryController.php    # Controlador de estoque
+│   ├── PaymentController.php      # Controlador de pagamentos
+│   │   └── BillSplitController.php      # Controlador de divisão de contas
+│   ├── ReportController.php       # Controlador de relatórios
+│   ├── iFoodController.php        # Controlador de integração com iFood
+│   ├── SupplierController.php     # Controlador de fornecedores
+│   │   └── QuickOrderController.php     # Controlador de pedidos rápidos
+│   ├── StaffController.php        # Controlador de funcionários
+│   │   └── TimeClockController.php      # Controlador de ponto
+│   ├── CustomerController.php     # Controlador de clientes
+│   ├── QRCodeController.php       # Controlador de geração e gestão de QR Codes
+│   ├── RestaurantTypeController.php # Controlador de tipo de restaurante
+│   └── SettingsController.php     # Controlador de configurações
+│
+├── models/                        # Modelos
+│   ├── User.php                   # Modelo de usuário
+│   ├── Account.php                # Modelo de conta (assinatura)
+│   │   ├── Subscription.php       # Modelo de assinatura
+│   │   ├── Plan.php               # Modelo de plano
+│   │   ├── Invoice.php            # Modelo de fatura
+│   │   └── Usage.php              # Modelo de uso de recursos
+│   ├── Tenant.php                 # Modelo de tenant (separação de dados)
+│   ├── Restaurant.php             # Modelo de restaurante com tipo e configurações
+│   ├── RestaurantType.php         # Modelo de tipos de restaurante
+│   ├── CashRegister.php           # Modelo de caixa
+│   ├── Table.php                  # Modelo de mesa
+│   ├── Order.php                  # Modelo de pedido
+│   │   ├── SingleOrder.php        # Modelo de pedido individual
+│   │   └── GroupOrder.php         # Modelo de pedido em grupo
+│   ├── OrderItem.php              # Modelo de item de pedido
+│   ├── MenuItem.php               # Modelo de item do cardápio
+│   │   ├── AlacarteMenuItem.php   # Extensão para itens de à la carte
+│   │   ├── FastFoodMenuItem.php   # Extensão para itens de fast food
+│   │   ├── PizzaMenuItem.php      # Extensão para pizza (metades, bordas, etc.)
+│   │   └── RodizioMenuItem.php    # Extensão para rodízio
+│   ├── Inventory.php              # Modelo de estoque
+│   │   └── StockMovement.php      # Modelo de movimentação de estoque
+│   ├── Reservation.php            # Modelo de reserva
+│   ├── Payment.php                # Modelo de pagamento
+│   │   └── BillSplit.php          # Modelo de divisão de conta
+│   ├── Staff.php                  # Modelo de funcionário
+│   │   └── TimeClock.php          # Modelo de registro de ponto
+│   ├── Supplier.php               # Modelo de fornecedor
+│   │   ├── SupplierContact.php    # Modelo de contato de fornecedor
+│   │   ├── SupplierOrder.php      # Modelo de pedido para fornecedor
+│   │   └── SupplierRating.php     # Modelo de avaliação de fornecedor
+│   ├── Customer.php               # Modelo de cliente
+│   │   └── LoyaltyProgram.php     # Modelo de programa de fidelidade
+│   ├── MarketingCampaign.php      # Modelo de campanha de marketing
+│   ├── QRCode.php                 # Modelo de QR Code
+│   ├── RestaurantConfiguration.php # Modelo de configuração do restaurante
+│   └── RestaurantInterface.php    # Modelo de interface do restaurante
+│
+├── views/                         # Visualizações
+│   ├── auth/                      # Telas de autenticação
+│   │   ├── login.php              # Tela de login
+│   │   ├── reset-password.php     # Redefinição de senha
+│   │   └── register.php           # Cadastro inicial
+│   │
+│   ├── subscription/              # Telas de assinatura
+│   │   ├── plans.php              # Página de planos disponíveis
+│   │   ├── checkout.php           # Checkout de assinatura
+│   │   ├── success.php            # Confirmação de assinatura
+│   │   ├── billing.php            # Portal de gerenciamento de faturas
+│   │   ├── upgrade.php            # Upgrade de plano
+│   │   ├── downgrade.php          # Downgrade de plano
+│   │   ├── cancel.php             # Cancelamento de assinatura
+│   │   └── payment-methods.php    # Gestão de métodos de pagamento
+│   │
+│   ├── onboarding/                # Telas de configuração inicial
+│   │   ├── welcome.php            # Boas-vindas e introdução
+│   │   ├── restaurant-type.php    # Seleção de tipo de restaurante
+│   │   ├── restaurant-comparison.php # Comparação entre tipos
+│   │   ├── basic-info.php         # Informações básicas
+│   │   ├── menu-setup.php         # Configuração inicial do cardápio
+│   │   ├── operating-hours.php    # Horários de funcionamento
+│   │   ├── table-setup.php        # Configuração de mesas/layout
+│   │   ├── staff-roles.php        # Definição de cargos
+│   │   ├── payment-options.php    # Opções de pagamento
+│   │   └── finalize.php           # Finalização e ativação
+│   │
+│   ├── dashboard/                 # Telas do dashboard
+│   │   ├── index.php              # Dashboard principal (dinâmico por tipo)
+│   │   ├── account-status.php     # Status da conta e assinatura
+│   │   ├── alacarte/              # Dashboards específicos por tipo
+│   │   │   ├── index.php          # Dashboard principal à la carte
+│   │   │   └── tables.php         # Visualização de mesas à la carte
+│   │   ├── fastfood/              # Fast food
+│   │   │   ├── index.php          # Dashboard principal fast food
+│   │   │   └── queue.php          # Fila de pedidos fast food
+│   │   ├── pizzaria/              # Pizzaria
+│   │   │   ├── index.php          # Dashboard principal pizzaria
+│   │   │   └── pizza-builder.php  # Construtor de pizza
+│   │   ├── rodizio/               # Rodízio
+│   │   │   ├── index.php          # Dashboard principal rodízio
+│   │   │   └── rounds.php         # Controle de passadas
+│   │   ├── selfservice/           # Self-service
+│   │   │   ├── index.php          # Dashboard principal self-service
+│   │   │   └── scales.php         # Controle de balanças
+│   │   ├── delivery/              # Delivery
+│   │   │   ├── index.php          # Dashboard principal delivery
+│   │   │   └── routes.php         # Controle de rotas de entrega
+│   │   └── multiunit/             # Rede de restaurantes
+│   │       ├── index.php          # Dashboard principal rede
+│   │       └── units.php          # Controle de unidades
+│   │
+│   ├── tables/                    # Telas de mesas
+│   │   ├── map.php                # Mapa de mesas
+│   │   ├── order.php              # Criação de pedido
+│   │   └── multi-user.php         # Gestão de mesas com múltiplos usuários
+│   │
+│   ├── menu/                      # Telas do cardápio
+│   │   ├── admin.php              # Gerenciamento do cardápio
+│   │   ├── editor.php             # Editor de itens do cardápio
+│   │   ├── customer.php           # Cardápio para o cliente (QR Code)
+│   │   ├── category-manager.php   # Gerenciador de categorias
+│   │   ├── promotions.php         # Promoções e cardápios especiais
+│   │   └── types/                 # Cardápios específicos por tipo
+│   │       ├── alacarte.php       # Layout para à la carte
+│   │       ├── fastfood.php       # Layout para fast food
+│   │       ├── pizzaria.php       # Layout para pizzaria
+│   │       ├── rodizio.php        # Layout para rodízio
+│   │       └── selfservice.php    # Layout para self-service
+│   │
+│   ├── kitchen/                   # Telas da cozinha
+│   │   ├── panel.php              # Painel da cozinha
+│   │   ├── inventory-usage.php    # Uso de ingredientes
+│   │   └── types/                 # Painéis específicos por tipo
+│   │       ├── alacarte.php       # Painel para à la carte
+│   │       ├── fastfood.php       # Painel para fast food
+│   │       ├── pizzaria.php       # Painel para pizzaria
+│   │       └── rodizio.php        # Painel para rodízio
+│   │
+│   ├── inventory/                 # Telas de estoque
+│   │   ├── management.php         # Gerenciamento de estoque
+│   │   ├── movements.php          # Movimentações de estoque
+│   │   └── alerts.php             # Alertas de estoque
+│   │
+│   ├── payments/                  # Telas de pagamento
+│   │   ├── process.php            # Processamento de pagamento
+│   │   ├── receipt.php            # Recibo
+│   │   ├── split-bill.php         # Divisão de conta
+│   │   └── group-payment.php      # Pagamento em grupo
+│   │
+│   ├── reports/                   # Telas de relatórios
+│   │   ├── sales.php              # Relatórios de vendas
+│   │   ├── cash.php               # Fechamento de caixa
+│   │   ├── performance.php        # Desempenho de funcionários
+│   │   ├── financial.php          # Relatórios financeiros
+│   │   └── types/                 # Relatórios específicos por tipo
+│   │       ├── alacarte.php       # Relatórios para à la carte
+│   │       ├── fastfood.php       # Relatórios para fast food
+│   │       ├── pizzaria.php       # Relatórios para pizzaria
+│   │       ├── rodizio.php        # Relatórios para rodízio
+│   │       └── delivery.php       # Relatórios para delivery
+│   │
+│   ├── ifood/                     # Telas de integração com iFood
+│   │   └── orders.php             # Pedidos do iFood
+│   │
+│   ├── suppliers/                 # Telas de fornecedores
+│   │   ├── list.php               # Lista de fornecedores
+│   │   ├── details.php            # Detalhes do fornecedor
+│   │   ├── quick-order.php        # Pedido rápido
+│   │   ├── history.php            # Histórico de pedidos
+│   │   └── ratings.php            # Avaliação de fornecedores
+│   │
+│   ├── staff/                     # Telas de funcionários
+│   │   ├── list.php               # Lista de funcionários
+│   │   ├── details.php            # Detalhes do funcionário
+│   │   ├── schedule.php           # Escala de trabalho
+│   │   └── time-clock/            # Sistema de ponto
+│   │       ├── register.php       # Registro de ponto
+│   │       ├── management.php     # Gestão de ponto
+│   │       └── reports.php        # Relatórios de ponto
+│   │
+│   ├── customers/                 # Telas de clientes
+│   │   ├── list.php               # Lista de clientes
+│   │   ├── details.php            # Detalhes do cliente
+│   │   └── loyalty.php            # Programa de fidelidade
+│   │
+│   ├── marketing/                 # Telas de marketing
+│   │   ├── campaigns.php          # Campanhas de marketing
+│   │   └── promotions.php         # Promoções
+│   │
+│   ├── qrcode/                    # Telas de gestão de QR Codes
+│   │   ├── generator.php          # Gerador de QR Codes
+│   │   ├── manager.php            # Gestor de QR Codes
+│   │   └── preview.php            # Pré-visualização de QR Codes
+│   │
+│   ├── admin/                     # Área administrativa da plataforma
+│   │   ├── accounts.php           # Gestão de contas de clientes
+│   │   ├── plans.php              # Configuração de planos
+│   │   ├── statistics.php         # Estatísticas da plataforma
+│   │   ├── support.php            # Sistema de suporte
+│   │   └── settings.php           # Configurações da plataforma
+│   │
+│   └── settings/                  # Telas de configurações
+│       ├── general.php            # Configurações gerais
+│       ├── restaurant-type.php    # Configuração de tipo de restaurante
+│       ├── interfaces.php         # Configuração de interfaces
+│       ├── qrcode.php             # Configuração de QR Code
+│       ├── group-orders.php       # Configuração de pedidos em grupo
+│       ├── time-clock.php         # Configuração de ponto
+│       ├── integrations.php       # Integrações
+│       ├── account.php            # Configurações da conta/assinatura
+│       └── backup.php             # Backup e segurança
+│
+├── includes/                      # Arquivos incluídos
+│   ├── functions.php              # Funções auxiliares
+│   ├── validation.php             # Funções de validação
+│   ├── session.php                # Gerenciamento de sessão
+│   ├── security.php               # Funções de segurança
+│   ├── currency.php               # Formatação de moeda
+│   ├── date.php                   # Funções de data e hora
+│   ├── notification.php           # Sistema de notificações
+│   ├── restaurant-type-helper.php # Funções auxiliares para tipos de restaurante
+│   ├── interface-loader.php       # Carregador de interfaces específicas
+│   ├── tenant-resolver.php        # Resolução de tenant
+│   ├── feature-checker.php        # Verificação de recursos disponíveis por plano
+│   └── subscription-helper.php    # Funções auxiliares para assinaturas
+│
+├── api/                           # Endpoints da API
+│   ├── auth.php                   # API de autenticação
+│   ├── subscription.php           # API de assinaturas
+│   │   ├── plans.php              # API de planos
+│   │   ├── webhooks.php           # Webhooks do Stripe
+│   │   └── billing.php            # API de faturamento
+│   ├── tables.php                 # API de mesas
+│   ├── orders.php                 # API de pedidos
+│   │   └── group-orders.php       # API de pedidos em grupo
+│   ├── menu.php                   # API do cardápio
+│   ├── payments.php               # API de pagamentos
+│   │   └── bill-split.php         # API de divisão de contas
+│   ├── ifood.php                  # API de integração com iFood
+│   ├── suppliers.php              # API de fornecedores
+│   ├── staff.php                  # API de funcionários
+│   │   └── time-clock.php         # API de registro de ponto
+│   ├── customers.php              # API de clientes
+│   ├── reports.php                # API de relatórios
+│   ├── qrcode.php                 # API de QR Codes
+│   └── restaurant-type.php        # API de tipo de restaurante
+│
+├── services/                      # Serviços
+│   ├── StripeService.php          # Serviço de pagamento Stripe
+│   ├── SubscriptionService.php    # Serviço de gerenciamento de assinaturas
+│   ├── BillingService.php         # Serviço de gerenciamento de faturas
+│   ├── TenantService.php          # Serviço de gestão multi-tenant
+│   ├── FeatureLimitService.php    # Serviço de controle de limites por plano
+│   ├── QRCodeService.php          # Serviço de geração de QR Code
+│   ├── PDFService.php             # Serviço de geração de PDF
+│   ├── iFoodService.php           # Serviço de integração com iFood
+│   ├── EmailService.php           # Serviço de e-mail
+│   ├── SMSService.php             # Serviço de SMS
+│   ├── NotificationService.php    # Serviço de notificações
+│   ├── ChartService.php           # Serviço de geração de gráficos
+│   ├── BackupService.php          # Serviço de backup
+│   ├── RestaurantTypeService.php  # Serviço de tipo de restaurante
+│   ├── InterfaceService.php       # Serviço de interfaces
+│   ├── ScaleService.php           # Serviço de integração com balanças
+│   ├── DeliveryTrackingService.php # Serviço de rastreamento de entregas
+│   └── RodizioTrackingService.php # Serviço de controle de rodízio
+│
+├── database/                      # Arquivos de banco de dados
+│   ├── migrations/                # Migrações
+│   │   ├── create_tenants_table.php     # Tabela de tenants
+│   │   ├── create_accounts_table.php    # Tabela de contas
+│   │   ├── create_subscriptions_table.php # Tabela de assinaturas
+│   │   ├── create_plans_table.php       # Tabela de planos
+│   │   ├── create_invoices_table.php    # Tabela de faturas
+│   │   ├── create_usage_logs_table.php  # Tabela de uso de recursos
+│   │   ├── create_users_table.php
+│   │   ├── create_restaurant_types_table.php
+│   │   ├── create_restaurants_table.php
+│   │   ├── create_restaurant_configurations_table.php
+│   │   ├── create_tables_table.php
+│   │   ├── create_menu_items_table.php
+│   │   ├── create_orders_table.php
+│   │   ├── create_order_items_table.php
+│   │   ├── create_inventory_table.php
+│   │   ├── create_customers_table.php
+│   │   ├── create_staff_table.php
+│   │   ├── create_time_clock_table.php
+│   │   ├── create_suppliers_table.php
+│   │   ├── create_supplier_orders_table.php
+│   │   ├── create_supplier_contacts_table.php
+│   │   ├── create_payments_table.php
+│   │   ├── create_bill_splits_table.php
+│   │   ├── create_qrcodes_table.php
+│   │   └── ...
+│   │
+│   └── seeds/                     # Seeds
+│       ├── plans_seeder.php       # Seed para planos de assinatura
+│       ├── features_seeder.php    # Seed para recursos por plano
+│       ├── users_seeder.php
+│       ├── restaurant_types_seeder.php
+│       ├── menu_items_seeder.php
+│       ├── suppliers_seeder.php
+│       ├── staff_seeder.php
+│       └── ...
+│
+├── public/                        # Arquivos públicos
+│   ├── index.php                  # Ponto de entrada principal
+│   ├── pricing.php                # Página pública de preços
+│   ├── register.php               # Página de registro
+│   ├── customer-menu.php          # Página do cardápio digital
+│   ├── group-order.php            # Página de pedido em grupo
+│   ├── time-clock.php             # Página de registro de ponto
+│   ├── webhook/                   # Endpoints de webhooks
+│   │   └── stripe.php             # Webhook do Stripe
+│   ├── qr/                        # QR Codes gerados
+│   │   └── tables/                # QR Codes para mesas
+│   ├── receipt/                   # Recibos gerados
+│   └── .htaccess                  # Configuração do Apache
+│
+├── mobile/                        # Arquivos de interface mobile
+│   ├── index.php                  # Entrada principal mobile
+│   ├── menu.php                   # Cardápio digital mobile
+│   ├── order.php                  # Interface de pedido mobile
+│   ├── group-order.php            # Interface de pedido em grupo
+│   ├── payment.php                # Interface de pagamento mobile
+│   ├── types/                     # Interfaces específicas por tipo
+│   │   ├── alacarte.php           # Interface mobile para à la carte
+│   │   ├── fastfood.php           # Interface mobile para fast food
+│   │   ├── pizzaria.php           # Interface mobile para pizzaria
+│   │   └── rodizio.php            # Interface mobile para rodízio
+│   └── staff/                     # Interface para funcionários
+│       └── time-clock.php         # Registro de ponto mobile
+│
+├── docs/                          # Documentação
+│   ├── setup.md                   # Instruções de instalação
+│   ├── admin-guide.md             # Guia do administrador
+│   ├── user-guide.md              # Guia do usuário
+│   ├── api-docs.md                # Documentação da API
+│   ├── database-schema.md         # Esquema do banco de dados
+│   ├── subscription.md            # Documentação do sistema de assinaturas
+│   └── restaurant-types/          # Documentação específica por tipo
+│       ├── alacarte.md            # Documentação para à la carte
+│       ├── fastfood.md            # Documentação para fast food
+│       ├── pizzaria.md            # Documentação para pizzaria
+│       └── ...                    # Outros tipos
+│
+├── tests/                         # Testes automatizados
+│   ├── unit/                      # Testes unitários
+│   │   └── subscription/          # Testes de assinatura
+│   ├── integration/               # Testes de integração
+│   └── acceptance/                # Testes de aceitação
+│
+├── vendor/                        # Dependências (Composer)
+│
+├── .htaccess                      # Configuração do Apache
+├── index.php                      # Arquivo inicial (redirecionamento)
+├── composer.json                  # Configuração do Composer
+├── package.json                   # Configuração do NPM
+├── README.md                      # Documentação do projeto
+├── LICENSE                        # Licença do software
+└── .gitignore                     # Arquivos ignorados pelo Git
+```
+
+## Conclusão
+
+O Sistema de Gestão de Restaurantes SaaS representa uma solução completa e flexível, adaptada para diversos tipos de estabelecimentos. A implementação como serviço por assinatura permite escalabilidade e sustentabilidade do negócio, enquanto a personalização por tipo de restaurante garante que cada cliente tenha uma experiência otimizada para seu modelo específico.
+
+A arquitetura multi-tenant, combinada com um modelo de planos em níveis, permite atender desde pequenos estabelecimentos até grandes redes, com um caminho claro de crescimento que acompanha a evolução do negócio do cliente.
+
+
+
+A integração com serviços essenciais como Stripe para pagamentos, iFood para delivery, e um sistema robusto de QR Codes para pedidos digitais posiciona o sistema como uma solução moderna e completa para o mercado de restaurantes, que cada vez mais demanda digitalização e eficiência operacional.
+
+O projeto apresentado não apenas resolve os desafios operacionais do dia a dia de um restaurante, mas também oferece insights valiosos baseados em dados que podem impulsionar o crescimento e a lucratividade do negócio.
+
+
+
+## Resumo 
+
+
+# Checkpoint de Desenvolvimento do Sistema de Gestão de Restaurantes SaaS
+
+
+
+### Componentes Implementados:
+
+1. **Banco de Dados MySQL (100%)**
+   - Esquema completo com todas as tabelas necessárias
+   - Relações e chaves estrangeiras
+   - Índices para otimização
+   - Estrutura para dados JSON
+   - Suporte completo para multi-tenant
+   -- Criação do banco de dados
+CREATE DATABASE restaurante_saas CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+USE restaurante_saas;
+
+-- -----------------------------------------------------
+-- Tabelas do Sistema SaaS (Plataforma)
+-- -----------------------------------------------------
+
+-- Tabela de tenants (restaurantes)
+CREATE TABLE tenants (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    slug VARCHAR(100) NOT NULL UNIQUE,
+    restaurant_type VARCHAR(20) NOT NULL,
+    company_name VARCHAR(150) NOT NULL,
+    cnpj VARCHAR(18) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    state VARCHAR(2) NOT NULL,
+    zip_code VARCHAR(10) NOT NULL,
+    logo VARCHAR(255) DEFAULT NULL,
+    theme_color VARCHAR(7) DEFAULT '#3498db',
+    domain VARCHAR(100) DEFAULT NULL,
+    
+    -- Campos para configuração de pagamentos
+    payment_gateway ENUM('stripe', 'mercadopago', 'cielo', 'pagseguro', 'rede') DEFAULT 'stripe',
+    payment_gateway_key VARCHAR(255) DEFAULT NULL,
+    payment_gateway_token VARCHAR(255) DEFAULT NULL,
+    bank_name VARCHAR(100) DEFAULT NULL,
+    bank_agency VARCHAR(20) DEFAULT NULL,
+    bank_account VARCHAR(30) DEFAULT NULL,
+    pix_key VARCHAR(255) DEFAULT NULL,
+    payment_methods JSON DEFAULT '{"cash":true,"credit":true,"debit":true,"pix":true,"meal_voucher":true,"app_payment":true,"bill_split":true}',
+    payment_settings JSON DEFAULT '{"service_fee":10,"allow_tip":true,"tip_suggestions":[5,10,15],"payment_timeout":30,"max_discount":15}',
+    
+    active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- Tabela de planos de assinatura
+CREATE TABLE plans (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    code VARCHAR(20) NOT NULL UNIQUE,
+    description TEXT,
+    price DECIMAL(10, 2) NOT NULL,
+    billing_cycle ENUM('monthly', 'quarterly', 'semiannual', 'annual') DEFAULT 'monthly',
+    features JSON NOT NULL,
+    limits JSON NOT NULL,
+    active BOOLEAN DEFAULT TRUE,
+    stripe_product_id VARCHAR(100) DEFAULT NULL,
+    stripe_price_id VARCHAR(100) DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- Tabela de assinaturas
+CREATE TABLE subscriptions (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    plan_id INT UNSIGNED NOT NULL,
+    stripe_subscription_id VARCHAR(100) DEFAULT NULL,
+    stripe_customer_id VARCHAR(100) DEFAULT NULL,
+    status ENUM('trial', 'active', 'past_due', 'canceled', 'suspended') NOT NULL DEFAULT 'trial',
+    trial_ends_at TIMESTAMP NULL DEFAULT NULL,
+    ends_at TIMESTAMP NULL DEFAULT NULL,
+    next_billing_at TIMESTAMP NULL DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (plan_id) REFERENCES plans(id)
+) ENGINE=InnoDB;
+
+-- Tabela de faturas
+CREATE TABLE invoices (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    subscription_id INT UNSIGNED NOT NULL,
+    tenant_id INT UNSIGNED NOT NULL,
+    stripe_invoice_id VARCHAR(100) DEFAULT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    status ENUM('draft', 'open', 'paid', 'uncollectible', 'void') NOT NULL DEFAULT 'draft',
+    due_date TIMESTAMP NULL DEFAULT NULL,
+    paid_at TIMESTAMP NULL DEFAULT NULL,
+    pdf_url VARCHAR(255) DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (subscription_id) REFERENCES subscriptions(id),
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de controle de uso de recursos
+CREATE TABLE resource_usage (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    resource_type VARCHAR(50) NOT NULL,
+    resource_count INT NOT NULL DEFAULT 1,
+    year INT NOT NULL,
+    month INT NOT NULL,
+    day INT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_resource_usage_per_day (tenant_id, resource_type, year, month, day),
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- -----------------------------------------------------
+-- Tabelas de Usuários e Acesso
+-- -----------------------------------------------------
+
+-- Tabela de usuários
+CREATE TABLE users (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NULL DEFAULT NULL,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    role ENUM('admin', 'manager', 'cashier', 'waiter', 'cook', 'delivery', 'customer', 'platform_admin') NOT NULL,
+    phone VARCHAR(20) DEFAULT NULL,
+    profile_image VARCHAR(255) DEFAULT NULL,
+    active BOOLEAN DEFAULT TRUE,
+    email_verified BOOLEAN DEFAULT FALSE,
+    last_login TIMESTAMP NULL DEFAULT NULL,
+    password_reset_token VARCHAR(100) DEFAULT NULL,
+    password_reset_expires TIMESTAMP NULL DEFAULT NULL,
+    remember_token VARCHAR(100) DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_user_email (email),
+    UNIQUE KEY unique_user_username (username),
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de permissões
+CREATE TABLE permissions (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- Tabela de permissões por papel
+CREATE TABLE role_permissions (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    role ENUM('admin', 'manager', 'cashier', 'waiter', 'cook', 'delivery', 'customer') NOT NULL,
+    permission_id INT UNSIGNED NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_role_permission (tenant_id, role, permission_id),
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (permission_id) REFERENCES permissions(id)
+) ENGINE=InnoDB;
+
+-- Tabela de log de acesso
+CREATE TABLE access_logs (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id INT UNSIGNED NOT NULL,
+    tenant_id INT UNSIGNED DEFAULT NULL,
+    ip_address VARCHAR(45) NOT NULL,
+    user_agent VARCHAR(255) NOT NULL,
+    action VARCHAR(50) NOT NULL,
+    details JSON DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- -----------------------------------------------------
+-- Tabelas de Configuração do Restaurante
+-- -----------------------------------------------------
+
+-- Tabela de configurações do restaurante
+CREATE TABLE restaurant_configurations (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    opening_hours JSON DEFAULT NULL,
+    operating_days JSON DEFAULT NULL,
+    delivery_radius INT DEFAULT 5,
+    delivery_fee DECIMAL(10, 2) DEFAULT 0.00,
+    min_delivery_value DECIMAL(10, 2) DEFAULT 0.00,
+    allow_pickup BOOLEAN DEFAULT TRUE,
+    allow_delivery BOOLEAN DEFAULT TRUE,
+    allow_reservations BOOLEAN DEFAULT TRUE,
+    allow_qrcode_orders BOOLEAN DEFAULT TRUE,
+    allow_group_orders BOOLEAN DEFAULT TRUE,
+    default_order_type ENUM('restaurant', 'pickup', 'delivery') DEFAULT 'restaurant',
+    estimated_preparation_time INT DEFAULT 30,
+    default_table_capacity INT DEFAULT 4,
+    use_kitchen_display BOOLEAN DEFAULT TRUE,
+    taxes_included BOOLEAN DEFAULT TRUE,
+    tax_rate DECIMAL(5, 2) DEFAULT 0.00,
+    service_fee DECIMAL(5, 2) DEFAULT 0.00,
+    tip_options JSON DEFAULT NULL,
+    notification_settings JSON DEFAULT NULL,
+    printer_settings JSON DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de áreas do restaurante
+CREATE TABLE restaurant_areas (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    description VARCHAR(255) DEFAULT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de caixas/terminais
+CREATE TABLE cash_registers (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    description VARCHAR(255) DEFAULT NULL,
+    location VARCHAR(100) DEFAULT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de aberturas e fechamentos de caixa
+CREATE TABLE cash_register_operations (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    cash_register_id INT UNSIGNED NOT NULL,
+    user_id INT UNSIGNED NOT NULL,
+    operation_type ENUM('opening', 'closing') NOT NULL,
+    initial_amount DECIMAL(10, 2) DEFAULT 0.00,
+    final_amount DECIMAL(10, 2) DEFAULT 0.00,
+    system_calculated_amount DECIMAL(10, 2) DEFAULT 0.00,
+    discrepancy_amount DECIMAL(10, 2) DEFAULT 0.00,
+    discrepancy_notes TEXT DEFAULT NULL,
+    operation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    closing_date TIMESTAMP NULL DEFAULT NULL,
+    notes TEXT DEFAULT NULL,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (cash_register_id) REFERENCES cash_registers(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+) ENGINE=InnoDB;
+
+-- Tabela de reservas
+CREATE TABLE reservations (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    customer_id INT UNSIGNED DEFAULT NULL,
+    customer_name VARCHAR(100) NOT NULL,
+    customer_email VARCHAR(100) DEFAULT NULL,
+    customer_phone VARCHAR(20) NOT NULL,
+    number_of_people INT NOT NULL,
+    reservation_date DATE NOT NULL,
+    reservation_time TIME NOT NULL,
+    arrival_time TIMESTAMP NULL DEFAULT NULL,
+    departure_time TIMESTAMP NULL DEFAULT NULL,
+    status ENUM('pending', 'confirmed', 'seated', 'completed', 'canceled', 'no_show') DEFAULT 'pending',
+    special_requests TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (customer_id) REFERENCES users(id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+-- -----------------------------------------------------
+-- Tabelas de Mesas e QR Code
+-- -----------------------------------------------------
+
+-- Tabela de mesas
+CREATE TABLE tables (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    area_id INT UNSIGNED DEFAULT NULL,
+    number VARCHAR(10) NOT NULL,
+    name VARCHAR(50) DEFAULT NULL,
+    capacity INT UNSIGNED DEFAULT 4,
+    position_x INT DEFAULT 0,
+    position_y INT DEFAULT 0,
+    status ENUM('available', 'occupied', 'reserved', 'cleaning', 'inactive') DEFAULT 'available',
+    qr_code VARCHAR(255) DEFAULT NULL,
+    qr_code_hash VARCHAR(64) DEFAULT NULL,
+    occupied_since TIMESTAMP NULL DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_table_number_per_tenant (tenant_id, number),
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (area_id) REFERENCES restaurant_areas(id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+-- Tabela de QR Codes
+CREATE TABLE qr_codes (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    table_id INT UNSIGNED DEFAULT NULL,
+    code VARCHAR(100) NOT NULL,
+    hash VARCHAR(64) NOT NULL,
+    type ENUM('table', 'menu', 'payment', 'custom') NOT NULL DEFAULT 'table',
+    data JSON DEFAULT NULL,
+    active BOOLEAN DEFAULT TRUE,
+    scan_count INT UNSIGNED DEFAULT 0,
+    last_scanned TIMESTAMP NULL DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (table_id) REFERENCES tables(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de histórico de ocupação de mesas
+CREATE TABLE table_occupancy_history (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    table_id INT UNSIGNED NOT NULL,
+    start_time TIMESTAMP NOT NULL,
+    end_time TIMESTAMP NULL DEFAULT NULL,
+    number_of_customers INT UNSIGNED DEFAULT 1,
+    order_id INT UNSIGNED DEFAULT NULL,
+    total_spent DECIMAL(10, 2) DEFAULT 0.00,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (table_id) REFERENCES tables(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- -----------------------------------------------------
+-- Tabelas de Cardápio e Itens
+-- -----------------------------------------------------
+
+-- Tabela de categorias de menu
+CREATE TABLE menu_categories (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    description TEXT DEFAULT NULL,
+    image VARCHAR(255) DEFAULT NULL,
+    sort_order INT DEFAULT 0,
+    active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_category_name_per_tenant (tenant_id, name),
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de itens do menu
+CREATE TABLE menu_items (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    category_id INT UNSIGNED NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    description TEXT DEFAULT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    cost DECIMAL(10, 2) DEFAULT 0.00,
+    image VARCHAR(255) DEFAULT NULL,
+    preparation_time INT DEFAULT 15,
+    ingredients TEXT DEFAULT NULL,
+    allergens TEXT DEFAULT NULL,
+    nutritional_info JSON DEFAULT NULL,
+    available BOOLEAN DEFAULT TRUE,
+    featured BOOLEAN DEFAULT FALSE,
+    sort_order INT DEFAULT 0,
+    sku VARCHAR(20) DEFAULT NULL,
+    restaurant_type_specific BOOLEAN DEFAULT FALSE,
+    restaurant_type_config JSON DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES menu_categories(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de opções e adicionais para itens do menu
+CREATE TABLE menu_item_options (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    menu_item_id INT UNSIGNED NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    description TEXT DEFAULT NULL,
+    min_selections INT DEFAULT 0,
+    max_selections INT DEFAULT 1,
+    sort_order INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (menu_item_id) REFERENCES menu_items(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de valores para opções de itens do menu
+CREATE TABLE menu_item_option_values (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    option_id INT UNSIGNED NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    price_adjustment DECIMAL(10, 2) DEFAULT 0.00,
+    available BOOLEAN DEFAULT TRUE,
+    sort_order INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (option_id) REFERENCES menu_item_options(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de cardápios especiais/promoções
+CREATE TABLE special_menus (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    description TEXT DEFAULT NULL,
+    start_date DATE DEFAULT NULL,
+    end_date DATE DEFAULT NULL,
+    start_time TIME DEFAULT NULL,
+    end_time TIME DEFAULT NULL,
+    days_of_week JSON DEFAULT NULL,
+    active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de itens em cardápios especiais
+CREATE TABLE special_menu_items (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    special_menu_id INT UNSIGNED NOT NULL,
+    menu_item_id INT UNSIGNED NOT NULL,
+    special_price DECIMAL(10, 2) DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (special_menu_id) REFERENCES special_menus(id) ON DELETE CASCADE,
+    FOREIGN KEY (menu_item_id) REFERENCES menu_items(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- -----------------------------------------------------
+-- Tabelas de Pedidos
+-- -----------------------------------------------------
+
+-- Tabela de pedidos
+CREATE TABLE orders (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    table_id INT UNSIGNED DEFAULT NULL,
+    user_id INT UNSIGNED DEFAULT NULL,
+    staff_id INT UNSIGNED DEFAULT NULL,
+    customer_name VARCHAR(100) DEFAULT NULL,
+    customer_phone VARCHAR(20) DEFAULT NULL,
+    customer_email VARCHAR(100) DEFAULT NULL,
+    order_number VARCHAR(20) NOT NULL,
+    order_type ENUM('restaurant', 'pickup', 'delivery') DEFAULT 'restaurant',
+    status ENUM('new', 'pending', 'preparing', 'ready', 'delivered', 'cancelled') DEFAULT 'new',
+    subtotal DECIMAL(10, 2) NOT NULL,
+    tax DECIMAL(10, 2) DEFAULT 0.00,
+    service_fee DECIMAL(10, 2) DEFAULT 0.00,
+    delivery_fee DECIMAL(10, 2) DEFAULT 0.00,
+    tip DECIMAL(10, 2) DEFAULT 0.00,
+    discount DECIMAL(10, 2) DEFAULT 0.00,
+    total DECIMAL(10, 2) NOT NULL,
+    notes TEXT DEFAULT NULL,
+    scheduled_for TIMESTAMP NULL DEFAULT NULL,
+    started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    completed_at TIMESTAMP NULL DEFAULT NULL,
+    cancelled_at TIMESTAMP NULL DEFAULT NULL,
+    cancellation_reason TEXT DEFAULT NULL,
+    is_group_order BOOLEAN DEFAULT FALSE,
+    group_order_code VARCHAR(20) DEFAULT NULL,
+    payment_status ENUM('pending', 'paid', 'partially_paid', 'refunded', 'failed') DEFAULT 'pending',
+    source ENUM('in_person', 'qrcode', 'website', 'app', 'ifood', 'phone') DEFAULT 'in_person',
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (table_id) REFERENCES tables(id) ON DELETE SET NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
+    FOREIGN KEY (staff_id) REFERENCES users(id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+-- Tabela de itens do pedido
+CREATE TABLE order_items (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    order_id INT UNSIGNED NOT NULL,
+    menu_item_id INT UNSIGNED NOT NULL,
+    quantity INT NOT NULL DEFAULT 1,
+    unit_price DECIMAL(10, 2) NOT NULL,
+    total_price DECIMAL(10, 2) NOT NULL,
+    options JSON DEFAULT NULL,
+    notes TEXT DEFAULT NULL,
+    status ENUM('pending', 'preparing', 'ready', 'delivered', 'cancelled') DEFAULT 'pending',
+    preparation_started_at TIMESTAMP NULL DEFAULT NULL,
+    preparation_completed_at TIMESTAMP NULL DEFAULT NULL,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+    FOREIGN KEY (menu_item_id) REFERENCES menu_items(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de histórico de status do pedido
+CREATE TABLE order_status_history (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    order_id INT UNSIGNED NOT NULL,
+    status ENUM('new', 'pending', 'preparing', 'ready', 'delivered', 'cancelled') NOT NULL,
+    user_id INT UNSIGNED DEFAULT NULL,
+    notes TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+-- Tabela de entregas
+CREATE TABLE deliveries (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    order_id INT UNSIGNED NOT NULL,
+    delivery_address VARCHAR(255) NOT NULL,
+    delivery_city VARCHAR(100) NOT NULL,
+    delivery_state VARCHAR(2) NOT NULL,
+    delivery_zip_code VARCHAR(10) NOT NULL,
+    delivery_instructions TEXT DEFAULT NULL,
+    delivery_person_id INT UNSIGNED DEFAULT NULL,
+    status ENUM('pending', 'assigned', 'in_transit', 'delivered', 'failed') DEFAULT 'pending',
+    estimated_delivery_time TIMESTAMP NULL DEFAULT NULL,
+    actual_delivery_time TIMESTAMP NULL DEFAULT NULL,
+    tracking_code VARCHAR(50) DEFAULT NULL,
+    tracking_url VARCHAR(255) DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+    FOREIGN KEY (delivery_person_id) REFERENCES users(id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+-- -----------------------------------------------------
+-- Tabelas de Pagamentos
+-- -----------------------------------------------------
+
+-- Tabela de pagamentos
+CREATE TABLE payments (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    order_id INT UNSIGNED NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    method ENUM('cash', 'credit', 'debit', 'pix', 'meal_ticket', 'transfer', 'app') NOT NULL,
+    service_fee DECIMAL(10, 2) DEFAULT 0.00,
+    tip DECIMAL(10, 2) DEFAULT 0.00,
+    discount DECIMAL(10, 2) DEFAULT 0.00,
+    installments TINYINT DEFAULT 1,
+    card_brand VARCHAR(50) DEFAULT NULL,
+    status ENUM('pending', 'completed', 'failed', 'refunded') DEFAULT 'pending',
+    transaction_id VARCHAR(100) DEFAULT NULL,
+    payment_data JSON DEFAULT NULL,
+    payment_date TIMESTAMP NULL DEFAULT NULL,
+    notes TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de divisão de contas
+CREATE TABLE bill_splits (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    order_id INT UNSIGNED NOT NULL,
+    name VARCHAR(100) DEFAULT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    split_type ENUM('equal', 'custom', 'percentage', 'item') NOT NULL DEFAULT 'equal',
+    payment_status ENUM('pending', 'paid') DEFAULT 'pending',
+    items JSON DEFAULT NULL,
+    payment_link VARCHAR(255) DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de histórico de transações no caixa
+CREATE TABLE cash_register_transactions (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    cash_register_id INT UNSIGNED NOT NULL,
+    cash_register_operation_id INT UNSIGNED DEFAULT NULL,
+    user_id INT UNSIGNED NOT NULL,
+    transaction_type ENUM('sale', 'refund', 'expense', 'deposit', 'withdrawal') NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    payment_method ENUM('cash', 'credit', 'debit', 'pix', 'meal_ticket', 'transfer', 'app') DEFAULT NULL,
+    reference_id INT UNSIGNED DEFAULT NULL,
+    reference_type ENUM('order', 'invoice', 'expense', 'other') DEFAULT NULL,
+    description TEXT DEFAULT NULL,
+    transaction_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (cash_register_id) REFERENCES cash_registers(id),
+    FOREIGN KEY (cash_register_operation_id) REFERENCES cash_register_operations(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+) ENGINE=InnoDB;
+
+-- Tabela de cupons e descontos
+CREATE TABLE coupons (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    code VARCHAR(50) NOT NULL,
+    description TEXT DEFAULT NULL,
+    discount_type ENUM('percentage', 'fixed', 'free_item') NOT NULL,
+    discount_value DECIMAL(10, 2) NOT NULL,
+    free_item_id INT UNSIGNED DEFAULT NULL,
+    min_order_value DECIMAL(10, 2) DEFAULT 0.00,
+    max_discount DECIMAL(10, 2) DEFAULT NULL,
+    start_date TIMESTAMP NULL DEFAULT NULL,
+    end_date TIMESTAMP NULL DEFAULT NULL,
+    max_uses INT UNSIGNED DEFAULT NULL,
+    uses_count INT UNSIGNED DEFAULT 0,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_coupon_code_per_tenant (tenant_id, code),
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (free_item_id) REFERENCES menu_items(id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+-- -----------------------------------------------------
+-- Tabelas de Estoque e Ingredientes
+-- -----------------------------------------------------
+
+-- Tabela de ingredientes
+CREATE TABLE ingredients (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    description TEXT DEFAULT NULL,
+    unit ENUM('g', 'kg', 'ml', 'l', 'unit', 'box', 'pack') NOT NULL,
+    cost_per_unit DECIMAL(10, 4) NOT NULL,
+    inventory_alert_threshold DECIMAL(10, 2) DEFAULT 0,
+    sku VARCHAR(20) DEFAULT NULL,
+    barcode VARCHAR(50) DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_ingredient_name_per_tenant (tenant_id, name),
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de ingredientes por item do menu
+CREATE TABLE menu_item_ingredients (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    menu_item_id INT UNSIGNED NOT NULL,
+    ingredient_id INT UNSIGNED NOT NULL,
+    quantity DECIMAL(10, 2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_menu_item_ingredient (menu_item_id, ingredient_id),
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (menu_item_id) REFERENCES menu_items(id) ON DELETE CASCADE,
+    FOREIGN KEY (ingredient_id) REFERENCES ingredients(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de estoque
+CREATE TABLE inventory (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    ingredient_id INT UNSIGNED NOT NULL,
+    quantity DECIMAL(10, 2) NOT NULL DEFAULT 0,
+    location VARCHAR(50) DEFAULT 'main',
+    last_count_date TIMESTAMP NULL DEFAULT NULL,
+    last_count_by INT UNSIGNED DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_ingredient_location (tenant_id, ingredient_id, location),
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (ingredient_id) REFERENCES ingredients(id) ON DELETE CASCADE,
+    FOREIGN KEY (last_count_by) REFERENCES users(id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+-- Tabela de movimentações de estoque
+CREATE TABLE inventory_movements (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    ingredient_id INT UNSIGNED NOT NULL,
+    order_id INT UNSIGNED DEFAULT NULL,
+    supplier_order_id INT UNSIGNED DEFAULT NULL,
+    quantity DECIMAL(10, 2) NOT NULL,
+    movement_type ENUM('purchase', 'order_usage', 'adjustment', 'transfer', 'waste', 'return') NOT NULL,
+    unit_cost DECIMAL(10, 4) DEFAULT NULL,
+    location VARCHAR(50) DEFAULT 'main',
+    reference_id INT UNSIGNED DEFAULT NULL,
+    reference_type VARCHAR(50) DEFAULT NULL,
+    notes TEXT DEFAULT NULL,
+    user_id INT UNSIGNED DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (ingredient_id) REFERENCES ingredients(id) ON DELETE CASCADE,
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE SET NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+-- Tabela de contagem de estoque (inventário)
+CREATE TABLE inventory_counts (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    count_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    user_id INT UNSIGNED NOT NULL,
+    status ENUM('in_progress', 'completed', 'cancelled') DEFAULT 'in_progress',
+    notes TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+) ENGINE=InnoDB;
+
+-- Tabela de detalhes da contagem de estoque
+CREATE TABLE inventory_count_details (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    inventory_count_id INT UNSIGNED NOT NULL,
+    ingredient_id INT UNSIGNED NOT NULL,
+    expected_quantity DECIMAL(10, 2) NOT NULL,
+    actual_quantity DECIMAL(10, 2) NOT NULL,
+    discrepancy DECIMAL(10, 2) NOT NULL,
+    notes TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (inventory_count_id) REFERENCES inventory_counts(id) ON DELETE CASCADE,
+    FOREIGN KEY (ingredient_id) REFERENCES ingredients(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- -----------------------------------------------------
+-- Tabelas de Funcionários
+-- -----------------------------------------------------
+
+-- Tabela de detalhes de funcionários
+CREATE TABLE staff_details (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    user_id INT UNSIGNED NOT NULL,
+    position VARCHAR(100) DEFAULT NULL,
+    department VARCHAR(100) DEFAULT NULL,
+    hire_date DATE DEFAULT NULL,
+    salary DECIMAL(10, 2) DEFAULT NULL,
+    hourly_rate DECIMAL(10, 2) DEFAULT NULL,
+    commission_rate DECIMAL(5, 2) DEFAULT NULL,
+    working_hours JSON DEFAULT NULL,
+    employee_id VARCHAR(50) DEFAULT NULL,
+    emergency_contact_name VARCHAR(100) DEFAULT NULL,
+    emergency_contact_phone VARCHAR(20) DEFAULT NULL,
+    notes TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_staff_employee_id (tenant_id, employee_id),
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de registro de ponto
+CREATE TABLE time_clock (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    user_id INT UNSIGNED NOT NULL,
+    clock_in TIMESTAMP NOT NULL,
+    clock_out TIMESTAMP NULL DEFAULT NULL,
+    break_start TIMESTAMP NULL DEFAULT NULL,
+    break_end TIMESTAMP NULL DEFAULT NULL,
+    total_hours DECIMAL(5, 2) DEFAULT NULL,
+    notes TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de comissões de vendas
+CREATE TABLE sales_commissions (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    user_id INT UNSIGNED NOT NULL,
+    order_id INT UNSIGNED DEFAULT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    commission_amount DECIMAL(10, 2) NOT NULL,
+    commission_rate DECIMAL(5, 2) NOT NULL,
+    status ENUM('pending', 'approved', 'paid', 'rejected') DEFAULT 'pending',
+    payment_date TIMESTAMP NULL DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+-- Tabela de escalas de trabalho
+CREATE TABLE staff_schedules (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    user_id INT UNSIGNED NOT NULL,
+    schedule_date DATE NOT NULL,
+    start_time TIME NOT NULL,
+    end_time TIME NOT NULL,
+    position VARCHAR(100) DEFAULT NULL,
+    notes TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- -----------------------------------------------------
+-- Tabelas de Clientes
+-- -----------------------------------------------------
+
+-- Tabela de detalhes de clientes
+CREATE TABLE customer_details (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    user_id INT UNSIGNED NOT NULL,
+    birth_date DATE DEFAULT NULL,
+    address VARCHAR(255) DEFAULT NULL,
+    city VARCHAR(100) DEFAULT NULL,
+    state VARCHAR(2) DEFAULT NULL,
+    zip_code VARCHAR(10) DEFAULT NULL,
+    allergy_info TEXT DEFAULT NULL,
+    favorite_items JSON DEFAULT NULL,
+    marketing_preferences JSON DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de programa de fidelidade
+CREATE TABLE loyalty_program (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    description TEXT DEFAULT NULL,
+    points_per_currency DECIMAL(10, 2) DEFAULT 1.00,
+    points_validity_days INT UNSIGNED DEFAULT 365,
+    min_points_to_redeem INT UNSIGNED DEFAULT 100,
+    currency_per_point DECIMAL(10, 4) DEFAULT 0.01,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de níveis de fidelidade
+CREATE TABLE loyalty_tiers (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    loyalty_program_id INT UNSIGNED NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    description TEXT DEFAULT NULL,
+    min_points INT UNSIGNED NOT NULL,
+    multiplier DECIMAL(5, 2) DEFAULT 1.00,
+    benefits JSON DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (loyalty_program_id) REFERENCES loyalty_program(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de pontos de fidelidade
+CREATE TABLE loyalty_points (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    user_id INT UNSIGNED NOT NULL,
+    points INT NOT NULL,
+    source ENUM('purchase', 'reward', 'bonus', 'adjustment', 'redemption') NOT NULL,
+    reference_id INT UNSIGNED DEFAULT NULL,
+    reference_type VARCHAR(50) DEFAULT NULL,
+    expiry_date DATE DEFAULT NULL,
+    is_expired BOOLEAN DEFAULT FALSE,
+    notes TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de recompensas do programa de fidelidade
+CREATE TABLE loyalty_rewards (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    loyalty_program_id INT UNSIGNED NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    description TEXT DEFAULT NULL,
+    points_required INT UNSIGNED NOT NULL,
+    reward_type ENUM('discount', 'free_item', 'gift', 'coupon') NOT NULL,
+    reward_value JSON NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (loyalty_program_id) REFERENCES loyalty_program(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de resgates de recompensas
+CREATE TABLE loyalty_redemptions (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    user_id INT UNSIGNED NOT NULL,
+    loyalty_reward_id INT UNSIGNED NOT NULL,
+    points_used INT UNSIGNED NOT NULL,
+    order_id INT UNSIGNED DEFAULT NULL,
+    status ENUM('pending', 'approved', 'used', 'expired', 'cancelled') DEFAULT 'pending',
+    redemption_code VARCHAR(50) DEFAULT NULL,
+    expiry_date DATE DEFAULT NULL,
+    used_at TIMESTAMP NULL DEFAULT NULL,
+    notes TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (loyalty_reward_id) REFERENCES loyalty_rewards(id) ON DELETE CASCADE,
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+-- -----------------------------------------------------
+-- Tabelas de Fornecedores
+-- -----------------------------------------------------
+
+-- Tabela de fornecedores
+CREATE TABLE suppliers (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    company_name VARCHAR(150) NOT NULL,
+    cnpj VARCHAR(18) DEFAULT NULL,
+    email VARCHAR(100) DEFAULT NULL,
+    phone VARCHAR(20) NOT NULL,
+    address VARCHAR(255) DEFAULT NULL,
+    city VARCHAR(100) DEFAULT NULL,
+    state VARCHAR(2) DEFAULT NULL,
+    zip_code VARCHAR(10) DEFAULT NULL,
+    contact_name VARCHAR(100) DEFAULT NULL,
+    contact_phone VARCHAR(20) DEFAULT NULL,
+    contact_email VARCHAR(100) DEFAULT NULL,
+    category VARCHAR(50) DEFAULT NULL,
+    payment_terms VARCHAR(100) DEFAULT NULL,
+    delivery_time INT DEFAULT NULL,
+    minimum_order DECIMAL(10, 2) DEFAULT NULL,
+    notes TEXT DEFAULT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de produtos de fornecedores
+CREATE TABLE supplier_products (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    supplier_id INT UNSIGNED NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    description TEXT DEFAULT NULL,
+    sku VARCHAR(50) DEFAULT NULL,
+    supplier_sku VARCHAR(50) DEFAULT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    unit ENUM('g', 'kg', 'ml', 'l', 'unit', 'box', 'pack') NOT NULL,
+    ingredient_id INT UNSIGNED DEFAULT NULL,
+    conversion_factor DECIMAL(10, 4) DEFAULT 1.0000,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (supplier_id) REFERENCES suppliers(id) ON DELETE CASCADE,
+    FOREIGN KEY (ingredient_id) REFERENCES ingredients(id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+-- Tabela de pedidos a fornecedores
+CREATE TABLE supplier_orders (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    supplier_id INT UNSIGNED NOT NULL,
+    user_id INT UNSIGNED NOT NULL,
+    order_number VARCHAR(50) NOT NULL,
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expected_delivery_date DATE DEFAULT NULL,
+    delivery_date DATE DEFAULT NULL,
+    status ENUM('draft', 'sent', 'confirmed', 'partially_received', 'received', 'cancelled') DEFAULT 'draft',
+    subtotal DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    tax DECIMAL(10, 2) DEFAULT 0.00,
+    shipping DECIMAL(10, 2) DEFAULT 0.00,
+    discount DECIMAL(10, 2) DEFAULT 0.00,
+    total DECIMAL(10, 2) DEFAULT 0.00,
+    payment_status ENUM('pending', 'partial', 'paid', 'cancelled') DEFAULT 'pending',
+    payment_method VARCHAR(50) DEFAULT NULL,
+    payment_details JSON DEFAULT NULL,
+    notes TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (supplier_id) REFERENCES suppliers(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+) ENGINE=InnoDB;
+
+-- Tabela de itens de pedidos a fornecedores
+CREATE TABLE supplier_order_items (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    supplier_order_id INT UNSIGNED NOT NULL,
+    supplier_product_id INT UNSIGNED NOT NULL,
+    quantity DECIMAL(10, 2) NOT NULL,
+    unit_price DECIMAL(10, 2) NOT NULL,
+    total_price DECIMAL(10, 2) NOT NULL,
+    quantity_received DECIMAL(10, 2) DEFAULT 0.00,
+    status ENUM('pending', 'partial', 'complete', 'cancelled') DEFAULT 'pending',
+    notes TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (supplier_order_id) REFERENCES supplier_orders(id) ON DELETE CASCADE,
+    FOREIGN KEY (supplier_product_id) REFERENCES supplier_products(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de avaliação de fornecedores
+CREATE TABLE supplier_ratings (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    supplier_id INT UNSIGNED NOT NULL,
+    supplier_order_id INT UNSIGNED DEFAULT NULL,
+    user_id INT UNSIGNED NOT NULL,
+    quality_rating TINYINT UNSIGNED DEFAULT NULL,
+    service_rating TINYINT UNSIGNED DEFAULT NULL,
+    price_rating TINYINT UNSIGNED DEFAULT NULL,
+    delivery_rating TINYINT UNSIGNED DEFAULT NULL,
+    overall_rating TINYINT UNSIGNED NOT NULL,
+    comments TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (supplier_id) REFERENCES suppliers(id) ON DELETE CASCADE,
+    FOREIGN KEY (supplier_order_id) REFERENCES supplier_orders(id) ON DELETE SET NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+) ENGINE=InnoDB;
+
+-- -----------------------------------------------------
+-- Tabelas de Relatórios e Métricas
+-- -----------------------------------------------------
+
+-- Tabela de relatórios salvos
+CREATE TABLE saved_reports (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    user_id INT UNSIGNED NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    report_type VARCHAR(50) NOT NULL,
+    parameters JSON NOT NULL,
+    public BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+) ENGINE=InnoDB;
+
+-- Tabela de relatórios agendados
+CREATE TABLE scheduled_reports (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    saved_report_id INT UNSIGNED NOT NULL,
+    user_id INT UNSIGNED NOT NULL,
+    frequency ENUM('daily', 'weekly', 'monthly', 'quarterly') NOT NULL,
+    day_of_week TINYINT UNSIGNED DEFAULT NULL,
+    day_of_month TINYINT UNSIGNED DEFAULT NULL,
+    time_of_day TIME NOT NULL,
+    recipients JSON NOT NULL,
+    last_sent TIMESTAMP NULL DEFAULT NULL,
+    next_scheduled TIMESTAMP NULL DEFAULT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (saved_report_id) REFERENCES saved_reports(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+) ENGINE=InnoDB;
+
+-- Tabela de métricas diárias
+CREATE TABLE daily_metrics (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    metric_date DATE NOT NULL,
+    sales DECIMAL(10, 2) DEFAULT 0.00,
+    orders INT UNSIGNED DEFAULT 0,
+    customers INT UNSIGNED DEFAULT 0,
+    average_ticket DECIMAL(10, 2) DEFAULT 0.00,
+    tables_served INT UNSIGNED DEFAULT 0,
+    average_table_time INT UNSIGNED DEFAULT 0,
+    staff_count INT UNSIGNED DEFAULT 0,
+    labor_cost DECIMAL(10, 2) DEFAULT 0.00,
+    cogs DECIMAL(10, 2) DEFAULT 0.00,
+    profit_margin DECIMAL(5, 2) DEFAULT 0.00,
+    item_metrics JSON DEFAULT NULL,
+    payment_methods JSON DEFAULT NULL,
+    source_metrics JSON DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_tenant_date (tenant_id, metric_date),
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- -----------------------------------------------------
+-- Tabelas de Integrações Externas
+-- -----------------------------------------------------
+
+-- Tabela de configurações de integração com iFood
+CREATE TABLE ifood_integration (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    merchant_id VARCHAR(100) NOT NULL,
+    api_key VARCHAR(255) NOT NULL,
+    merchant_token VARCHAR(255) NOT NULL,
+    is_active BOOLEAN DEFAULT FALSE,
+    auto_accept_orders BOOLEAN DEFAULT FALSE,
+    default_preparation_time INT UNSIGNED DEFAULT 30,
+    sync_menu BOOLEAN DEFAULT TRUE,
+    sync_status BOOLEAN DEFAULT TRUE,
+    menu_last_sync TIMESTAMP NULL DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de pedidos do iFood
+CREATE TABLE ifood_orders (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    order_id INT UNSIGNED DEFAULT NULL,
+    ifood_order_id VARCHAR(100) NOT NULL,
+    ifood_status VARCHAR(50) NOT NULL,
+    status_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    order_json JSON NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_ifood_order (tenant_id, ifood_order_id),
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+-- Tabela de mapeamento de itens do cardápio com iFood
+CREATE TABLE ifood_menu_mapping (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    menu_item_id INT UNSIGNED NOT NULL,
+    ifood_item_id VARCHAR(100) NOT NULL,
+    ifood_category_id VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_menu_mapping (tenant_id, menu_item_id),
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (menu_item_id) REFERENCES menu_items(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de webhooks recebidos
+CREATE TABLE webhooks (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    source VARCHAR(50) NOT NULL,
+    event_type VARCHAR(100) NOT NULL,
+    webhook_id VARCHAR(100) NOT NULL,
+    payload JSON NOT NULL,
+    processed BOOLEAN DEFAULT FALSE,
+    error_message TEXT DEFAULT NULL,
+    received_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    processed_at TIMESTAMP NULL DEFAULT NULL,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- -----------------------------------------------------
+-- Tabelas de Marketing e Comunicação
+-- -----------------------------------------------------
+
+-- Tabela de campanhas de marketing
+CREATE TABLE marketing_campaigns (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    description TEXT DEFAULT NULL,
+    campaign_type ENUM('email', 'sms', 'push', 'in_app', 'multi_channel') NOT NULL,
+    target_audience JSON DEFAULT NULL,
+    start_date TIMESTAMP NULL DEFAULT NULL,
+    end_date TIMESTAMP NULL DEFAULT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    content JSON NOT NULL,
+    metrics JSON DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de mensagens enviadas
+CREATE TABLE sent_messages (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    campaign_id INT UNSIGNED DEFAULT NULL,
+    user_id INT UNSIGNED DEFAULT NULL,
+    message_type ENUM('email', 'sms', 'push', 'in_app') NOT NULL,
+    recipient VARCHAR(100) NOT NULL,
+    subject VARCHAR(255) DEFAULT NULL,
+    content TEXT NOT NULL,
+    sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('sent', 'delivered', 'opened', 'clicked', 'bounced', 'failed') DEFAULT 'sent',
+    status_updated_at TIMESTAMP NULL DEFAULT NULL,
+    tracking_data JSON DEFAULT NULL,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (campaign_id) REFERENCES marketing_campaigns(id) ON DELETE SET NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+-- Tabela de modelos de comunicação
+CREATE TABLE message_templates (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    template_type ENUM('email', 'sms', 'push', 'in_app') NOT NULL,
+    subject VARCHAR(255) DEFAULT NULL,
+    content TEXT NOT NULL,
+    variables JSON DEFAULT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- -----------------------------------------------------
+-- Tabelas de Configurações Fiscais
+-- -----------------------------------------------------
+
+-- Tabela de configurações fiscais
+CREATE TABLE fiscal_settings (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    company_tax_regime VARCHAR(50) DEFAULT NULL,
+    tax_id VARCHAR(50) DEFAULT NULL,
+    state_tax_id VARCHAR(50) DEFAULT NULL,
+    municipal_tax_id VARCHAR(50) DEFAULT NULL,
+    tax_rates JSON DEFAULT NULL,
+    fiscal_printer_model VARCHAR(100) DEFAULT NULL,
+    fiscal_printer_serial VARCHAR(100) DEFAULT NULL,
+    nfce_token VARCHAR(255) DEFAULT NULL,
+    nfce_certificate VARCHAR(255) DEFAULT NULL,
+    nfce_environment ENUM('production', 'sandbox') DEFAULT 'sandbox',
+    nfce_series INT UNSIGNED DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de notas fiscais
+CREATE TABLE fiscal_receipts (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    order_id INT UNSIGNED NOT NULL,
+    receipt_type ENUM('nfce', 'nfe', 'sat', 'nfse') NOT NULL,
+    receipt_number VARCHAR(50) NOT NULL,
+    receipt_series VARCHAR(10) DEFAULT NULL,
+    receipt_key VARCHAR(100) DEFAULT NULL,
+    status ENUM('pending', 'issued', 'cancelled', 'error') DEFAULT 'pending',
+    issue_date TIMESTAMP NULL DEFAULT NULL,
+    cancel_date TIMESTAMP NULL DEFAULT NULL,
+    cancel_reason TEXT DEFAULT NULL,
+    receipt_url VARCHAR(255) DEFAULT NULL,
+    receipt_data JSON DEFAULT NULL,
+    qr_code TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de código de produtos fiscais
+CREATE TABLE fiscal_item_codes (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    menu_item_id INT UNSIGNED NOT NULL,
+    ncm VARCHAR(20) DEFAULT NULL,
+    cest VARCHAR(20) DEFAULT NULL,
+    cfop VARCHAR(10) DEFAULT NULL,
+    icms_rate DECIMAL(5, 2) DEFAULT NULL,
+    pis_rate DECIMAL(5, 2) DEFAULT NULL,
+    cofins_rate DECIMAL(5, 2) DEFAULT NULL,
+    iss_rate DECIMAL(5, 2) DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (menu_item_id) REFERENCES menu_items(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- -----------------------------------------------------
+-- Dados iniciais
+-- -----------------------------------------------------
+
+-- Inserir planos de assinatura
+INSERT INTO plans (name, code, description, price, billing_cycle, features, limits, active) VALUES
+('Plano Básico', 'basic', 'Ideal para pequenos estabelecimentos com funcionalidades essenciais', 99.90, 'monthly', 
+ '["qrcode_basic", "basic_reports"]', 
+ '{"max_tables": 10, "max_users": 5, "max_menu_items": 50, "max_monthly_orders": 500}', 
+ true),
+('Plano Padrão', 'standard', 'Perfeito para restaurantes de médio porte com recursos completos', 199.90, 'monthly', 
+ '["qrcode_advanced", "full_reports", "inventory_management"]', 
+ '{"max_tables": 25, "max_users": 15, "max_menu_items": 150, "max_monthly_orders": 2000}', 
+ true),
+('Plano Premium', 'premium', 'Solução completa para grandes estabelecimentos com funcionalidades avançadas', 349.90, 'monthly', 
+ '["qrcode_advanced", "full_reports", "inventory_management", "multi_branch", "loyalty_program"]', 
+ '{"max_tables": 50, "max_users": 30, "max_menu_items": 300, "max_monthly_orders": 5000}', 
+ true),
+('Plano Enterprise', 'enterprise', 'Solução personalizada para redes de restaurantes e franquias', 599.90, 'monthly', 
+ '["qrcode_advanced", "full_reports", "inventory_management", "multi_branch", "loyalty_program", "api_access", "custom_integrations"]', 
+ '{"max_tables": -1, "max_users": -1, "max_menu_items": -1, "max_monthly_orders": -1}', 
+ true);
+
+-- Inserir usuário admin para testes (senha: admin123)
+INSERT INTO users (username, email, password, name, role, active, email_verified) VALUES
+('admin', 'admin@restaurantesaas.com.br', '$2y$12$WxkpKAQQ1RBoOaNUvDH4R.UJYPzMvEVDkn5P3nCWfxmYUQQeMLOsW', 'Administrador', 'platform_admin', true, true);
+
+-- Inserir permissões básicas
+INSERT INTO permissions (name, description) VALUES
+('view_dashboard', 'Visualizar dashboard'),
+('manage_menu', 'Gerenciar cardápio'),
+('manage_orders', 'Gerenciar pedidos'),
+('manage_tables', 'Gerenciar mesas'),
+('manage_inventory', 'Gerenciar estoque'),
+('manage_staff', 'Gerenciar funcionários'),
+('manage_customers', 'Gerenciar clientes'),
+('manage_payments', 'Gerenciar pagamentos'),
+('view_reports', 'Visualizar relatórios'),
+('manage_settings', 'Gerenciar configurações'),
+('manage_integrations', 'Gerenciar integrações'),
+('admin_access', 'Acesso administrativo completo');
+
+2. **Estrutura de Diretórios (100%)**
+
+#!/bin/bash
+
+# Criar diretório raiz
+mkdir -p restaurante-sistema
+
+# Criar estrutura de assets
+mkdir -p restaurante-sistema/assets/css/restaurant-types
+mkdir -p restaurante-sistema/assets/js/restaurant-types
+mkdir -p restaurante-sistema/assets/images/logo
+mkdir -p restaurante-sistema/assets/images/icons/{menu,status,actions,payment,subscription}
+mkdir -p restaurante-sistema/assets/images/menu
+mkdir -p restaurante-sistema/assets/images/ui
+mkdir -p restaurante-sistema/assets/images/plans
+mkdir -p restaurante-sistema/assets/images/restaurant-types/{alacarte,fastfood,pizzaria}
+mkdir -p restaurante-sistema/assets/fonts
+
+# Criar arquivos CSS
+touch restaurante-sistema/assets/css/main.css
+touch restaurante-sistema/assets/css/login.css
+touch restaurante-sistema/assets/css/dashboard.css
+touch restaurante-sistema/assets/css/tables.css
+touch restaurante-sistema/assets/css/menu.css
+touch restaurante-sistema/assets/css/kitchen.css
+touch restaurante-sistema/assets/css/reports.css
+touch restaurante-sistema/assets/css/ponto.css
+touch restaurante-sistema/assets/css/fornecedores.css
+touch restaurante-sistema/assets/css/customer-mobile.css
+touch restaurante-sistema/assets/css/subscription.css
+touch restaurante-sistema/assets/css/pricing.css
+touch restaurante-sistema/assets/css/billing.css
+touch restaurante-sistema/assets/css/onboarding.css
+
+# Criar arquivos CSS específicos para tipos de restaurante
+touch restaurante-sistema/assets/css/restaurant-types/alacarte.css
+touch restaurante-sistema/assets/css/restaurant-types/fastfood.css
+touch restaurante-sistema/assets/css/restaurant-types/pizzaria.css
+touch restaurante-sistema/assets/css/restaurant-types/rodizio.css
+touch restaurante-sistema/assets/css/restaurant-types/selfservice.css
+touch restaurante-sistema/assets/css/restaurant-types/delivery.css
+touch restaurante-sistema/assets/css/restaurant-types/foodtruck.css
+touch restaurante-sistema/assets/css/restaurant-types/bar.css
+touch restaurante-sistema/assets/css/restaurant-types/cafeteria.css
+touch restaurante-sistema/assets/css/restaurant-types/multiunit.css
+
+# Criar arquivos JavaScript
+touch restaurante-sistema/assets/js/main.js
+touch restaurante-sistema/assets/js/login.js
+touch restaurante-sistema/assets/js/dashboard.js
+touch restaurante-sistema/assets/js/tables.js
+touch restaurante-sistema/assets/js/orders.js
+touch restaurante-sistema/assets/js/menu.js
+touch restaurante-sistema/assets/js/kitchen.js
+touch restaurante-sistema/assets/js/inventory.js
+touch restaurante-sistema/assets/js/payments.js
+touch restaurante-sistema/assets/js/stripe-integration.js
+touch restaurante-sistema/assets/js/subscription.js
+touch restaurante-sistema/assets/js/pricing-calculator.js
+touch restaurante-sistema/assets/js/billing-portal.js
+touch restaurante-sistema/assets/js/charts.js
+touch restaurante-sistema/assets/js/ponto.js
+touch restaurante-sistema/assets/js/supplier-manager.js
+touch restaurante-sistema/assets/js/group-orders.js
+touch restaurante-sistema/assets/js/bill-splitter.js
+touch restaurante-sistema/assets/js/onboarding.js
+
+# Criar arquivos JavaScript específicos para tipos de restaurante
+touch restaurante-sistema/assets/js/restaurant-types/alacarte.js
+touch restaurante-sistema/assets/js/restaurant-types/fastfood.js
+touch restaurante-sistema/assets/js/restaurant-types/pizzaria.js
+touch restaurante-sistema/assets/js/restaurant-types/rodizio.js
+touch restaurante-sistema/assets/js/restaurant-types/selfservice.js
+touch restaurante-sistema/assets/js/restaurant-types/delivery.js
+touch restaurante-sistema/assets/js/restaurant-types/multiunit.js
+
+# Criar estrutura de config
+mkdir -p restaurante-sistema/config
+touch restaurante-sistema/config/database.php
+touch restaurante-sistema/config/constants.php
+touch restaurante-sistema/config/stripe.php
+touch restaurante-sistema/config/email.php
+touch restaurante-sistema/config/sms.php
+touch restaurante-sistema/config/qrcode.php
+touch restaurante-sistema/config/ifood.php
+touch restaurante-sistema/config/restaurant_types.php
+touch restaurante-sistema/config/interface_settings.php
+touch restaurante-sistema/config/order_methods.php
+touch restaurante-sistema/config/subscription_plans.php
+touch restaurante-sistema/config/tenant.php
+touch restaurante-sistema/config/feature_limits.php
+
+# Criar estrutura de controllers
+mkdir -p restaurante-sistema/controllers/subscription
+mkdir -p restaurante-sistema/controllers/DashboardController/{AlacarteDashboardController.php,FastFoodDashboardController.php,PizzariaDashboardController.php,RodizioDashboardController.php,DeliveryDashboardController.php}
+mkdir -p restaurante-sistema/controllers/OrderController
+mkdir -p restaurante-sistema/controllers/MenuController
+mkdir -p restaurante-sistema/controllers/PaymentController
+mkdir -p restaurante-sistema/controllers/SupplierController
+mkdir -p restaurante-sistema/controllers/StaffController
+
+touch restaurante-sistema/controllers/AuthController.php
+touch restaurante-sistema/controllers/SubscriptionController.php
+touch restaurante-sistema/controllers/subscription/PlansController.php
+touch restaurante-sistema/controllers/subscription/BillingController.php
+touch restaurante-sistema/controllers/subscription/FeatureController.php
+touch restaurante-sistema/controllers/TenantController.php
+touch restaurante-sistema/controllers/OnboardingController.php
+touch restaurante-sistema/controllers/DashboardController.php
+touch restaurante-sistema/controllers/TableController.php
+touch restaurante-sistema/controllers/OrderController.php
+touch restaurante-sistema/controllers/OrderController/SingleOrderController.php
+touch restaurante-sistema/controllers/OrderController/GroupOrderController.php
+touch restaurante-sistema/controllers/MenuController.php
+touch restaurante-sistema/controllers/MenuController/AlacarteMenuController.php
+touch restaurante-sistema/controllers/MenuController/FastFoodMenuController.php
+touch restaurante-sistema/controllers/MenuController/PizzariaMenuController.php
+touch restaurante-sistema/controllers/MenuController/RodizioMenuController.php
+touch restaurante-sistema/controllers/MenuController/SelfServiceMenuController.php
+touch restaurante-sistema/controllers/KitchenController.php
+touch restaurante-sistema/controllers/InventoryController.php
+touch restaurante-sistema/controllers/PaymentController.php
+touch restaurante-sistema/controllers/PaymentController/BillSplitController.php
+touch restaurante-sistema/controllers/ReportController.php
+touch restaurante-sistema/controllers/iFoodController.php
+touch restaurante-sistema/controllers/SupplierController.php
+touch restaurante-sistema/controllers/SupplierController/QuickOrderController.php
+touch restaurante-sistema/controllers/StaffController.php
+touch restaurante-sistema/controllers/StaffController/TimeClockController.php
+touch restaurante-sistema/controllers/CustomerController.php
+touch restaurante-sistema/controllers/QRCodeController.php
+touch restaurante-sistema/controllers/RestaurantTypeController.php
+touch restaurante-sistema/controllers/SettingsController.php
+
+# Criar estrutura de models
+mkdir -p restaurante-sistema/models/Account
+mkdir -p restaurante-sistema/models/Order
+mkdir -p restaurante-sistema/models/MenuItem
+mkdir -p restaurante-sistema/models/Inventory
+mkdir -p restaurante-sistema/models/Payment
+mkdir -p restaurante-sistema/models/Staff
+mkdir -p restaurante-sistema/models/Supplier
+mkdir -p restaurante-sistema/models/Customer
+
+touch restaurante-sistema/models/User.php
+touch restaurante-sistema/models/Account.php
+touch restaurante-sistema/models/Account/Subscription.php
+touch restaurante-sistema/models/Account/Plan.php
+touch restaurante-sistema/models/Account/Invoice.php
+touch restaurante-sistema/models/Account/Usage.php
+touch restaurante-sistema/models/Tenant.php
+touch restaurante-sistema/models/Restaurant.php
+touch restaurante-sistema/models/RestaurantType.php
+touch restaurante-sistema/models/CashRegister.php
+touch restaurante-sistema/models/Table.php
+touch restaurante-sistema/models/Order.php
+touch restaurante-sistema/models/Order/SingleOrder.php
+touch restaurante-sistema/models/Order/GroupOrder.php
+touch restaurante-sistema/models/OrderItem.php
+touch restaurante-sistema/models/MenuItem.php
+touch restaurante-sistema/models/MenuItem/AlacarteMenuItem.php
+touch restaurante-sistema/models/MenuItem/FastFoodMenuItem.php
+touch restaurante-sistema/models/MenuItem/PizzaMenuItem.php
+touch restaurante-sistema/models/MenuItem/RodizioMenuItem.php
+touch restaurante-sistema/models/Inventory.php
+touch restaurante-sistema/models/Inventory/StockMovement.php
+touch restaurante-sistema/models/Reservation.php
+touch restaurante-sistema/models/Payment.php
+touch restaurante-sistema/models/Payment/BillSplit.php
+touch restaurante-sistema/models/Staff.php
+touch restaurante-sistema/models/Staff/TimeClock.php
+touch restaurante-sistema/models/Supplier.php
+touch restaurante-sistema/models/Supplier/SupplierContact.php
+touch restaurante-sistema/models/Supplier/SupplierOrder.php
+touch restaurante-sistema/models/Supplier/SupplierRating.php
+touch restaurante-sistema/models/Customer.php
+touch restaurante-sistema/models/Customer/LoyaltyProgram.php
+touch restaurante-sistema/models/MarketingCampaign.php
+touch restaurante-sistema/models/QRCode.php
+touch restaurante-sistema/models/RestaurantConfiguration.php
+touch restaurante-sistema/models/RestaurantInterface.php
+
+# Criar estrutura de views
+mkdir -p restaurante-sistema/views/auth
+mkdir -p restaurante-sistema/views/subscription
+mkdir -p restaurante-sistema/views/onboarding
+mkdir -p restaurante-sistema/views/dashboard/{alacarte,fastfood,pizzaria,rodizio,selfservice,delivery,multiunit}
+mkdir -p restaurante-sistema/views/tables
+mkdir -p restaurante-sistema/views/menu/types
+mkdir -p restaurante-sistema/views/kitchen/types
+mkdir -p restaurante-sistema/views/inventory
+mkdir -p restaurante-sistema/views/payments
+mkdir -p restaurante-sistema/views/reports/types
+mkdir -p restaurante-sistema/views/ifood
+mkdir -p restaurante-sistema/views/suppliers
+mkdir -p restaurante-sistema/views/staff/time-clock
+mkdir -p restaurante-sistema/views/customers
+mkdir -p restaurante-sistema/views/marketing
+mkdir -p restaurante-sistema/views/qrcode
+mkdir -p restaurante-sistema/views/admin
+mkdir -p restaurante-sistema/views/settings
+
+# Criar arquivos de views de autenticação
+touch restaurante-sistema/views/auth/login.php
+touch restaurante-sistema/views/auth/reset-password.php
+touch restaurante-sistema/views/auth/register.php
+
+# Criar arquivos de views de assinatura
+touch restaurante-sistema/views/subscription/plans.php
+touch restaurante-sistema/views/subscription/checkout.php
+touch restaurante-sistema/views/subscription/success.php
+touch restaurante-sistema/views/subscription/billing.php
+touch restaurante-sistema/views/subscription/upgrade.php
+touch restaurante-sistema/views/subscription/downgrade.php
+touch restaurante-sistema/views/subscription/cancel.php
+touch restaurante-sistema/views/subscription/payment-methods.php
+
+# Criar arquivos de views de onboarding
+touch restaurante-sistema/views/onboarding/welcome.php
+touch restaurante-sistema/views/onboarding/restaurant-type.php
+touch restaurante-sistema/views/onboarding/restaurant-comparison.php
+touch restaurante-sistema/views/onboarding/basic-info.php
+touch restaurante-sistema/views/onboarding/menu-setup.php
+touch restaurante-sistema/views/onboarding/operating-hours.php
+touch restaurante-sistema/views/onboarding/table-setup.php
+touch restaurante-sistema/views/onboarding/staff-roles.php
+touch restaurante-sistema/views/onboarding/payment-options.php
+touch restaurante-sistema/views/onboarding/finalize.php
+
+# Criar arquivos de views de dashboard
+touch restaurante-sistema/views/dashboard/index.php
+touch restaurante-sistema/views/dashboard/account-status.php
+touch restaurante-sistema/views/dashboard/alacarte/index.php
+touch restaurante-sistema/views/dashboard/alacarte/tables.php
+touch restaurante-sistema/views/dashboard/fastfood/index.php
+touch restaurante-sistema/views/dashboard/fastfood/queue.php
+touch restaurante-sistema/views/dashboard/pizzaria/index.php
+touch restaurante-sistema/views/dashboard/pizzaria/pizza-builder.php
+touch restaurante-sistema/views/dashboard/rodizio/index.php
+touch restaurante-sistema/views/dashboard/rodizio/rounds.php
+touch restaurante-sistema/views/dashboard/selfservice/index.php
+touch restaurante-sistema/views/dashboard/selfservice/scales.php
+touch restaurante-sistema/views/dashboard/delivery/index.php
+touch restaurante-sistema/views/dashboard/delivery/routes.php
+touch restaurante-sistema/views/dashboard/multiunit/index.php
+touch restaurante-sistema/views/dashboard/multiunit/units.php
+
+# Criar mais arquivos de views (continuação)
+touch restaurante-sistema/views/tables/map.php
+touch restaurante-sistema/views/tables/order.php
+touch restaurante-sistema/views/tables/multi-user.php
+
+touch restaurante-sistema/views/menu/admin.php
+touch restaurante-sistema/views/menu/editor.php
+touch restaurante-sistema/views/menu/customer.php
+touch restaurante-sistema/views/menu/category-manager.php
+touch restaurante-sistema/views/menu/promotions.php
+touch restaurante-sistema/views/menu/types/alacarte.php
+touch restaurante-sistema/views/menu/types/fastfood.php
+touch restaurante-sistema/views/menu/types/pizzaria.php
+touch restaurante-sistema/views/menu/types/rodizio.php
+touch restaurante-sistema/views/menu/types/selfservice.php
+
+touch restaurante-sistema/views/kitchen/panel.php
+touch restaurante-sistema/views/kitchen/inventory-usage.php
+touch restaurante-sistema/views/kitchen/types/alacarte.php
+touch restaurante-sistema/views/kitchen/types/fastfood.php
+touch restaurante-sistema/views/kitchen/types/pizzaria.php
+touch restaurante-sistema/views/kitchen/types/rodizio.php
+
+touch restaurante-sistema/views/inventory/management.php
+touch restaurante-sistema/views/inventory/movements.php
+touch restaurante-sistema/views/inventory/alerts.php
+
+touch restaurante-sistema/views/payments/process.php
+touch restaurante-sistema/views/payments/receipt.php
+touch restaurante-sistema/views/payments/split-bill.php
+touch restaurante-sistema/views/payments/group-payment.php
+
+touch restaurante-sistema/views/reports/sales.php
+touch restaurante-sistema/views/reports/cash.php
+touch restaurante-sistema/views/reports/performance.php
+touch restaurante-sistema/views/reports/financial.php
+touch restaurante-sistema/views/reports/types/alacarte.php
+touch restaurante-sistema/views/reports/types/fastfood.php
+touch restaurante-sistema/views/reports/types/pizzaria.php
+touch restaurante-sistema/views/reports/types/rodizio.php
+touch restaurante-sistema/views/reports/types/delivery.php
+
+touch restaurante-sistema/views/ifood/orders.php
+
+touch restaurante-sistema/views/suppliers/list.php
+touch restaurante-sistema/views/suppliers/details.php
+touch restaurante-sistema/views/suppliers/quick-order.php
+touch restaurante-sistema/views/suppliers/history.php
+touch restaurante-sistema/views/suppliers/ratings.php
+
+touch restaurante-sistema/views/staff/list.php
+touch restaurante-sistema/views/staff/details.php
+touch restaurante-sistema/views/staff/schedule.php
+touch restaurante-sistema/views/staff/time-clock/register.php
+touch restaurante-sistema/views/staff/time-clock/management.php
+touch restaurante-sistema/views/staff/time-clock/reports.php
+
+touch restaurante-sistema/views/customers/list.php
+touch restaurante-sistema/views/customers/details.php
+touch restaurante-sistema/views/customers/loyalty.php
+
+touch restaurante-sistema/views/marketing/campaigns.php
+touch restaurante-sistema/views/marketing/promotions.php
+
+touch restaurante-sistema/views/qrcode/generator.php
+touch restaurante-sistema/views/qrcode/manager.php
+touch restaurante-sistema/views/qrcode/preview.php
+
+touch restaurante-sistema/views/admin/accounts.php
+touch restaurante-sistema/views/admin/plans.php
+touch restaurante-sistema/views/admin/statistics.php
+touch restaurante-sistema/views/admin/support.php
+touch restaurante-sistema/views/admin/settings.php
+
+touch restaurante-sistema/views/settings/general.php
+touch restaurante-sistema/views/settings/restaurant-type.php
+touch restaurante-sistema/views/settings/interfaces.php
+touch restaurante-sistema/views/settings/qrcode.php
+touch restaurante-sistema/views/settings/group-orders.php
+touch restaurante-sistema/views/settings/time-clock.php
+touch restaurante-sistema/views/settings/integrations.php
+touch restaurante-sistema/views/settings/account.php
+touch restaurante-sistema/views/settings/backup.php
+
+# Criar estrutura de includes
+mkdir -p restaurante-sistema/includes
+touch restaurante-sistema/includes/functions.php
+touch restaurante-sistema/includes/validation.php
+touch restaurante-sistema/includes/session.php
+touch restaurante-sistema/includes/security.php
+touch restaurante-sistema/includes/currency.php
+touch restaurante-sistema/includes/date.php
+touch restaurante-sistema/includes/notification.php
+touch restaurante-sistema/includes/restaurant-type-helper.php
+touch restaurante-sistema/includes/interface-loader.php
+touch restaurante-sistema/includes/tenant-resolver.php
+touch restaurante-sistema/includes/feature-checker.php
+touch restaurante-sistema/includes/subscription-helper.php
+
+# Criar estrutura de API
+mkdir -p restaurante-sistema/api/subscription
+mkdir -p restaurante-sistema/api/orders
+mkdir -p restaurante-sistema/api/payments
+mkdir -p restaurante-sistema/api/staff
+
+touch restaurante-sistema/api/auth.php
+touch restaurante-sistema/api/subscription.php
+touch restaurante-sistema/api/subscription/plans.php
+touch restaurante-sistema/api/subscription/webhooks.php
+touch restaurante-sistema/api/subscription/billing.php
+touch restaurante-sistema/api/tables.php
+touch restaurante-sistema/api/orders.php
+touch restaurante-sistema/api/orders/group-orders.php
+touch restaurante-sistema/api/menu.php
+touch restaurante-sistema/api/payments.php
+touch restaurante-sistema/api/payments/bill-split.php
+touch restaurante-sistema/api/ifood.php
+touch restaurante-sistema/api/suppliers.php
+touch restaurante-sistema/api/staff.php
+touch restaurante-sistema/api/staff/time-clock.php
+touch restaurante-sistema/api/customers.php
+touch restaurante-sistema/api/reports.php
+touch restaurante-sistema/api/qrcode.php
+touch restaurante-sistema/api/restaurant-type.php
+
+# Criar estrutura de services
+mkdir -p restaurante-sistema/services
+touch restaurante-sistema/services/StripeService.php
+touch restaurante-sistema/services/SubscriptionService.php
+touch restaurante-sistema/services/BillingService.php
+touch restaurante-sistema/services/TenantService.php
+touch restaurante-sistema/services/FeatureLimitService.php
+touch restaurante-sistema/services/QRCodeService.php
+touch restaurante-sistema/services/PDFService.php
+touch restaurante-sistema/services/iFoodService.php
+touch restaurante-sistema/services/EmailService.php
+touch restaurante-sistema/services/SMSService.php
+touch restaurante-sistema/services/NotificationService.php
+touch restaurante-sistema/services/ChartService.php
+touch restaurante-sistema/services/BackupService.php
+touch restaurante-sistema/services/RestaurantTypeService.php
+touch restaurante-sistema/services/InterfaceService.php
+touch restaurante-sistema/services/ScaleService.php
+touch restaurante-sistema/services/DeliveryTrackingService.php
+touch restaurante-sistema/services/RodizioTrackingService.php
+
+# Criar estrutura de database
+mkdir -p restaurante-sistema/database/migrations
+mkdir -p restaurante-sistema/database/seeds
+
+touch restaurante-sistema/database/migrations/create_tenants_table.php
+touch restaurante-sistema/database/migrations/create_accounts_table.php
+touch restaurante-sistema/database/migrations/create_subscriptions_table.php
+touch restaurante-sistema/database/migrations/create_plans_table.php
+touch restaurante-sistema/database/migrations/create_invoices_table.php
+touch restaurante-sistema/database/migrations/create_usage_logs_table.php
+touch restaurante-sistema/database/migrations/create_users_table.php
+touch restaurante-sistema/database/migrations/create_restaurant_types_table.php
+touch restaurante-sistema/database/migrations/create_restaurants_table.php
+touch restaurante-sistema/database/migrations/create_restaurant_configurations_table.php
+touch restaurante-sistema/database/migrations/create_tables_table.php
+touch restaurante-sistema/database/migrations/create_menu_items_table.php
+touch restaurante-sistema/database/migrations/create_orders_table.php
+touch restaurante-sistema/database/migrations/create_order_items_table.php
+touch restaurante-sistema/database/migrations/create_inventory_table.php
+touch restaurante-sistema/database/migrations/create_customers_table.php
+touch restaurante-sistema/database/migrations/create_staff_table.php
+touch restaurante-sistema/database/migrations/create_time_clock_table.php
+touch restaurante-sistema/database/migrations/create_suppliers_table.php
+touch restaurante-sistema/database/migrations/create_supplier_orders_table.php
+touch restaurante-sistema/database/migrations/create_supplier_contacts_table.php
+touch restaurante-sistema/database/migrations/create_payments_table.php
+touch restaurante-sistema/database/migrations/create_bill_splits_table.php
+touch restaurante-sistema/database/migrations/create_qrcodes_table.php
+
+touch restaurante-sistema/database/seeds/plans_seeder.php
+touch restaurante-sistema/database/seeds/features_seeder.php
+touch restaurante-sistema/database/seeds/users_seeder.php
+touch restaurante-sistema/database/seeds/restaurant_types_seeder.php
+touch restaurante-sistema/database/seeds/menu_items_seeder.php
+touch restaurante-sistema/database/seeds/suppliers_seeder.php
+touch restaurante-sistema/database/seeds/staff_seeder.php
+
+# Criar estrutura de public
+mkdir -p restaurante-sistema/public/webhook
+mkdir -p restaurante-sistema/public/qr/tables
+mkdir -p restaurante-sistema/public/receipt
+
+touch restaurante-sistema/public/index.php
+touch restaurante-sistema/public/pricing.php
+touch restaurante-sistema/public/register.php
+touch restaurante-sistema/public/customer-menu.php
+touch restaurante-sistema/public/group-order.php
+touch restaurante-sistema/public/time-clock.php
+touch restaurante-sistema/public/webhook/stripe.php
+touch restaurante-sistema/public/.htaccess
+
+# Criar estrutura de mobile
+mkdir -p restaurante-sistema/mobile/types
+mkdir -p restaurante-sistema/mobile/staff
+
+touch restaurante-sistema/mobile/index.php
+touch restaurante-sistema/mobile/menu.php
+touch restaurante-sistema/mobile/order.php
+touch restaurante-sistema/mobile/group-order.php
+touch restaurante-sistema/mobile/payment.php
+touch restaurante-sistema/mobile/types/alacarte.php
+touch restaurante-sistema/mobile/types/fastfood.php
+touch restaurante-sistema/mobile/types/pizzaria.php
+touch restaurante-sistema/mobile/types/rodizio.php
+touch restaurante-sistema/mobile/staff/time-clock.php
+
+# Criar estrutura de docs
+mkdir -p restaurante-sistema/docs/restaurant-types
+
+touch restaurante-sistema/docs/setup.md
+touch restaurante-sistema/docs/admin-guide.md
+touch restaurante-sistema/docs/user-guide.md
+touch restaurante-sistema/docs/api-docs.md
+touch restaurante-sistema/docs/database-schema.md
+touch restaurante-sistema/docs/subscription.md
+touch restaurante-sistema/docs/restaurant-types/alacarte.md
+touch restaurante-sistema/docs/restaurant-types/fastfood.md
+touch restaurante-sistema/docs/restaurant-types/pizzaria.md
+
+# Criar estrutura de tests
+mkdir -p restaurante-sistema/tests/unit/subscription
+mkdir -p restaurante-sistema/tests/integration
+mkdir -p restaurante-sistema/tests/acceptance
+
+# Criar estrutura de vendor (diretório vazio para Composer)
+mkdir -p restaurante-sistema/vendor
+
+# Criar arquivos raiz
+touch restaurante-sistema/.htaccess
+touch restaurante-sistema/index.php
+touch restaurante-sistema/composer.json
+touch restaurante-sistema/package.json
+touch restaurante-sistema/README.md
+touch restaurante-sistema/LICENSE
+touch restaurante-sistema/.gitignore
+
+
+tudo acima meno o banco de dados precisar ser criado, incluindo o diretório
+
+# CHECKPOINT DE DESENVOLVIMENTO - SISTEMA DE GESTÃO DE RESTAURANTES SAAS
+
+## PROGRESSO ATUAL: 0% CONCLUÍDO
+
+
+Este checkpoint resume o progresso atual e define claramente os próximos passos para o desenvolvimento. Em sua próxima conversa, você pode continuar a partir deste ponto, concentrando-se na implementação dos módulos listados acima.
+
+
+
+

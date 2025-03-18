@@ -1,0 +1,91 @@
+# Desenvolvimento do Sistema SaaS de Restaurantes - Próximos 10%
+
+Avançamos com o módulo core e o sistema de migrations, agora precisamos implementar componentes funcionais do sistema que permitam o cadastro de restaurantes, configuração de perfis e início da experiência do usuário. Vamos focar nos próximos 10% do projeto.
+
+## REQUISITOS PARA ESTA FASE
+
+### 1. Sistema de Onboarding de Restaurantes
+
+#### 1.1 Fluxo de Registro de Novos Restaurantes
+- Implementar o processo completo de registro, desde o formulário inicial até a confirmação
+- Criar páginas de seleção de tipo de restaurante (à la carte, fast food, pizzaria, rodízio)
+- Desenvolver sistema de verificação de domínio/subdomínio
+- Implementar geração automática de subdomínios baseados no nome do restaurante
+
+#### 1.2 Configuração do Restaurante
+- Criar assistente de configuração inicial (wizard)
+- Implementar páginas para configuração de informações básicas (nome, endereço, logo, etc.)
+- Desenvolver configuração de horário de funcionamento
+- Criar módulo para upload e gerenciamento de imagens do restaurante
+
+### 2. Sistema de Perfis e Configurações
+
+#### 2.1 Perfis de Restaurante
+- Implementar modelo e controlador para configurações específicas por tipo de restaurante
+- Criar interfaces adaptáveis para diferentes tipos de estabelecimentos
+- Desenvolver sistema de features ativadas de acordo com tipo de restaurante
+- Implementar temas e estilos visuais por tipo de estabelecimento
+
+#### 2.2 Gerenciamento de Funções e Permissões
+- Completar o CRUD de funções (roles) para o restaurante
+- Implementar interface para atribuição de permissões
+- Criar funções padrão (admin, gerente, garçom, cozinheiro, caixa, etc.)
+- Desenvolver middleware para verificação de permissões nas rotas
+
+### 3. Interface de Administração
+
+#### 3.1 Dashboard Administrativo
+- Implementar dashboard personalizado por tipo de restaurante
+- Criar blocos de informações rápidas (cards) para métricas principais
+- Desenvolver gráficos básicos para visualização de desempenho
+- Implementar menu de navegação principal do sistema
+
+#### 3.2 Painéis de Configuração
+- Criar painel de configurações gerais do sistema
+- Implementar páginas de gerenciamento de usuários do restaurante
+- Desenvolver páginas de configuração de notificações
+- Criar área para personalização de aparência (logo, cores, etc.)
+
+### 4. QR Code Básico
+
+#### 4.1 Geração de QR Codes
+- Implementar serviço para geração de QR codes
+- Criar controle de versão para QR codes (para evitar códigos antigos)
+- Desenvolver sistema de QR codes para mesas e áreas
+- Implementar visualização e impressão de QR codes
+
+#### 4.2 Landing Page para QR Code
+- Criar página de destino básica quando o QR code é escaneado
+- Implementar detecção de dispositivo (mobile/desktop)
+- Desenvolver sistema para identificação do restaurante e mesa pelo QR code
+- Criar página de boas-vindas personalizada por restaurante
+
+## DIRETRIZES DE IMPLEMENTAÇÃO
+
+1. Seguir o padrão MVC estritamente
+2. Utilizar namespace `RestauranteSaas\[Module]\[Component]`
+3. Garantir responsividade para todas as interfaces
+4. Implementar validação de dados em todos os formulários
+5. Aplicar filtro de tenant em todas as consultas
+6. Documentar todas as classes e métodos
+7. Tratar erros e exibir mensagens amigáveis ao usuário
+8. Implementar logging de ações importantes
+
+## FORMATO DE CÓDIGO
+
+Para garantir a extração correta dos arquivos, utilize exatamente este formato para cada arquivo:
+
+```php
+// File: caminho/do/arquivo.php
+// Código completo aqui
+```
+
+## ENTREGÁVEIS ESPERADOS
+
+1. Sistema completo de registro e onboarding de restaurantes
+2. Interface administrativa básica funcionando
+3. Gerenciamento de perfis por tipo de restaurante
+4. Sistema de geração e gerenciamento de QR codes
+5. Páginas iniciais para acesso via QR code
+
+Atenção às camadas de abstração adequadas para que o sistema possa atender diferentes tipos de restaurantes mantendo o código coeso e de fácil manutenção. Prepare o sistema pensando na escalabilidade à medida que mais módulos forem adicionados nas próximas fases.

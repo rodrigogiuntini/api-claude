@@ -1,0 +1,162 @@
+2025-03-17 17:21:33,713 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-17 17:21:33,713 - claude_project - INFO - Configuração salva
+2025-03-17 17:21:33,714 - claude_project - INFO - API key configurada
+2025-03-17 17:21:33,714 - claude_project - INFO - Configuração salva
+2025-03-17 17:21:33,714 - claude_project - INFO - Módulo 'core' criado
+2025-03-17 17:21:33,714 - claude_project - INFO - Configuração salva
+2025-03-17 17:21:33,714 - claude_project - INFO - Módulo 'subscription' criado
+2025-03-17 17:21:33,714 - claude_project - INFO - Configuração salva
+2025-03-17 17:21:33,714 - claude_project - INFO - Módulo 'restaurant_types' criado
+2025-03-17 17:21:33,714 - claude_project - INFO - Configuração salva
+2025-03-17 17:21:33,714 - claude_project - INFO - Módulo 'tables_qrcode' criado
+2025-03-17 17:21:33,714 - claude_project - INFO - Configuração salva
+2025-03-17 17:21:33,714 - claude_project - INFO - Módulo 'menu_orders' criado
+2025-03-17 17:21:33,715 - claude_project - INFO - Configuração salva
+2025-03-17 17:21:33,715 - claude_project - INFO - Módulo 'payments' criado
+2025-03-17 17:21:33,715 - claude_project - INFO - Configuração salva
+2025-03-17 17:21:33,715 - claude_project - INFO - Módulo 'integrations' criado
+2025-03-17 17:21:33,715 - claude_project - INFO - Configuração salva
+2025-03-17 17:21:33,715 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-17 17:25:04,871 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-17 17:25:04,872 - claude_project - INFO - Configuração salva
+2025-03-17 17:25:04,872 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-17 17:43:45,379 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-17 17:43:45,380 - claude_project - INFO - Configuração salva
+2025-03-17 17:43:45,380 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-17 17:43:56,921 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-17 17:43:56,921 - claude_project - INFO - Configuração salva
+2025-03-17 17:43:56,921 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-17 17:43:56,923 - claude_project - INFO - Contexto do projeto carregado de project_context.txt
+2025-03-17 17:53:46,487 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-17 17:53:46,487 - claude_project - INFO - Configuração salva
+2025-03-17 17:53:46,487 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-17 17:53:46,489 - claude_project - INFO - Contexto do projeto carregado de project_context.txt
+2025-03-17 17:55:33,133 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-17 17:55:33,134 - claude_project - INFO - Configuração salva
+2025-03-17 17:55:33,134 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-17 17:55:33,136 - claude_project - INFO - Contexto do projeto carregado de project_context.txt
+2025-03-17 17:58:19,695 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-17 17:58:19,696 - claude_project - INFO - Configuração salva
+2025-03-17 17:58:19,696 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-17 17:58:19,698 - claude_project - INFO - Contexto do projeto carregado de project_context.txt
+2025-03-17 17:59:04,528 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-17 17:59:04,528 - claude_project - INFO - Configuração salva
+2025-03-17 17:59:04,528 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-17 17:59:04,530 - claude_project - INFO - Contexto do projeto carregado de project_context.txt
+2025-03-17 18:01:53,300 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-17 18:01:53,301 - claude_project - INFO - Configuração salva
+2025-03-17 18:01:53,301 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-17 18:03:08,763 - claude_project - WARNING - Arquivo de contexto 'project_context.txt' não encontrado
+2025-03-17 18:07:40,663 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-17 18:07:40,664 - claude_project - INFO - Configuração salva
+2025-03-17 18:07:40,664 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-17 18:07:40,664 - claude_project - WARNING - Arquivo de contexto 'project_context.txt' não encontrado
+2025-03-17 18:08:16,724 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-17 18:08:16,724 - claude_project - INFO - Configuração salva
+2025-03-17 18:08:16,724 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-17 18:08:16,724 - claude_project - WARNING - Arquivo de contexto 'project_context.txt' não encontrado
+2025-03-17 18:09:46,367 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-17 18:09:46,369 - claude_project - INFO - Configuração salva
+2025-03-17 18:09:46,369 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-17 18:09:54,689 - claude_project - WARNING - Arquivo de contexto 'project_context.txt' não encontrado
+2025-03-17 18:14:08,475 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-17 18:14:08,475 - claude_project - INFO - Configuração salva
+2025-03-17 18:14:08,475 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-17 18:14:08,476 - claude_project - WARNING - Arquivo de contexto 'project_context.txt' não encontrado
+2025-03-17 18:20:46,098 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-17 18:20:46,099 - claude_project - INFO - Configuração salva
+2025-03-17 18:20:46,099 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-17 18:20:46,099 - claude_project - WARNING - Arquivo de contexto 'project_context.txt' não encontrado
+2025-03-17 18:20:46,360 - claude_project - ERROR - Erro API (401): {"type":"error","error":{"type":"authentication_error","message":"invalid x-api-key"}}
+2025-03-17 18:31:01,209 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-17 18:31:01,210 - claude_project - INFO - Configuração salva
+2025-03-17 18:31:01,210 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-17 18:31:01,210 - claude_project - WARNING - Arquivo de contexto 'project_context.txt' não encontrado
+2025-03-17 18:31:01,418 - claude_project - ERROR - Erro API (401): {"type":"error","error":{"type":"authentication_error","message":"invalid x-api-key"}}
+2025-03-17 18:43:48,204 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-17 18:43:48,205 - claude_project - INFO - Configuração salva
+2025-03-17 18:43:48,205 - claude_project - INFO - API key configurada
+2025-03-17 18:43:48,205 - claude_project - INFO - Configuração salva
+2025-03-17 18:43:48,205 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-17 18:43:48,205 - claude_project - WARNING - Arquivo de contexto 'project_context.txt' não encontrado
+2025-03-17 18:43:48,466 - claude_project - ERROR - Erro API (404): {"type":"error","error":{"type":"not_found_error","message":"model: claude-3-7-sonnet-20240229"}}
+2025-03-17 18:49:45,890 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-17 18:49:45,891 - claude_project - INFO - Configuração salva
+2025-03-17 18:49:45,891 - claude_project - INFO - API key configurada
+2025-03-17 18:49:45,891 - claude_project - INFO - Configuração salva
+2025-03-17 18:49:45,891 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-17 18:49:45,892 - claude_project - WARNING - Arquivo de contexto 'project_context.txt' não encontrado
+2025-03-17 18:49:46,101 - claude_project - ERROR - Erro API (404): {"type":"error","error":{"type":"not_found_error","message":"model: claude-3-7-sonnet-20240229"}}
+2025-03-17 18:52:41,029 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-17 18:52:41,029 - claude_project - INFO - Configuração salva
+2025-03-17 18:52:41,030 - claude_project - INFO - API key configurada
+2025-03-17 18:52:41,030 - claude_project - INFO - Configuração salva
+2025-03-17 18:52:41,030 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-17 18:52:41,030 - claude_project - WARNING - Arquivo de contexto 'project_context.txt' não encontrado
+2025-03-17 18:52:41,355 - claude_project - ERROR - Erro API (404): {"type":"error","error":{"type":"not_found_error","message":"model: claude-3-7-sonnet-20240229"}}
+2025-03-17 18:54:47,033 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-17 18:54:47,034 - claude_project - INFO - Configuração salva
+2025-03-17 18:54:47,034 - claude_project - INFO - API key configurada
+2025-03-17 18:54:47,034 - claude_project - INFO - Configuração salva
+2025-03-17 18:54:47,034 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-17 18:54:47,034 - claude_project - WARNING - Arquivo de contexto 'project_context.txt' não encontrado
+2025-03-17 18:54:47,235 - claude_project - ERROR - Erro API (404): {"type":"error","error":{"type":"not_found_error","message":"model: claude-3-7-sonnet-20240229"}}
+2025-03-17 19:09:19,818 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-17 19:09:19,818 - claude_project - INFO - Configuração salva
+2025-03-17 19:09:19,818 - claude_project - INFO - API key configurada
+2025-03-17 19:09:19,819 - claude_project - INFO - Configuração salva
+2025-03-17 19:09:19,819 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-17 19:09:19,819 - claude_project - WARNING - Arquivo de contexto 'project_context.txt' não encontrado
+2025-03-17 19:11:13,632 - claude_project - INFO - Configuração salva
+2025-03-17 19:11:13,634 - claude_project - INFO - Prompt enviado, 10280 tokens usados, resposta em 113.81s
+2025-03-17 19:11:13,645 - claude_project - ERROR - Erro ao salvar código em '/core/config/app.php': [Errno 30] Read-only file system: '/core'
+2025-03-17 19:11:13,646 - claude_project - INFO - Configuração salva
+2025-03-17 19:23:34,912 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-17 19:23:34,913 - claude_project - INFO - Configuração salva
+2025-03-17 19:23:34,913 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-17 19:23:34,913 - claude_project - INFO - Contexto do projeto carregado de project_context.txt
+2025-03-17 19:24:13,820 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-17 19:24:13,821 - claude_project - INFO - Configuração salva
+2025-03-17 19:24:13,821 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-17 19:24:13,822 - claude_project - INFO - Contexto do projeto carregado de project_context.txt
+2025-03-17 19:30:31,079 - claude_project - INFO - Configuração salva
+2025-03-17 19:30:31,082 - claude_project - INFO - Prompt enviado, 49831 tokens usados, resposta em 119.55s
+2025-03-17 19:30:31,089 - claude_project - INFO - Configuração salva
+2025-03-17 22:29:26,027 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-17 22:29:26,030 - claude_project - INFO - Configuração salva
+2025-03-17 22:29:26,030 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-17 22:29:26,031 - claude_project - INFO - Contexto do projeto carregado de project_context.txt
+2025-03-17 22:31:24,095 - claude_project - INFO - Configuração salva
+2025-03-17 22:31:24,099 - claude_project - INFO - Prompt enviado, 50624 tokens usados, resposta em 118.05s
+2025-03-17 22:31:24,103 - claude_project - INFO - Código salvo em 'restaurante-saas/restaurante-sistema/core/Router.php'
+2025-03-17 22:31:24,104 - claude_project - INFO - Código salvo em 'restaurante-saas/restaurante-sistema/core/Controller.php'
+2025-03-17 22:31:24,105 - claude_project - INFO - Código salvo em 'restaurante-saas/restaurante-sistema/core/View.php'
+2025-03-17 22:31:24,105 - claude_project - INFO - Código salvo em 'restaurante-saas/restaurante-sistema/core/Response.php'
+2025-03-17 22:31:24,106 - claude_project - INFO - Código salvo em 'restaurante-saas/restaurante-sistema/core/ErrorHandler.php'
+2025-03-17 22:31:24,112 - claude_project - INFO - Configuração salva
+2025-03-17 23:04:53,536 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-17 23:04:53,539 - claude_project - INFO - Configuração salva
+2025-03-17 23:04:53,539 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-17 23:04:53,540 - claude_project - INFO - Contexto do projeto carregado de project_context.txt
+2025-03-17 23:06:54,303 - claude_project - INFO - Configuração salva
+2025-03-17 23:06:54,306 - claude_project - INFO - Prompt enviado, 50938 tokens usados, resposta em 120.75s
+2025-03-17 23:06:54,314 - claude_project - INFO - Código salvo em 'restaurante-saas/restaurante-sistema/restaurante-sistema/core/Database/MigrationManager.php'
+2025-03-17 23:06:54,315 - claude_project - INFO - Código salvo em 'restaurante-saas/restaurante-sistema/restaurante-sistema/core/Database/Migration.php'
+2025-03-17 23:06:54,315 - claude_project - INFO - Código salvo em 'restaurante-saas/restaurante-sistema/restaurante-sistema/migrate.php'
+2025-03-17 23:06:54,315 - claude_project - INFO - Código salvo em 'restaurante-saas/restaurante-sistema/restaurante-sistema/database/migrations/001_create_tenants_table.php'
+2025-03-17 23:06:54,315 - claude_project - INFO - Código salvo em 'restaurante-saas/restaurante-sistema/restaurante-sistema/database/migrations/002_create_users_table.php'
+2025-03-17 23:06:54,315 - claude_project - INFO - Código salvo em 'restaurante-saas/restaurante-sistema/restaurante-sistema/database/migrations/003_create_roles_table.php'
+2025-03-17 23:06:54,316 - claude_project - INFO - Código salvo em 'restaurante-saas/restaurante-sistema/restaurante-sistema/database/migrations/004_create_permissions_table.php'
+2025-03-17 23:06:54,316 - claude_project - INFO - Código salvo em 'restaurante-saas/restaurante-sistema/restaurante-sistema/database/migrations/005_create_role_permissions_table.php'
+2025-03-17 23:06:54,316 - claude_project - INFO - Código salvo em 'restaurante-saas/restaurante-sistema/restaurante-sistema/database/migrations/006_create_access_logs_table.php'
+2025-03-17 23:06:54,316 - claude_project - INFO - Código salvo em 'restaurante-saas/restaurante-sistema/restaurante-sistema/models/User.php'
+2025-03-17 23:06:54,317 - claude_project - INFO - Código salvo em 'restaurante-saas/restaurante-sistema/restaurante-sistema/controllers/AuthController.php'
+2025-03-17 23:06:54,318 - claude_project - INFO - Código salvo em 'restaurante-saas/restaurante-sistema/restaurante-sistema/core/Database/MigrationManager.php'
+2025-03-17 23:06:54,318 - claude_project - INFO - Código salvo em 'restaurante-saas/restaurante-sistema/restaurante-sistema/models/User.php'
+2025-03-17 23:06:54,318 - claude_project - INFO - Código salvo em 'restaurante-saas/restaurante-sistema/Migration Manager'
+2025-03-17 23:06:54,318 - claude_project - INFO - Código salvo em 'restaurante-saas/restaurante-sistema/Base Migration Class'
+2025-03-17 23:06:54,320 - claude_project - INFO - Código salvo em 'restaurante-saas/restaurante-sistema/CLI Migration Runner'
+2025-03-17 23:06:54,320 - claude_project - INFO - Código salvo em 'restaurante-saas/restaurante-sistema/Actual Migration Files'
+2025-03-17 23:06:54,321 - claude_project - INFO - Código salvo em 'restaurante-saas/restaurante-sistema/Modelo de Usuário'
+2025-03-17 23:06:54,321 - claude_project - INFO - Código salvo em 'restaurante-saas/restaurante-sistema/Controlador de Autenticação'
+2025-03-17 23:06:54,324 - claude_project - INFO - Configuração salva

@@ -1,0 +1,83 @@
+# Desenvolvimento do Sistema SaaS de Restaurantes - Próximos 10%
+
+Agora que a infraestrutura básica do módulo core foi implementada com o sistema de rotas, controladores base, views e gestão de erros, precisamos avançar para o próximo estágio do desenvolvimento, que representa mais 10% do projeto.
+
+## REQUISITOS DESTA ETAPA
+
+### 1. Completar o Módulo Core
+
+#### 1.1 Sistema de Migrations
+- Implementar um sistema de migrations para versionamento do banco de dados
+- Criar as migrations para as tabelas principais do sistema:
+  - `tenants` - Tabela para gerenciar os restaurantes (multi-tenant)
+  - `users` - Usuários do sistema
+  - `roles` - Papéis de usuário (admin, gerente, garçom, etc.)
+  - `permissions` - Permissões do sistema
+  - `role_permissions` - Relacionamento entre papéis e permissões
+  - `access_logs` - Registros de acesso e atividades
+
+#### 1.2 Implementação de Autenticação
+- Completar o sistema de autenticação (login, logout, reset de senha)
+- Implementar middleware de autenticação para proteção de rotas
+- Criar os controladores e views para autenticação
+- Implementar sistema de registro de novos tenants/restaurantes
+
+#### 1.3 Gerenciamento de Tenants (Multi-tenancy)
+- Finalizar o sistema de resolução de tenants por domínio/subdomínio
+- Implementar filtros de tenant para todas as consultas
+- Criar painel administrativo básico para gestão de tenants
+
+### 2. Iniciar o Módulo de Assinaturas (Subscription)
+
+#### 2.1 Modelos de Dados
+- Implementar os modelos para:
+  - `plans` - Planos de assinatura disponíveis
+  - `subscriptions` - Assinaturas dos tenants
+  - `invoices` - Faturas geradas para assinaturas
+  - `subscription_items` - Itens incluídos nas assinaturas
+
+#### 2.2 Integração com Stripe
+- Implementar o serviço de integração com Stripe
+- Criar os endpoints para webhooks do Stripe
+- Sincronizar produtos e preços com o Stripe
+- Implementar o fluxo de checkout para novas assinaturas
+
+#### 2.3 Sistema de Gestão de Assinaturas
+- Desenvolver controladores para gerenciamento de assinaturas
+- Criar views para exibição de planos e status da assinatura
+- Implementar lógica para limites de recursos com base no plano
+- Desenvolver sistema de notificações para renovações e pagamentos
+
+## DIRETRIZES DE IMPLEMENTAÇÃO
+
+1. Seguir o padrão PSR-12 para estilo de código
+2. Usar namespaces adequados (`RestauranteSaas\Module\Component`)
+3. Documentar todas as classes e métodos com PHPDoc
+4. Implementar validação de dados em todas as entradas
+5. Tratar erros e exceções adequadamente
+6. Considerar a segurança em cada aspecto da implementação
+7. Usar prepared statements para todas as consultas SQL
+8. Garantir que todas as tabelas relevantes incluam o campo `tenant_id`
+9. Aplicar filtro de tenant em cada consulta ao banco de dados
+
+## FORMATO DE CÓDIGO
+
+Para facilitar a extração e criação automática dos arquivos, use o formato:
+
+```php
+// File: caminho/do/arquivo.php
+// Código completo aqui...
+```
+
+## ENTREGÁVEIS ESPERADOS
+
+1. Sistema completo de migrations
+2. Sistema de autenticação funcionando
+3. Resolução de multi-tenancy implementada
+4. Modelos e controladores para assinaturas
+5. Integração funcional com Stripe
+6. Views para gerenciamento de assinaturas
+7. Sistema para verificação de limites de recursos por plano
+8. Documentação de uso e integração dos componentes
+
+Lembre-se de que este sistema deve ser flexível para atender a diversos tipos de restaurantes (à la carte, fast food, pizzaria, rodízio) e deve ser construído considerando escalabilidade e segurança desde o início.

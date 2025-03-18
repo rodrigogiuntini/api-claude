@@ -1,0 +1,1733 @@
+# Sistema Completo de Gestão de Restaurantes SaaS - Especificação Técnica
+
+(Instruções criar de acordo com o progresso, fazer um arquivo novo para o checkpoints informando o que precisa ser editado que ainda esta incompleto como tambem completo, se preciso ate o projeto chegar 100%, criar novas tabelas no banco de dado como pasta e arquivos no diretorio, e sempre atualizar as Dependências)
+
+
+
+
+## 1. Visão Geral do Produto
+
+**RestauranteSaaS** é uma plataforma completa de gestão para estabelecimentos gastronômicos, que atende desde restaurantes à la carte até redes de fast-food, pizzarias, confeitarias, bares e food trucks. Desenvolvida com tecnologia multi-tenant, permite personalização completa por tipo de negócio e opera com modelo de assinatura mensal ou anual.
+
+## 2. Arquitetura do Sistema
+
+### Estrutura de Diretórios Completa
+
+```
+/restaurante-sistema/
+├── .htaccess                     # Configurações de reescrita e segurança
+├── index.php                     # Entry point principal
+├── composer.json                 # Gerenciamento de dependências
+├── package.json                  # Dependências frontend (npm)
+├── webpack.config.js             # Configuração de build frontend
+├── phpunit.xml                   # Configuração de testes
+├── .env.example                  # Template de variáveis de ambiente
+├── README.md                     # Documentação
+├── CHANGELOG.md                  # Histórico de versões
+├── LICENSE                       # Licença do software
+│
+├── config/                       # Configurações do sistema
+│   ├── app.php                   # Configurações gerais
+│   ├── database.php              # Configurações de BD
+│   ├── cache.php                 # Configurações de cache
+│   ├── mail.php                  # Configurações de email
+│   ├── payment.php               # Configurações de pagamento
+│   ├── services.php              # Configuração de serviços externos
+│   ├── localization.php          # Configurações de idiomas
+│   ├── routes.php                # Definição de rotas
+│   └── logging.php               # Configurações de logging
+│
+├── public/                       # Arquivos públicos
+│   ├── index.php                 # Front controller
+│   ├── .htaccess                 # Configurações do servidor web
+│   ├── robots.txt                # Controle para crawlers
+│   ├── favicon.ico               # Ícone do site
+│   ├── assets/                   # Recursos estáticos compilados
+│   │   ├── css/                  # Estilos compilados
+│   │   │   ├── main.min.css      # Estilo principal minificado
+│   │   │   ├── admin.min.css     # Estilo admin minificado
+│   │   │   ├── pos.min.css       # Estilo PDV minificado
+│   │   │   ├── kitchen.min.css   # Estilo cozinha minificado
+│   │   │   ├── menu.min.css      # Estilo cardápio minificado
+│   │   │   └── themes/           # Temas para tenants
+│   │   ├── js/                   # JavaScript compilado
+│   │   │   ├── main.min.js       # Script principal
+│   │   │   ├── admin.min.js      # Scripts administrativos
+│   │   │   ├── pos.min.js        # Scripts do PDV
+│   │   │   ├── kitchen.min.js    # Scripts do monitor de cozinha
+│   │   │   ├── qrcode.min.js     # Geração de QR Code
+│   │   │   ├── menu.min.js       # Scripts do cardápio
+│   │   │   ├── payment.min.js    # Scripts de pagamento
+│   │   │   ├── chart.min.js      # Scripts para gráficos
+│   │   │   └── calendar.min.js   # Scripts para calendário
+│   │   ├── images/               # Imagens do sistema
+│   │   │   ├── logos/            # Logos do sistema
+│   │   │   ├── icons/            # Ícones
+│   │   │   ├── backgrounds/      # Imagens de fundo
+│   │   │   └── placeholders/     # Imagens placeholders
+│   │   ├── fonts/                # Fontes do sistema
+│   │   └── manifests/            # Manifests para PWA
+│   └── uploads/                  # Diretório para uploads
+│       ├── tenants/              # Arquivos por tenant
+│       ├── menus/                # Cardápios e imagens
+│       ├── profiles/             # Fotos de perfil
+│       ├── qrcodes/              # QR Codes gerados
+│       └── reports/              # Relatórios exportados
+│
+├── resources/                    # Recursos de desenvolvimento
+│   ├── js/                       # JavaScript fonte
+│   │   ├── components/           # Componentes JS/Vue
+│   │   ├── pages/                # Scripts específicos de página
+│   │   └── libs/                 # Bibliotecas personalizadas
+│   ├── sass/                     # Estilos SASS
+│   │   ├── components/           # Componentes SASS
+│   │   ├── layout/               # Estilos de layout
+│   │   ├── pages/                # Estilos específicos de página
+│   │   └── themes/               # Temas customizáveis
+│   ├── lang/                     # Arquivos de tradução
+│   │   ├── pt-br/                # Português Brasileiro
+│   │   ├── en/                   # Inglês
+│   │   ├── es/                   # Espanhol
+│   │   └── fr/                   # Francês
+│   └── views/                    # Templates Blade/PHP
+│       ├── admin/                # Interface administrador
+│       ├── auth/                 # Telas de autenticação
+│       ├── pos/                  # Interface PDV (Point of Sale)
+│       ├── kitchen/              # Interface monitor de cozinha
+│       ├── client/               # Interface cliente (QR Code)
+│       ├── waiter/               # Interface garçom
+│       ├── manager/              # Interface gerente
+│       ├── emails/               # Templates de email
+│       ├── pdf/                  # Templates de PDF
+│       ├── components/           # Componentes reutilizáveis
+│       └── errors/               # Páginas de erro
+│
+├── src/                          # Código fonte principal
+│   ├── Core/                     # Núcleo do sistema
+│   │   ├── App.php               # Aplicação principal
+│   │   ├── Router.php            # Roteamento
+│   │   ├── Controller.php        # Controlador base
+│   │   ├── Model.php             # Modelo base
+│   │   ├── View.php              # View base
+│   │   ├── Auth/                 # Autenticação
+│   │   │   ├── Auth.php          # Classe principal
+│   │   │   ├── Session.php       # Gestão de sessão
+│   │   │   ├── TwoFactor.php     # Autenticação 2FA
+│   │   │   └── Permission.php    # Permissões
+│   │   ├── Database/             # Banco de dados
+│   │   │   ├── Connection.php    # Conexão
+│   │   │   ├── QueryBuilder.php  # Construtor de queries
+│   │   │   ├── Migration.php     # Sistema de migração
+│   │   │   ├── Backup.php        # Sistema de backup
+│   │   │   └── DataExport.php    # Exportação de dados
+│   │   ├── Cache/                # Sistema de cache
+│   │   │   ├── Cache.php         # Interface de cache
+│   │   │   ├── FileCache.php     # Cache em arquivo
+│   │   │   ├── RedisCache.php    # Cache em Redis
+│   │   │   └── MemcachedCache.php # Cache em Memcached
+│   │   ├── Tenant/               # Multi-tenant
+│   │   │   ├── TenantManager.php # Gerenciador de tenants
+│   │   │   ├── TenantScope.php   # Escopo de tenant
+│   │   │   └── DomainResolver.php # Resolução de domínio
+│   │   ├── HTTP/                 # HTTP
+│   │   │   ├── Request.php       # Requisição
+│   │   │   ├── Response.php      # Resposta
+│   │   │   ├── Middleware.php    # Middleware base
+│   │   │   └── API/              # Componentes de API
+│   │   ├── Security/             # Segurança
+│   │   │   ├── CSRF.php          # Proteção CSRF
+│   │   │   ├── XSS.php           # Proteção XSS
+│   │   │   ├── Sanitizer.php     # Sanitização
+│   │   │   ├── RateLimiter.php   # Limitador de taxa
+│   │   │   └── Firewall.php      # Firewall de aplicação
+│   │   ├── Localization/         # Internacionalização
+│   │   │   ├── Translator.php    # Tradutor
+│   │   │   ├── Locale.php        # Configurações de locale
+│   │   │   └── Currency.php      # Formatação de moeda
+│   │   ├── Events/               # Sistema de eventos
+│   │   │   ├── Event.php         # Classe de evento
+│   │   │   ├── Dispatcher.php    # Despachante de eventos
+│   │   │   └── Listeners/        # Ouvintes de eventos
+│   │   ├── Queue/                # Sistema de filas
+│   │   │   ├── Queue.php         # Interface de fila
+│   │   │   ├── Job.php           # Trabalho base
+│   │   │   └── Worker.php        # Processador de filas
+│   │   ├── Validation/           # Validação
+│   │   │   ├── Validator.php     # Validador
+│   │   │   └── Rules/            # Regras de validação
+│   │   ├── Helpers/              # Funções auxiliares
+│   │   │   ├── functions.php     # Funções gerais
+│   │   │   ├── date.php          # Funções de data
+│   │   │   ├── string.php        # Funções de string
+│   │   │   ├── array.php         # Funções de array
+│   │   │   ├── file.php          # Funções de arquivo
+│   │   │   └── geo.php           # Funções geográficas
+│   │   ├── Logger/               # Sistema de log
+│   │   │   ├── Logger.php        # Interface de log
+│   │   │   ├── FileLogger.php    # Log em arquivo
+│   │   │   └── DatabaseLogger.php # Log em banco de dados
+│   │   └── Exceptions/           # Exceções
+│   │       ├── Handler.php       # Tratador de exceções
+│   │       ├── AppException.php  # Exceção da aplicação
+│   │       └── APIException.php  # Exceção de API
+│   │
+│   ├── Subscription/             # Módulo de assinaturas
+│   │   ├── Controllers/          # Controladores
+│   │   │   ├── SubscriptionController.php
+│   │   │   ├── PlanController.php
+│   │   │   └── InvoiceController.php
+│   │   ├── Models/               # Modelos
+│   │   │   ├── Subscription.php
+│   │   │   ├── Plan.php
+│   │   │   ├── Feature.php
+│   │   │   ├── Limit.php
+│   │   │   └── Invoice.php
+│   │   ├── Services/             # Serviços
+│   │   │   ├── StripeService.php
+│   │   │   ├── BillingService.php
+│   │   │   ├── PayPalService.php
+│   │   │   └── UsageCalculator.php
+│   │   └── Jobs/                 # Tarefas agendadas
+│   │       ├── ProcessRenewals.php
+│   │       ├── SendInvoiceReminders.php
+│   │       └── CheckExpiringSubscriptions.php
+│   │
+│   ├── Admin/                    # Módulo de administração
+│   │   ├── Controllers/
+│   │   │   ├── DashboardController.php
+│   │   │   ├── UserController.php
+│   │   │   ├── RoleController.php
+│   │   │   ├── SettingsController.php
+│   │   │   └── SystemLogController.php
+│   │   ├── Models/
+│   │   │   ├── Role.php
+│   │   │   ├── Permission.php
+│   │   │   └── Setting.php
+│   │   ├── Services/
+│   │   │   ├── ReportGenerator.php
+│   │   │   └── SystemMonitor.php
+│   │   └── Widgets/
+│   │       ├── SalesWidget.php
+│   │       ├── OrdersWidget.php
+│   │       └── UsersWidget.php
+│   │
+│   ├── Restaurant/               # Módulo de tipos de restaurante
+│   │   ├── Controllers/
+│   │   │   ├── RestaurantController.php
+│   │   │   ├── RestaurantTypeController.php
+│   │   │   ├── KitchenController.php
+│   │   │   └── DeliveryAreaController.php
+│   │   ├── Models/
+│   │   │   ├── Restaurant.php
+│   │   │   ├── RestaurantType.php
+│   │   │   ├── DeliveryArea.php
+│   │   │   └── WorkingHours.php
+│   │   └── Services/
+│   │       ├── BusinessHoursService.php
+│   │       ├── DeliveryZoneService.php
+│   │       └── CapacityCalculator.php
+│   │
+│   ├── Tables/                   # Módulo de mesas e QR Code
+│   │   ├── Controllers/
+│   │   │   ├── TableController.php
+│   │   │   ├── QrCodeController.php
+│   │   │   ├── TableReservationController.php
+│   │   │   └── LayoutController.php
+│   │   ├── Models/
+│   │   │   ├── Table.php
+│   │   │   ├── QrCode.php
+│   │   │   ├── TableReservation.php
+│   │   │   └── TableLayout.php
+│   │   └── Services/
+│   │       ├── QrCodeGenerator.php
+│   │       ├── TableAvailabilityService.php
+│   │       └── ReservationService.php
+│   │
+│   ├── Menu/                     # Módulo de cardápio
+│   │   ├── Controllers/
+│   │   │   ├── MenuController.php
+│   │   │   ├── CategoryController.php
+│   │   │   ├── ItemController.php
+│   │   │   ├── ModifierController.php
+│   │   │   └── SpecialOfferController.php
+│   │   ├── Models/
+│   │   │   ├── Menu.php
+│   │   │   ├── Category.php
+│   │   │   ├── Item.php
+│   │   │   ├── Modifier.php
+│   │   │   ├── ModifierGroup.php
+│   │   │   ├── ModifierOption.php
+│   │   │   ├── Ingredient.php
+│   │   │   ├── Allergen.php
+│   │   │   └── SpecialOffer.php
+│   │   └── Services/
+│   │       ├── MenuLayoutService.php
+│   │       ├── NutritionCalculator.php
+│   │       ├── PricingService.php
+│   │       └── AvailabilityService.php
+│   │
+│   ├── Order/                    # Módulo de pedidos
+│   │   ├── Controllers/
+│   │   │   ├── OrderController.php
+│   │   │   ├── OrderItemController.php
+│   │   │   ├── KitchenDisplayController.php
+│   │   │   └── WaiterCallController.php
+│   │   ├── Models/
+│   │   │   ├── Order.php
+│   │   │   ├── OrderItem.php
+│   │   │   ├── OrderStatus.php
+│   │   │   ├── OrderNote.php
+│   │   │   └── WaiterCall.php
+│   │   ├── Services/
+│   │   │   ├── OrderProcessor.php
+│   │   │   ├── KitchenQueueService.php
+│   │   │   ├── OrderNotification.php
+│   │   │   └── OrderTracker.php
+│   │   └── Jobs/
+│   │       ├── ProcessPendingOrders.php
+│   │       ├── SendOrderNotifications.php
+│   │       └── UpdateOrderStatuses.php
+│   │
+│   ├── Payment/                  # Módulo de pagamentos
+│   │   ├── Controllers/
+│   │   │   ├── PaymentController.php
+│   │   │   ├── SplitBillController.php
+│   │   │   ├── CashierController.php
+│   │   │   └── ReceiptController.php
+│   │   ├── Models/
+│   │   │   ├── Payment.php
+│   │   │   ├── PaymentMethod.php
+│   │   │   ├── SplitBill.php
+│   │   │   ├── Transaction.php
+│   │   │   ├── Refund.php
+│   │   │   └── CashRegister.php
+│   │   └── Services/
+│   │       ├── PaymentGateway.php
+│   │       ├── StripeIntegration.php
+│   │       ├── PIXIntegration.php
+│   │       ├── MercadoPagoIntegration.php
+│   │       ├── BillCalculator.php
+│   │       └── ReceiptGenerator.php
+│   │
+│   ├── Inventory/                # Módulo de estoque
+│   │   ├── Controllers/
+│   │   │   ├── InventoryController.php
+│   │   │   ├── ProductController.php
+│   │   │   ├── SupplierController.php
+│   │   │   └── PurchaseOrderController.php
+│   │   ├── Models/
+│   │   │   ├── InventoryItem.php
+│   │   │   ├── Product.php
+│   │   │   ├── Supplier.php
+│   │   │   ├── PurchaseOrder.php
+│   │   │   └── StockMovement.php
+│   │   └── Services/
+│   │       ├── InventoryManager.php
+│   │       ├── StockAnalyzer.php
+│   │       ├── WastageTracker.php
+│   │       └── LowStockAlert.php
+│   │
+│   ├── Analytics/                # Módulo de análises
+│   │   ├── Controllers/
+│   │   │   ├── AnalyticsController.php
+│   │   │   ├── ReportController.php
+│   │   │   ├── DashboardController.php
+│   │   │   └── ExportController.php
+│   │   ├── Models/
+│   │   │   ├── Report.php
+│   │   │   ├── Dashboard.php
+│   │   │   └── Metric.php
+│   │   └── Services/
+│   │       ├── SalesAnalyzer.php
+│   │       ├── PerformanceCalculator.php
+│   │       ├── TrendAnalyzer.php
+│   │       ├── ReportGenerator.php
+│   │       └── DataExporter.php
+│   │
+│   ├── Staff/                    # Módulo de equipe
+│   │   ├── Controllers/
+│   │   │   ├── StaffController.php
+│   │   │   ├── ShiftController.php
+│   │   │   ├── AttendanceController.php
+│   │   │   └── PerformanceController.php
+│   │   ├── Models/
+│   │   │   ├── Staff.php
+│   │   │   ├── Shift.php
+│   │   │   ├── Attendance.php
+│   │   │   └── Performance.php
+│   │   └── Services/
+│   │       ├── ScheduleManager.php
+│   │       ├── AttendanceTracker.php
+│   │       ├── PayrollCalculator.php
+│   │       └── StaffUtilizationAnalyzer.php
+│   │
+│   ├── Customer/                 # Módulo de clientes
+│   │   ├── Controllers/
+│   │   │   ├── CustomerController.php
+│   │   │   ├── LoyaltyController.php
+│   │   │   ├── FeedbackController.php
+│   │   │   └── MarketingController.php
+│   │   ├── Models/
+│   │   │   ├── Customer.php
+│   │   │   ├── LoyaltyProgram.php
+│   │   │   ├── LoyaltyPoints.php
+│   │   │   ├── CustomerGroup.php
+│   │   │   └── Feedback.php
+│   │   └── Services/
+│   │       ├── CustomerManager.php
+│   │       ├── LoyaltyService.php
+│   │       ├── FeedbackAnalyzer.php
+│   │       └── CustomerInsight.php
+│   │
+│   ├── Fiscal/                   # Módulo fiscal
+│   │   ├── Controllers/
+│   │   │   ├── InvoiceController.php
+│   │   │   ├── TaxController.php
+│   │   │   └── NFCeController.php
+│   │   ├── Models/
+│   │   │   ├── FiscalInvoice.php
+│   │   │   ├── Tax.php
+│   │   │   ├── NFCe.php
+│   │   │   └── FiscalSetting.php
+│   │   └── Services/
+│   │       ├── InvoiceGenerator.php
+│   │       ├── TaxCalculator.php
+│   │       ├── NFCeEmitter.php
+│   │       └── EFDExporter.php
+│   │
+│   ├── Delivery/                 # Módulo de entregas
+│   │   ├── Controllers/
+│   │   │   ├── DeliveryController.php
+│   │   │   ├── DeliveryPersonController.php
+│   │   │   ├── RouteController.php
+│   │   │   └── AddressController.php
+│   │   ├── Models/
+│   │   │   ├── Delivery.php
+│   │   │   ├── DeliveryPerson.php
+│   │   │   ├── Route.php
+│   │   │   ├── Address.php
+│   │   │   └── DeliveryZone.php
+│   │   └── Services/
+│   │       ├── DeliveryManager.php
+│   │       ├── RouteOptimizer.php
+│   │       ├── GeolocationService.php
+│   │       └── DeliveryTimeCalculator.php
+│   │
+│   ├── Integration/              # Módulo de integrações
+│   │   ├── Controllers/
+│   │   │   ├── IntegrationController.php
+│   │   │   ├── IFoodController.php
+│   │   │   ├── UberEatsController.php
+│   │   │   └── WebhookController.php
+│   │   ├── Models/
+│   │   │   ├── Integration.php
+│   │   │   ├── ExternalOrder.php
+│   │   │   ├── ExternalMenu.php
+│   │   │   └── WebhookLog.php
+│   │   └── Services/
+│   │       ├── IFoodService.php
+│   │       ├── UberEatsService.php
+│   │       ├── OrderSynchronizer.php
+│   │       └── MenuSynchronizer.php
+│   │
+│   └── API/                      # API REST
+│       ├── Controllers/
+│       │   ├── AuthController.php
+│       │   ├── UserController.php
+│       │   ├── OrderController.php
+│       │   └── MenuController.php
+│       ├── Middlewares/
+│       │   ├── AuthenticateAPI.php
+│       │   ├── RateLimit.php
+│       │   └── APIVersion.php
+│       └── Resources/
+│           ├── UserResource.php
+│           ├── OrderResource.php
+│           └── MenuResource.php
+│
+├── database/                     # Banco de dados
+│   ├── migrations/               # Migrações para criar esquema
+│   │   ├── 001_create_tenants_table.php
+│   │   ├── 002_create_users_table.php
+│   │   └── ... (outras migrações)
+│   ├── seeders/                  # Dados iniciais
+│   │   ├── PlanSeeder.php
+│   │   ├── RoleSeeder.php
+│   │   └── ... (outros seeders)
+│   └── backup/                   # Diretório para backups
+│
+├── tests/                        # Testes automatizados
+│   ├── Unit/                     # Testes unitários
+│   │   ├── Models/
+│   │   ├── Services/
+│   │   └── Helpers/
+│   ├── Integration/              # Testes de integração
+│   │   ├── Controllers/
+│   │   ├── API/
+│   │   └── Services/
+│   ├── Feature/                  # Testes de funcionalidade
+│   │   ├── Order/
+│   │   ├── Payment/
+│   │   └── Auth/
+│   └── Browser/                  # Testes de navegador
+│       ├── Admin/
+│       ├── Client/
+│       └── Waiter/
+│
+├── storage/                      # Armazenamento persistente
+│   ├── app/                      # Armazenamento da aplicação
+│   │   ├── private/              # Arquivos privados
+│   │   └── public/               # Arquivos públicos
+│   ├── framework/                # Armazenamento do framework
+│   │   ├── cache/                # Cache
+│   │   ├── sessions/             # Sessões
+│   │   └── views/                # Views compiladas
+│   └── logs/                     # Logs
+│
+├── docs/                         # Documentação
+│   ├── api/                      # Documentação da API
+│   ├── user/                     # Manual do usuário
+│   ├── admin/                    # Manual do administrador
+│   └── developer/                # Documentação para desenvolvedores
+│
+├── scripts/                      # Scripts utilitários
+│   ├── deploy.sh                 # Script de deploy
+│   ├── install.sh                # Script de instalação
+│   ├── backup.sh                 # Script de backup
+│   └── cron/                     # Scripts para tarefas agendadas
+│
+└── vendor/                       # Dependências (Composer)
+    ├── autoload.php              # Autoloader
+    └── ... (pacotes instalados)
+```
+
+## 3. Banco de Dados
+
+### Schema Completo (Principais Tabelas)
+
+```sql
+-- ========== CORE & MULTI-TENANCY ==========
+
+-- Tenants (Restaurantes)
+CREATE TABLE tenants (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(100) NOT NULL,
+  slug VARCHAR(100) NOT NULL UNIQUE,
+  domain VARCHAR(255) UNIQUE,
+  custom_domain VARCHAR(255) UNIQUE,
+  logo VARCHAR(255),
+  favicon VARCHAR(255),
+  primary_color VARCHAR(20) DEFAULT '#3490dc',
+  secondary_color VARCHAR(20) DEFAULT '#38c172',
+  phone VARCHAR(20),
+  email VARCHAR(100) NOT NULL,
+  address TEXT,
+  city VARCHAR(100),
+  state VARCHAR(100),
+  postal_code VARCHAR(20),
+  country VARCHAR(100) DEFAULT 'Brasil',
+  timezone VARCHAR(50) DEFAULT 'America/Sao_Paulo',
+  currency VARCHAR(10) DEFAULT 'BRL',
+  locale VARCHAR(20) DEFAULT 'pt_BR',
+  tax_id VARCHAR(20),                              -- CNPJ
+  tax_regime VARCHAR(50),                          -- Regime tributário
+  legal_name VARCHAR(100),                         -- Razão social
+  restaurant_type_id INT UNSIGNED,
+  subscription_id INT UNSIGNED,
+  features JSON,                                   -- Recursos habilitados
+  settings JSON,                                   -- Configurações personalizadas
+  onboarding_completed BOOLEAN DEFAULT 0,
+  active BOOLEAN DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Usuários
+CREATE TABLE users (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NULL,                     -- NULL = usuário global do sistema
+  username VARCHAR(50) NOT NULL UNIQUE,
+  email VARCHAR(100) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  first_name VARCHAR(50),
+  last_name VARCHAR(50),
+  role VARCHAR(30) NOT NULL DEFAULT 'user',        -- admin, manager, waiter, kitchen, cashier, customer, etc.
+  profile_photo VARCHAR(255),
+  phone VARCHAR(20),
+  address TEXT,
+  birthday DATE,
+  gender ENUM('M', 'F', 'O'),
+  notes TEXT,
+  preferences JSON,                                -- Preferências do usuário
+  last_login DATETIME,
+  last_ip VARCHAR(45),
+  login_attempts TINYINT DEFAULT 0,
+  locked_until DATETIME,
+  remember_token VARCHAR(100),
+  email_verified_at DATETIME,
+  two_factor_secret VARCHAR(255),
+  two_factor_recovery_codes TEXT,
+  active BOOLEAN DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+);
+
+-- Papéis (Roles)
+CREATE TABLE roles (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NULL,                     -- NULL = papel global
+  name VARCHAR(50) NOT NULL,
+  description TEXT,
+  is_system BOOLEAN DEFAULT 0,                     -- Papéis do sistema não podem ser excluídos
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY role_tenant_unique (name, tenant_id),
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+);
+
+-- Permissões
+CREATE TABLE permissions (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(100) NOT NULL,
+  description TEXT,
+  module VARCHAR(50) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY permission_unique (name)
+);
+
+-- Relacionamento Role-Permission
+CREATE TABLE role_permissions (
+  role_id INT UNSIGNED NOT NULL,
+  permission_id INT UNSIGNED NOT NULL,
+  tenant_id INT UNSIGNED NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (role_id, permission_id, tenant_id),
+  FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE,
+  FOREIGN KEY (permission_id) REFERENCES permissions(id) ON DELETE CASCADE,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+);
+
+-- Relacionamento User-Role
+CREATE TABLE user_roles (
+  user_id INT UNSIGNED NOT NULL,
+  role_id INT UNSIGNED NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (user_id, role_id),
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
+);
+
+-- ========== ASSINATURAS ==========
+
+-- Planos
+CREATE TABLE plans (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(50) NOT NULL,
+  description TEXT,
+  price DECIMAL(10,2) NOT NULL,
+  setup_fee DECIMAL(10,2) DEFAULT 0,
+  trial_days INT DEFAULT 0,
+  billing_cycle ENUM('monthly', 'quarterly', 'semiannual', 'yearly') DEFAULT 'monthly',
+  max_tables INT,
+  max_users INT,
+  max_items INT,
+  max_orders INT,
+  features JSON,                                   -- Recursos disponíveis
+  limits JSON,                                     -- Limites de recursos
+  stripe_plan_id VARCHAR(100),
+  is_public BOOLEAN DEFAULT 1,
+  is_custom BOOLEAN DEFAULT 0,
+  is_default BOOLEAN DEFAULT 0,
+  sort_order INT DEFAULT 0,
+  active BOOLEAN DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Assinaturas
+CREATE TABLE subscriptions (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  plan_id INT UNSIGNED NOT NULL,
+  status ENUM('pending', 'trial', 'active', 'past_due', 'cancelled', 'suspended') DEFAULT 'pending',
+  starts_at DATETIME NOT NULL,
+  trial_ends_at DATETIME,
+  ends_at DATETIME,
+  next_billing_date DATETIME,
+  last_payment_date DATETIME,
+  cancellation_date DATETIME,
+  cancellation_reason TEXT,
+  payment_method ENUM('credit_card', 'bank_slip', 'pix', 'bank_transfer', 'other') DEFAULT 'credit_card',
+  payment_details JSON,
+  coupon_code VARCHAR(50),
+  coupon_discount DECIMAL(10,2) DEFAULT 0,
+  stripe_subscription_id VARCHAR(100),
+  stripe_customer_id VARCHAR(100),
+  renewal_reminder_sent BOOLEAN DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+  FOREIGN KEY (plan_id) REFERENCES plans(id)
+);
+
+-- Faturas
+CREATE TABLE invoices (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  subscription_id INT UNSIGNED NOT NULL,
+  invoice_number VARCHAR(50) NOT NULL,
+  status ENUM('draft', 'open', 'paid', 'overdue', 'cancelled', 'refunded') DEFAULT 'draft',
+  amount DECIMAL(10,2) NOT NULL,
+  tax DECIMAL(10,2) DEFAULT 0,
+  discount DECIMAL(10,2) DEFAULT 0,
+  total DECIMAL(10,2) NOT NULL,
+  due_date DATE NOT NULL,
+  payment_date DATE,
+  payment_method VARCHAR(50),
+  payment_details JSON,
+  stripe_invoice_id VARCHAR(100),
+  pdf_url VARCHAR(255),
+  notes TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+  FOREIGN KEY (subscription_id) REFERENCES subscriptions(id) ON DELETE CASCADE
+);
+
+-- ========== RESTAURANTE ==========
+
+-- Tipos de Restaurante
+CREATE TABLE restaurant_types (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(50) NOT NULL,
+  description TEXT,
+  features JSON,
+  default_settings JSON,
+  icon VARCHAR(50),
+  active BOOLEAN DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Horários de Funcionamento
+CREATE TABLE working_hours (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  day_of_week TINYINT NOT NULL,                    -- 0=Domingo, 1=Segunda, etc.
+  opens_at TIME,
+  closes_at TIME,
+  is_closed BOOLEAN DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY working_hours_unique (tenant_id, day_of_week),
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+);
+
+-- Feriados e Dias Especiais
+CREATE TABLE special_days (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  date DATE NOT NULL,
+  description VARCHAR(100),
+  opens_at TIME,
+  closes_at TIME,
+  is_closed BOOLEAN DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY special_day_unique (tenant_id, date),
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+);
+
+-- ========== MESAS ==========
+
+-- Mesas
+CREATE TABLE tables (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  area_id INT UNSIGNED,
+  number VARCHAR(10) NOT NULL,
+  name VARCHAR(50),
+  capacity INT,
+  minimum_consumption DECIMAL(10,2) DEFAULT 0,
+  status ENUM('available', 'occupied', 'reserved', 'maintenance') DEFAULT 'available',
+  qr_code VARCHAR(255),
+  qr_code_data TEXT,
+  position_x INT,
+  position_y INT,
+  width INT DEFAULT 100,
+  height INT DEFAULT 100,
+  shape ENUM('rectangle', 'circle', 'custom') DEFAULT 'rectangle',
+  notes TEXT,
+  active BOOLEAN DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY table_number_unique (tenant_id, number),
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+);
+
+-- Áreas do Restaurante
+CREATE TABLE areas (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  name VARCHAR(50) NOT NULL,
+  description TEXT,
+  floor INT DEFAULT 1,
+  background_image VARCHAR(255),
+  width INT DEFAULT 1000,
+  height INT DEFAULT 1000,
+  active BOOLEAN DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+);
+
+-- Reservas de Mesas
+CREATE TABLE table_reservations (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  table_id INT UNSIGNED,
+  customer_id INT UNSIGNED,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(100),
+  phone VARCHAR(20),
+  reservation_date DATE NOT NULL,
+  start_time TIME NOT NULL,
+  end_time TIME,
+  party_size INT NOT NULL,
+  status ENUM('pending', 'confirmed', 'seated', 'completed', 'no_show', 'cancelled') DEFAULT 'pending',
+  notes TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+  FOREIGN KEY (table_id) REFERENCES tables(id) ON DELETE SET NULL,
+  FOREIGN KEY (customer_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
+-- ========== CARDÁPIO ==========
+
+-- Categorias
+CREATE TABLE categories (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  parent_id INT UNSIGNED,
+  name VARCHAR(50) NOT NULL,
+  description TEXT,
+  image VARCHAR(255),
+  icon VARCHAR(50),
+  color VARCHAR(20),
+  position INT DEFAULT 0,
+  is_featured BOOLEAN DEFAULT 0,
+  available_periods JSON,                           -- JSON com períodos de disponibilidade
+  active BOOLEAN DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+  FOREIGN KEY (parent_id) REFERENCES categories(id) ON DELETE SET NULL
+);
+
+-- Itens do Cardápio
+CREATE TABLE menu_items (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  category_id INT UNSIGNED,
+  code VARCHAR(50),
+  name VARCHAR(100) NOT NULL,
+  description TEXT,
+  price DECIMAL(10,2) NOT NULL,
+  cost DECIMAL(10,2),
+  sale_price DECIMAL(10,2),
+  image VARCHAR(255),
+  thumbnail VARCHAR(255),
+  preparation_time INT,                            -- Tempo de preparo em minutos
+  calories INT,
+  ingredients TEXT,
+  allergens TEXT,
+  nutritional_info JSON,
+  options_required BOOLEAN DEFAULT 0,              -- Obriga a escolher ao menos uma opção
+  has_variations BOOLEAN DEFAULT 0,                -- Possui variações (tamanhos, etc)
+  allow_notes BOOLEAN DEFAULT 1,                   -- Permite observações
+  is_featured BOOLEAN DEFAULT 0,
+  is_new BOOLEAN DEFAULT 0,
+  available_periods JSON,                          -- JSON com períodos de disponibilidade
+  tags VARCHAR(255),
+  stock_control BOOLEAN DEFAULT 0,                 -- Controla estoque
+  stock_quantity INT,
+  position INT DEFAULT 0,
+  active BOOLEAN DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+  FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
+);
+
+-- Grupos de Modificadores
+CREATE TABLE modifier_groups (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  description TEXT,
+  min_options INT DEFAULT 0,                       -- Mínimo de opções a selecionar
+  max_options INT,                                 -- Máximo de opções (NULL = sem limite)
+  position INT DEFAULT 0,
+  active BOOLEAN DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+);
+
+-- Opções de Modificadores
+CREATE TABLE modifier_options (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  group_id INT UNSIGNED NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  description TEXT,
+  price DECIMAL(10,2) DEFAULT 0,
+  is_default BOOLEAN DEFAULT 0,
+  max_quantity INT DEFAULT 1,
+  position INT DEFAULT 0,
+  active BOOLEAN DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+  FOREIGN KEY (group_id) REFERENCES modifier_groups(id) ON DELETE CASCADE
+);
+
+-- Relacionamento Item-Grupo de Modificadores
+CREATE TABLE menu_item_modifier_groups (
+  item_id INT UNSIGNED NOT NULL,
+  group_id INT UNSIGNED NOT NULL,
+  position INT DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (item_id, group_id),
+  FOREIGN KEY (item_id) REFERENCES menu_items(id) ON DELETE CASCADE,
+  FOREIGN KEY (group_id) REFERENCES modifier_groups(id) ON DELETE CASCADE
+);
+
+-- Variações de Itens (tamanhos, sabores, etc)
+CREATE TABLE item_variations (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  item_id INT UNSIGNED NOT NULL,
+  name VARCHAR(50) NOT NULL,
+  description TEXT,
+  price DECIMAL(10,2) NOT NULL,
+  position INT DEFAULT 0,
+  is_default BOOLEAN DEFAULT 0,
+  active BOOLEAN DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+  FOREIGN KEY (item_id) REFERENCES menu_items(id) ON DELETE CASCADE
+);
+
+-- Ofertas Especiais
+CREATE TABLE special_offers (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  description TEXT,
+  discount_type ENUM('percentage', 'fixed') NOT NULL,
+  discount_value DECIMAL(10,2) NOT NULL,
+  valid_from DATETIME,
+  valid_until DATETIME,
+  days_of_week VARCHAR(20),                        -- Ex: "1,2,3,4,5" (seg a sex)
+  start_time TIME,
+  end_time TIME,
+  minimum_order_value DECIMAL(10,2) DEFAULT 0,
+  maximum_discount DECIMAL(10,2),
+  is_cumulative BOOLEAN DEFAULT 0,
+  active BOOLEAN DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+);
+
+-- Relacionamento Oferta-Item
+CREATE TABLE special_offer_items (
+  offer_id INT UNSIGNED NOT NULL,
+  item_id INT UNSIGNED NOT NULL,
+  PRIMARY KEY (offer_id, item_id),
+  FOREIGN KEY (offer_id) REFERENCES special_offers(id) ON DELETE CASCADE,
+  FOREIGN KEY (item_id) REFERENCES menu_items(id) ON DELETE CASCADE
+);
+
+-- Relacionamento Oferta-Categoria
+CREATE TABLE special_offer_categories (
+  offer_id INT UNSIGNED NOT NULL,
+  category_id INT UNSIGNED NOT NULL,
+  PRIMARY KEY (offer_id, category_id),
+  FOREIGN KEY (offer_id) REFERENCES special_offers(id) ON DELETE CASCADE,
+  FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
+);
+
+-- ========== PEDIDOS ==========
+
+-- Pedidos
+CREATE TABLE orders (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  order_number VARCHAR(20) NOT NULL,
+  table_id INT UNSIGNED,
+  customer_id INT UNSIGNED,
+  waiter_id INT UNSIGNED,
+  device_id VARCHAR(100),                          -- ID do dispositivo do cliente
+  origin ENUM('table', 'counter', 'phone', 'website', 'app', 'delivery_app', 'other') DEFAULT 'table',
+  external_id VARCHAR(100),                        -- ID em sistema externo (iFood, etc)
+  external_source VARCHAR(50),                     -- Fonte externa (iFood, Uber Eats, etc)
+  type ENUM('dine_in', 'takeaway', 'delivery') DEFAULT 'dine_in',
+  status ENUM('pending', 'confirmed', 'preparing', 'ready', 'delivered', 'completed', 'cancelled') DEFAULT 'pending',
+  subtotal DECIMAL(10,2) NOT NULL,
+  tax DECIMAL(10,2) DEFAULT 0,
+  tax_details JSON,                                -- Detalhes de impostos aplicados
+  service_charge DECIMAL(10,2) DEFAULT 0,
+  delivery_fee DECIMAL(10,2) DEFAULT 0,
+  discount DECIMAL(10,2) DEFAULT 0,
+  discount_code VARCHAR(50),
+  total DECIMAL(10,2) NOT NULL,
+  payment_status ENUM('pending', 'partial', 'paid', 'refunded') DEFAULT 'pending',
+  payment_method VARCHAR(50),
+  notes TEXT,
+  customer_name VARCHAR(100),
+  customer_email VARCHAR(100),
+  customer_phone VARCHAR(20),
+  delivery_address TEXT,
+  delivery_postal_code VARCHAR(20),
+  delivery_instructions TEXT,
+  estimated_delivery_time DATETIME,
+  actual_delivery_time DATETIME,
+  preparation_started_at DATETIME,
+  preparation_completed_at DATETIME,
+  printed BOOLEAN DEFAULT 0,
+  print_count INT DEFAULT 0,
+  is_priority BOOLEAN DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+  FOREIGN KEY (table_id) REFERENCES tables(id) ON DELETE SET NULL,
+  FOREIGN KEY (customer_id) REFERENCES users(id) ON DELETE SET NULL,
+  FOREIGN KEY (waiter_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
+-- Itens de Pedido
+CREATE TABLE order_items (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  order_id INT UNSIGNED NOT NULL,
+  menu_item_id INT UNSIGNED,
+  variation_id INT UNSIGNED,
+  name VARCHAR(100) NOT NULL,                      -- Nome do item no momento do pedido
+  quantity INT NOT NULL DEFAULT 1,
+  unit_price DECIMAL(10,2) NOT NULL,
+  subtotal DECIMAL(10,2) NOT NULL,
+  discount DECIMAL(10,2) DEFAULT 0,
+  tax DECIMAL(10,2) DEFAULT 0,
+  total DECIMAL(10,2) NOT NULL,
+  notes TEXT,
+  status ENUM('pending', 'preparing', 'ready', 'delivered', 'cancelled') DEFAULT 'pending',
+  preparation_time INT,                            -- Tempo de preparo estimado em minutos
+  preparation_started_at DATETIME,
+  preparation_completed_at DATETIME,
+  modifiers JSON,                                  -- Armazena modificadores selecionados
+  position INT DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+  FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+  FOREIGN KEY (menu_item_id) REFERENCES menu_items(id) ON DELETE SET NULL,
+  FOREIGN KEY (variation_id) REFERENCES item_variations(id) ON DELETE SET NULL
+);
+
+-- Modificadores de Itens de Pedido
+CREATE TABLE order_item_modifiers (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  order_item_id INT UNSIGNED NOT NULL,
+  modifier_option_id INT UNSIGNED,
+  group_name VARCHAR(100) NOT NULL,                -- Nome do grupo no momento do pedido
+  option_name VARCHAR(100) NOT NULL,               -- Nome da opção no momento do pedido
+  quantity INT NOT NULL DEFAULT 1,
+  price DECIMAL(10,2) NOT NULL,
+  total DECIMAL(10,2) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+  FOREIGN KEY (order_item_id) REFERENCES order_items(id) ON DELETE CASCADE,
+  FOREIGN KEY (modifier_option_id) REFERENCES modifier_options(id) ON DELETE SET NULL
+);
+
+-- Status de Andamento do Pedido
+CREATE TABLE order_status_history (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  order_id INT UNSIGNED NOT NULL,
+  status VARCHAR(50) NOT NULL,
+  user_id INT UNSIGNED,
+  notes TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+  FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
+-- Chamados de Garçom
+CREATE TABLE waiter_calls (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  table_id INT UNSIGNED NOT NULL,
+  customer_id INT UNSIGNED,
+  waiter_id INT UNSIGNED,
+  reason VARCHAR(100),
+  status ENUM('pending', 'in_progress', 'completed') DEFAULT 'pending',
+  response_time INT,                               -- Tempo de resposta em segundos
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+  FOREIGN KEY (table_id) REFERENCES tables(id) ON DELETE CASCADE,
+  FOREIGN KEY (customer_id) REFERENCES users(id) ON DELETE SET NULL,
+  FOREIGN KEY (waiter_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
+-- ========== PAGAMENTOS ==========
+
+-- Pagamentos
+CREATE TABLE payments (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  order_id INT UNSIGNED NOT NULL,
+  transaction_id VARCHAR(100),
+  payment_method VARCHAR(50) NOT NULL,
+  payment_method_details JSON,
+  amount DECIMAL(10,2) NOT NULL,
+  tip DECIMAL(10,2) DEFAULT 0,
+  tax DECIMAL(10,2) DEFAULT 0,
+  fee DECIMAL(10,2) DEFAULT 0,
+  total DECIMAL(10,2) NOT NULL,
+  status ENUM('pending', 'processing', 'completed', 'failed', 'refunded', 'cancelled') DEFAULT 'pending',
+  gateway VARCHAR(50),                             -- Gateway de pagamento (Stripe, MercadoPago, etc)
+  gateway_response JSON,
+  is_split BOOLEAN DEFAULT 0,
+  split_group_id VARCHAR(100),
+  authorization_code VARCHAR(100),
+  error_message TEXT,
+  payment_date DATETIME,
+  refund_date DATETIME,
+  card_brand VARCHAR(50),
+  card_last_four VARCHAR(4),
+  cardholder_name VARCHAR(100),
+  receipt_url VARCHAR(255),
+  receipt_number VARCHAR(50),
+  notes TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+  FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+);
+
+-- Divisão de Conta
+CREATE TABLE split_bills (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  order_id INT UNSIGNED NOT NULL,
+  split_type ENUM('equal', 'by_item', 'by_percentage', 'by_amount') DEFAULT 'equal',
+  number_of_parts INT DEFAULT 2,
+  total_amount DECIMAL(10,2) NOT NULL,
+  status ENUM('pending', 'partial', 'completed') DEFAULT 'pending',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+  FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+);
+
+-- Detalhes de Divisão
+CREATE TABLE split_bill_parts (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  split_bill_id INT UNSIGNED NOT NULL,
+  customer_name VARCHAR(100),
+  amount DECIMAL(10,2) NOT NULL,
+  payment_method VARCHAR(50),
+  payment_id INT UNSIGNED,
+  status ENUM('pending', 'paid') DEFAULT 'pending',
+  notes TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+  FOREIGN KEY (split_bill_id) REFERENCES split_bills(id) ON DELETE CASCADE,
+  FOREIGN KEY (payment_id) REFERENCES payments(id) ON DELETE SET NULL
+);
+
+-- Relacionamento Item de Pedido - Divisão
+CREATE TABLE split_bill_items (
+  split_part_id INT UNSIGNED NOT NULL,
+  order_item_id INT UNSIGNED NOT NULL,
+  quantity DECIMAL(5,2) NOT NULL,                  -- Pode ser fracionado (ex: metade de um item)
+  amount DECIMAL(10,2) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (split_part_id, order_item_id),
+  FOREIGN KEY (split_part_id) REFERENCES split_bill_parts(id) ON DELETE CASCADE,
+  FOREIGN KEY (order_item_id) REFERENCES order_items(id) ON DELETE CASCADE
+);
+
+-- ========== CLIENTES ==========
+
+-- Informações Adicionais de Cliente
+CREATE TABLE customers (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  user_id INT UNSIGNED NOT NULL,
+  external_id VARCHAR(100),
+  external_source VARCHAR(50),
+  customer_code VARCHAR(50),
+  loyalty_points INT DEFAULT 0,
+  total_visits INT DEFAULT 0,
+  total_orders INT DEFAULT 0,
+  total_spent DECIMAL(10,2) DEFAULT 0,
+  average_ticket DECIMAL(10,2) DEFAULT 0,
+  last_visit_date DATETIME,
+  favorite_items JSON,
+  allergies TEXT,
+  preferences TEXT,
+  birthday DATE,
+  anniversary DATE,
+  acquisition_source VARCHAR(50),
+  tags VARCHAR(255),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- Endereços de Cliente
+CREATE TABLE customer_addresses (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  customer_id INT UNSIGNED NOT NULL,
+  address_type VARCHAR(50) DEFAULT 'delivery',
+  is_default BOOLEAN DEFAULT 0,
+  street VARCHAR(100) NOT NULL,
+  number VARCHAR(20),
+  complement VARCHAR(100),
+  neighborhood VARCHAR(100),
+  city VARCHAR(100) NOT NULL,
+  state VARCHAR(100) NOT NULL,
+  postal_code VARCHAR(20) NOT NULL,
+  country VARCHAR(100) DEFAULT 'Brasil',
+  latitude DECIMAL(10,8),
+  longitude DECIMAL(11,8),
+  delivery_instructions TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+  FOREIGN KEY (customer_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- Programa de Fidelidade
+CREATE TABLE loyalty_programs (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  description TEXT,
+  points_per_currency DECIMAL(10,2) DEFAULT 1.00,  -- Pontos por unidade monetária
+  minimum_points_redemption INT DEFAULT 100,
+  points_value DECIMAL(10,4) DEFAULT 0.01,         -- Valor de cada ponto em moeda
+  expiration_days INT,                             -- Dias para expiração dos pontos (NULL = não expira)
+  rules TEXT,
+  active BOOLEAN DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+);
+
+-- Histórico de Pontos de Fidelidade
+CREATE TABLE loyalty_points_history (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  customer_id INT UNSIGNED NOT NULL,
+  order_id INT UNSIGNED,
+  points INT NOT NULL,
+  type ENUM('earned', 'redeemed', 'expired', 'adjusted', 'bonus') NOT NULL,
+  description TEXT,
+  expiration_date DATE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+  FOREIGN KEY (customer_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE SET NULL
+);
+
+-- Feedback e Avaliações
+CREATE TABLE feedback (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  customer_id INT UNSIGNED,
+  order_id INT UNSIGNED,
+  rating TINYINT NOT NULL,
+  food_rating TINYINT,
+  service_rating TINYINT,
+  ambience_rating TINYINT,
+  price_rating TINYINT,
+  comment TEXT,
+  reply TEXT,
+  reply_date DATETIME,
+  reply_user_id INT UNSIGNED,
+  is_public BOOLEAN DEFAULT 0,
+  source VARCHAR(50) DEFAULT 'internal',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+  FOREIGN KEY (customer_id) REFERENCES users(id) ON DELETE SET NULL,
+  FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE SET NULL,
+  FOREIGN KEY (reply_user_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
+-- ========== SISTEMA ==========
+
+-- Configurações
+CREATE TABLE settings (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED,                          -- NULL = configuração global
+  category VARCHAR(50) NOT NULL,
+  key VARCHAR(100) NOT NULL,
+  value TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY setting_unique (tenant_id, category, key),
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+);
+
+-- Logs de Atividades
+CREATE TABLE activity_logs (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED,
+  user_id INT UNSIGNED,
+  entity_type VARCHAR(50),
+  entity_id VARCHAR(50),
+  action VARCHAR(50) NOT NULL,
+  description TEXT,
+  details JSON,
+  ip_address VARCHAR(45),
+  user_agent TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
+-- Tokens de API
+CREATE TABLE api_tokens (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED,
+  user_id INT UNSIGNED,
+  name VARCHAR(100) NOT NULL,
+  token VARCHAR(100) NOT NULL,
+  permissions JSON,
+  last_used_at DATETIME,
+  expires_at DATETIME,
+  revoked BOOLEAN DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- Webhooks
+CREATE TABLE webhooks (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  event_types VARCHAR(255) NOT NULL,               -- Eventos separados por vírgula
+  url VARCHAR(255) NOT NULL,
+  secret VARCHAR(255),
+  is_active BOOLEAN DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+);
+
+-- Logs de Webhook
+CREATE TABLE webhook_logs (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  webhook_id INT UNSIGNED NOT NULL,
+  event_type VARCHAR(50) NOT NULL,
+  payload TEXT,
+  response TEXT,
+  status_code INT,
+  success BOOLEAN,
+  attempt_count INT DEFAULT 1,
+  error_message TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+  FOREIGN KEY (webhook_id) REFERENCES webhooks(id) ON DELETE CASCADE
+);
+
+-- Filas de Email
+CREATE TABLE email_queue (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED,
+  to_email VARCHAR(255) NOT NULL,
+  to_name VARCHAR(100),
+  from_email VARCHAR(255),
+  from_name VARCHAR(100),
+  subject VARCHAR(255) NOT NULL,
+  body TEXT NOT NULL,
+  attachments JSON,
+  status ENUM('pending', 'sent', 'failed') DEFAULT 'pending',
+  error_message TEXT,
+  attempts INT DEFAULT 0,
+  sent_at DATETIME,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+);
+
+-- Notificações
+CREATE TABLE notifications (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED,
+  user_id INT UNSIGNED NOT NULL,
+  type VARCHAR(50) NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  message TEXT NOT NULL,
+  icon VARCHAR(50),
+  link VARCHAR(255),
+  read BOOLEAN DEFAULT 0,
+  read_at DATETIME,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- Cupons e Promoções
+CREATE TABLE coupons (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  code VARCHAR(50) NOT NULL,
+  description TEXT,
+  discount_type ENUM('percentage', 'fixed') NOT NULL,
+  discount_value DECIMAL(10,2) NOT NULL,
+  minimum_order_value DECIMAL(10,2) DEFAULT 0,
+  maximum_discount DECIMAL(10,2),
+  valid_from DATETIME,
+  valid_until DATETIME,
+  usage_limit INT,
+  usage_count INT DEFAULT 0,
+  per_customer_limit INT DEFAULT 1,
+  first_order_only BOOLEAN DEFAULT 0,
+  item_restrictions JSON,                          -- Restrições de itens aplicáveis
+  category_restrictions JSON,                      -- Restrições de categorias aplicáveis
+  active BOOLEAN DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+);
+
+-- Uso de Cupons
+CREATE TABLE coupon_usage (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  tenant_id INT UNSIGNED NOT NULL,
+  coupon_id INT UNSIGNED NOT NULL,
+  customer_id INT UNSIGNED,
+  order_id INT UNSIGNED NOT NULL,
+  discount_amount DECIMAL(10,2) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+  FOREIGN KEY (coupon_id) REFERENCES coupons(id) ON DELETE CASCADE,
+  FOREIGN KEY (customer_id) REFERENCES users(id) ON DELETE SET NULL,
+  FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+);
+```
+
+## 4. Componentes Principais
+
+### Backend Core
+
+1. **Framework Base MVC**
+   - Arquitetura PHP orientada a objetos com injeção de dependência
+   - Sistema de rotas com suporte a middlewares
+   - Interface PDO para banco de dados com Active Record pattern
+   - Migração automática de banco de dados
+   - Sistema completo de validação de formulários
+   - Serviço de cache em múltiplas camadas
+
+2. **Sistema Multi-tenant**
+   - Identificação automática de tenant por domínio/subdomínio
+   - Isolamento de dados com tenant_id em tabelas
+   - Configurações específicas por tenant
+   - Temas personalizáveis por tenant
+   - Middleware de tenant scope para isolar consultas
+
+3. **Autenticação e Autorização**
+   - Login seguro com bloqueio após tentativas falhas
+   - Login em dois fatores (2FA) opcional
+   - Controle de acesso baseado em papéis (RBAC)
+   - Permissões granulares por funcionalidade
+   - Gerenciamento de sessão seguro
+
+### Módulos Funcionais
+
+1. **Gestão de Assinaturas**
+   - Múltiplos planos configuráveis
+   - Integração com gateways de pagamento (Stripe, PayPal, MercadoPago)
+   - Gerenciamento de ciclos de faturamento
+   - Upgrades/downgrades de plano
+   - Cancelamentos e suspensões
+   - Período de teste gratuito
+
+2. **Gestão de Restaurante**
+   - Configuração por tipo de restaurante (à la carte, fast food, etc)
+   - Definição de horários de funcionamento
+   - Áreas e zonas do estabelecimento
+   - Configurações fiscais
+   - Personalização de interfaces
+
+3. **Gestão de Mesas e QR Code**
+   - Mapa visual de mesas customizável
+   - QR Codes únicos por mesa
+   - Status de mesa em tempo real
+   - Sistema de reservas
+   - Controle de ocupação
+   - Chamado de garçom pelo QR code
+
+4. **Cardápio Digital**
+   - Estrutura de categorias multinível
+   - Itens com imagens, descrições e preços
+   - Modificadores e opções (extras)
+   - Variações de produtos (tamanhos, etc)
+   - Disponibilidade por horário/dia
+   - Destaque para itens especiais/novos
+   - Informações nutricionais e alérgenos
+
+5. **Sistema de Pedidos**
+   - Interface para PDV (Point of Sale)
+   - Pedidos via mesa (QR Code)
+   - Pedidos de balcão
+   - Pedidos de delivery
+   - Display de cozinha (KDS)
+   - Controle de tempo de preparo
+   - Notificações em tempo real
+   - Histórico completo de pedidos
+
+6. **Pagamentos**
+   - Múltiplos métodos de pagamento
+   - Divisão de conta (igual, por item, por valor)
+   - Integração com gateways
+   - Gestão de gorjetas
+   - Fechamento de conta parcial
+   - Emissão de recibos
+   - Estorno e cancelamentos
+
+7. **Gestão de Estoque**
+   - Controle de inventário
+   - Integração com produção
+   - Alertas de estoque baixo
+   - Gestão de compras
+   - Controle de desperdício
+   - Conversão de unidades
+
+8. **CRM e Fidelidade**
+   - Cadastro de clientes
+   - Programa de pontos/fidelidade
+   - Histórico de consumo
+   - Preferências e restrições
+   - Campanhas e promoções
+   - Feedback e avaliações
+
+9. **Fiscal e Contábil**
+   - Emissão de NFCe/NFC
+   - Integração com SAT
+   - Gestão de impostos
+   - Relatórios fiscais
+   - Exportação para contabilidade
+
+10. **Integração com Delivery**
+    - iFood
+    - Uber Eats
+    - Rappi
+    - 99Food
+    - Sincronização de cardápio
+    - Gestão unificada de pedidos
+
+11. **Análise e Relatórios**
+    - Dashboard em tempo real
+    - Análise de vendas
+    - Relatórios de desempenho
+    - Métricas de negócio
+    - Exportação em múltiplos formatos
+    - Relatórios programados
+
+### Frontend
+
+1. **Interfaces Administrativas**
+   - Dashboard gerencial
+   - Configurações do sistema
+   - Gestão de usuários e permissões
+   - Gestão de assinaturas
+   - Relatórios e análises
+
+2. **PDV (Point of Sale)**
+   - Interface touch-friendly
+   - Seleção rápida de itens
+   - Modificadores e variações
+   - Controle de mesas
+   - Processamento de pagamentos
+   - Fechamento de caixa
+
+3. **Interface do Cliente (Web App)**
+   - Cardápio digital por QR Code
+   - Pedidos diretamente da mesa
+   - Acompanhamento de status
+   - Pagamentos pelo próprio dispositivo
+   - Avaliação de experiência
+   - Programa de fidelidade
+
+4. **Interface de Cozinha (KDS)**
+   - Visualização de pedidos em tempo real
+   - Fila de preparação
+   - Controle de tempo
+   - Status de itens
+   - Notificações de novos pedidos
+   - Histórico de produção
+
+5. **Interface de Garçom**
+   - Visualização de mesas
+   - Notificações de chamados
+   - Gestão de pedidos
+   - Status dos pedidos
+   - Sugestão de vendas
+
+## 5. Integrações
+
+1. **Pagamentos**
+   - Stripe
+   - PayPal
+   - MercadoPago
+   - PagSeguro
+   - PIX
+   - GetNet, Stone, PagBank
+
+2. **Delivery e Marketplaces**
+   - iFood
+   - Uber Eats
+   - Rappi
+   - 99Food
+   - James Delivery
+
+3. **Fiscal**
+   - SAT/MFE
+   - NFC-e
+   - SPED
+   - Integradores fiscais
+
+4. **Marketing e CRM**
+   - Mailchimp
+   - SendGrid
+   - RD Station
+   - HubSpot
+
+5. **Contabilidade**
+   - Contabilizei
+   - Contaazul
+   - Domínio Sistemas
+
+6. **Logística e Entregas**
+   - Loggi
+   - James Delivery
+   - Google Maps
+   - Routing API
+
+7. **Comunicação**
+   - WhatsApp Business API
+   - Telegram
+   - SMS (Twilio, Zenvia)
+   - Push Notifications
+
+## 6. Recursos de Segurança
+
+1. **Proteção de Dados**
+   - Criptografia de dados sensíveis
+   - Mascaramento de informações de cartão
+   - Backup automático
+   - Log de alterações
+
+2. **Segurança na Aplicação**
+   - Proteção contra CSRF
+   - Proteção contra XSS
+   - Proteção contra SQL Injection
+   - Proteção contra brute force
+   - Sanitização de entrada
+
+3. **Controle de Acesso**
+   - Autenticação multi-fator
+   - Login único por dispositivo
+   - Expiração de sessão
+   - IP allowlist
+   - Registro de atividades
+
+4. **Conformidade**
+   - LGPD (Lei Geral de Proteção de Dados)
+   - PCI DSS para pagamentos
+   - Termos de uso e políticas de privacidade
+   - Logs de auditoria
+
+## 7. Requisitos Técnicos
+
+1. **Ambiente de Servidor**
+   - PHP 8.1 ou superior
+   - MySQL 8.0 ou MariaDB 10.6
+   - Nginx ou Apache
+   - Redis para cache
+   - Servidor com SSL
+
+2. **Dependências PHP**
+   - Composer para gerenciamento de pacotes
+   - PHP Extensions: PDO, mysqli, gd, mbstring, xml, curl, zip, intl
+   - Framework MVC próprio ou Laravel
+
+3. **Frontend**
+   - HTML5, CSS3, JavaScript (ES6+)
+   - Bootstrap 5 ou Tailwind CSS
+   - Vue.js 3 ou React para componentes interativos
+   - WebSockets para comunicação em tempo real
+   - Progressive Web App (PWA) para experiência mobile
+
+4. **Serviços de Suporte**
+   - Queue Manager para processamento assíncrono
+   - Sistema de envio de email
+   - Serviço de geração de PDF
+   - Processamento de imagens
+   - WebSockets para updates em tempo real
+   - CRON jobs para tarefas agendadas
+
+## 8. Considerações de Implantação
+
+1. **Hospedagem e Infraestrutura**
+   - Servidor dedicado ou VPS de alto desempenho
+   - CDN para assets estáticos
+   - Banco de dados com replicação
+   - Monitoramento 24/7
+   - Balanceamento de carga para alta disponibilidade
+
+2. **Estratégia de Implantação**
+   - Ambiente de desenvolvimento, homologação e produção
+   - Pipeline de CI/CD
+   - Testes automatizados
+   - Rollback automatizado em caso de falha
+   - Monitoramento de erros e desempenho
+
+3. **Escalabilidade**
+   - Arquitetura preparada para escala horizontal
+   - Microsserviços para funções críticas
+   - Cache em múltiplos níveis
+   - Banco de dados dimensionado adequadamente
+   - Processamento assíncrono para tarefas intensivas
+
+4. **Backup e Recuperação**
+   - Backups diários automatizados
+   - Retenção de backups por 90 dias
+   - Processo de recuperação testado
+   - Replicação de dados em tempo real
+   - Disaster recovery plan
+
+Este sistema completo de gestão de restaurantes SaaS representa uma solução robusta e escalável, pronta para o mercado e capaz de atender desde pequenos estabelecimentos até redes de restaurantes complexas. Com foco em usabilidade, segurança e funcionalidades essenciais ao negócio, o sistema permite que os restaurantes otimizem operações, reduzam custos e melhorem a experiência do cliente.

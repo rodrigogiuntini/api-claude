@@ -1,0 +1,43 @@
+Desenvolva a infraestrutura base do sistema SaaS de gestão de restaurantes em PHP/MySQL, focando na arquitetura de núcleo multi-tenant.
+
+Requisitos Técnicos:
+1. Implemente a estrutura MVC com namespace "RestauranteSaas"
+2. Crie um sistema de roteamento flexível com suporte a middleware e grupos de rotas
+3. Desenvolva um gerenciador de conexão com banco de dados que suporte multi-tenant
+4. Implemente um sistema de autoload PSR-4 e integração com Composer
+5. Desenvolva um container de injeção de dependência
+6. Crie a estrutura de diretórios completa seguindo as melhores práticas de organização
+7. Implemente o sistema básico de configuração por ambiente (.env)
+8. Crie o sistema de logging com diferentes níveis e rotação de arquivos
+9. Desenvolva funções helpers globais para operações comuns
+10. Implemente um sistema básico de migrações de banco de dados
+11. Crie o mecanismo de compilação/minificação de assets (JavaScript/CSS)
+12. Implemente classes base para Controllers, Models e Views
+13. Desenvolva um sistema de validação de formulários
+14. Crie classes para manipulação de requisições HTTP e respostas
+15. Implemente o tratamento de exceções e erros
+
+Padrões e Práticas:
+- Use PHP 8.1+ com tipagem estrita
+- Siga PSR-12 para estilo de código
+- Implemente padrões de design (Factory, Repository, Singleton conforme necessário)
+- Documente todas as classes e métodos com PHPDoc
+- Crie estrutura preparada para testes unitários
+- Utilize PDO com prepared statements para todas as operações de banco
+- Implemente proteção contra CSRF, XSS e SQL Injection
+
+Arquivos Essenciais:
+- Estrutura de diretórios completa
+- Arquivos de configuração
+- Classes do núcleo do framework
+- Sistema de autoload
+- Bootstrapper da aplicação
+- Classes base para extensão
+- Middlewares essenciais
+
+Entregas Esperadas:
+1. Código fonte completo do núcleo do sistema
+2. Documentação da arquitetura
+3. Instruções de instalação e configuração
+4. Exemplos de uso das principais classes
+5. Configuração de ambiente de desenvolvimento

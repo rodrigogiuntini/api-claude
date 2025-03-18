@@ -1,0 +1,121 @@
+# Desenvolvimento do Sistema SaaS de Restaurantes - Próximos 10%
+
+Agora que temos o sistema de onboarding, perfis e QR codes básicos implementados, vamos avançar para componentes centrais da operação do restaurante. Esta fase focará no gerenciamento de cardápio, mesas, pedidos básicos e o painel de cozinha inicial.
+
+## REQUISITOS PARA ESTA FASE
+
+### 1. Sistema de Gerenciamento de Cardápio
+
+#### 1.1 Categorias de Menu
+- Implementar CRUD completo para categorias de menu
+- Desenvolver ordenação e hierarquia de categorias (categorias/subcategorias)
+- Criar sistema de ativação/desativação de categorias
+- Implementar sistema de disponibilidade por horário (ex: café da manhã, almoço, jantar)
+
+#### 1.2 Itens do Cardápio
+- Implementar CRUD completo para itens do cardápio
+- Desenvolver sistema de upload e gerenciamento de imagens dos pratos
+- Criar sistema de variações de produtos (tamanhos, opções, etc.)
+- Implementar gerenciamento de preços e promoções
+- Desenvolver sistema de ingredientes e alergênicos
+- Criar identificadores visuais (vegetariano, vegano, sem glúten, etc.)
+
+#### 1.3 Cardápios Específicos por Tipo de Restaurante
+- Implementar personalização para cardápio à la carte
+- Desenvolver sistema de combos para fast food
+- Criar sistema de montagem para pizzarias (sabores, bordas, tamanhos)
+- Implementar controle de cortes e tipos para rodízios
+
+### 2. Gestão de Mesas e Áreas
+
+#### 2.1 Áreas do Restaurante
+- Implementar CRUD para áreas/seções do restaurante
+- Desenvolver interface visual para organização de áreas
+- Criar sistema de ocupação máxima por área
+- Implementar controle de áreas disponíveis por horário/dia
+
+#### 2.2 Mesas
+- Implementar CRUD completo para mesas
+- Desenvolver mapa visual de mesas com posicionamento
+- Criar sistema de status de mesas (livre, ocupada, reservada, em limpeza)
+- Implementar associação de QR codes com mesas específicas
+- Desenvolver sistema básico de reservas
+
+### 3. Sistema de Pedidos
+
+#### 3.1 Pedidos Básicos
+- Implementar modelo e controlador para pedidos
+- Desenvolver interface para criação de pedidos por garçom
+- Criar sistema de itens de pedido com observações
+- Implementar adição de itens a pedidos existentes
+- Desenvolver sistema de status de pedido (novo, em preparo, pronto, entregue)
+- Criar impressão de comanda básica
+
+#### 3.2 Pedidos por QR Code
+- Implementar interface para cliente fazer pedido via smartphone
+- Desenvolver sistema de autenticação simples para clientes de mesa
+- Criar carrinho de compras para seleção de itens
+- Implementar envio de pedido para o sistema
+- Desenvolver notificações ao cliente sobre status do pedido
+
+### 4. Painel de Cozinha
+
+#### 4.1 Visualização de Pedidos
+- Implementar interface otimizada para cozinha
+- Desenvolver sistema de fila de pedidos
+- Criar visualização por categorias (bebidas, pratos quentes, sobremesas)
+- Implementar temporizadores para tempo de preparo
+- Desenvolver sistema de alertas para pedidos atrasados
+
+#### 4.2 Gerenciamento de Produção
+- Implementar atualização de status de itens
+- Desenvolver interface touch-friendly para cozinheiros
+- Criar sistema de notas para cozinha
+- Implementar priorização de pedidos
+- Desenvolver histórico de produção diária
+
+### 5. Integração de Pagamento Básica
+
+#### 5.1 Preparação para Pagamentos
+- Implementar modelo e controlador para pagamentos
+- Desenvolver interface básica para fechamento de conta
+- Criar sistema de divisão de conta simples
+- Implementar cálculo de taxas e gorjetas
+- Desenvolver suporte a múltiplos métodos de pagamento
+
+#### 5.2 Integração com Stripe
+- Implementar componentes básicos para integração com Stripe
+- Desenvolver fluxo para pagamento via cartão
+- Criar sistema para geração de links de pagamento
+- Implementar webhook para confirmação de pagamentos
+- Desenvolver registro detalhado de transações
+
+## DIRETRIZES DE IMPLEMENTAÇÃO
+
+1. Criar interfaces específicas por tipo de restaurante quando necessário
+2. Garantir escalabilidade para grandes volumes de produtos e pedidos
+3. Priorizar a experiência do usuário para operações frequentes
+4. Implementar cache para dados acessados frequentemente
+5. Garantir que todas as operações tenham log detalhado
+6. Desenvolver pensando na operação em múltiplos dispositivos (desktop, tablet, mobile)
+7. Seguir padrões de acessibilidade básicos nas interfaces
+8. Considerar a performance para operações em horários de pico
+
+## FORMATO DE CÓDIGO
+
+Para garantir a extração correta dos arquivos, utilize exatamente este formato para cada arquivo:
+
+```php
+// File: caminho/do/arquivo.php
+// Código completo aqui
+```
+
+## ENTREGÁVEIS ESPERADOS
+
+1. Sistema completo de gerenciamento de cardápio, adaptado por tipo de restaurante
+2. Gestão visual de mesas e áreas do restaurante
+3. Sistema básico de pedidos (por garçom e QR code)
+4. Painel de cozinha funcional para gerenciamento de produção
+5. Integração inicial com sistema de pagamento (Stripe)
+
+Atenção especial à usabilidade das interfaces, especialmente do painel de cozinha que será utilizado em ambiente de alta pressão e do sistema de pedidos via QR code que será utilizado por clientes sem treinamento prévio.

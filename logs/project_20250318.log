@@ -1,0 +1,87 @@
+2025-03-18 02:59:15,931 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-18 02:59:15,935 - claude_project - INFO - Configuração salva
+2025-03-18 02:59:15,935 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-18 02:59:15,937 - claude_project - INFO - Contexto do projeto carregado de project_context.txt
+2025-03-18 03:01:14,895 - claude_project - INFO - Configuração salva
+2025-03-18 03:01:14,905 - claude_project - INFO - Prompt enviado, 51252 tokens usados, resposta em 118.94s
+2025-03-18 03:01:14,908 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/Database/MigrationManager.php'
+2025-03-18 03:01:14,909 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/Database/Migration.php'
+2025-03-18 03:01:14,909 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/migrate.php'
+2025-03-18 03:01:14,909 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/database/migrations/001_create_tenants_table.php'
+2025-03-18 03:01:14,909 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/database/migrations/002_create_users_table.php'
+2025-03-18 03:01:14,910 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/database/migrations/003_create_roles_table.php'
+2025-03-18 03:01:14,910 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/database/migrations/004_create_permissions_table.php'
+2025-03-18 03:01:14,910 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/database/migrations/005_create_role_permissions_table.php'
+2025-03-18 03:01:14,910 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/database/migrations/006_create_access_logs_table.php'
+2025-03-18 03:01:14,911 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/Database/MigrationManager.php'
+2025-03-18 03:01:14,911 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/database/migrations/001_create_tenants_table.php'
+2025-03-18 03:01:14,917 - claude_project - INFO - Configuração salva
+2025-03-18 03:29:56,259 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-18 03:29:56,266 - claude_project - INFO - Configuração salva
+2025-03-18 03:29:56,266 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-18 03:29:56,267 - claude_project - INFO - Contexto do projeto carregado de project_context.txt
+2025-03-18 03:31:53,296 - claude_project - INFO - Configuração salva
+2025-03-18 03:31:53,299 - claude_project - INFO - Prompt enviado, 51530 tokens usados, resposta em 117.02s
+2025-03-18 03:31:53,304 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/App.php'
+2025-03-18 03:31:53,304 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/Database/DatabaseConnection.php'
+2025-03-18 03:31:53,304 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/Model.php'
+2025-03-18 03:31:53,305 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/Exceptions/AppException.php'
+2025-03-18 03:31:53,305 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/Exceptions/DatabaseException.php'
+2025-03-18 03:31:53,305 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/Exceptions/ModelException.php'
+2025-03-18 03:31:53,305 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/Exceptions/ValidationException.php'
+2025-03-18 03:31:53,309 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/Arquivocore/App.php'
+2025-03-18 03:31:53,309 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/Arquivocore/Database/DatabaseConnection.php'
+2025-03-18 03:31:53,310 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/Arquivocore/Model.php'
+2025-03-18 03:31:53,310 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/Arquivocore/Exceptions/AppException.php'
+2025-03-18 03:31:53,310 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/Arquivocore/Exceptions/DatabaseException.php'
+2025-03-18 03:31:53,310 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/Arquivocore/Exceptions/ModelException.php'
+2025-03-18 03:31:53,310 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/Arquivocore/Exceptions/ValidationException.php'
+2025-03-18 03:31:53,315 - claude_project - INFO - Configuração salva
+2025-03-18 03:36:23,421 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-18 03:36:23,426 - claude_project - INFO - Configuração salva
+2025-03-18 03:36:23,426 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-18 03:36:23,426 - claude_project - INFO - Contexto do projeto carregado de project_context.txt
+2025-03-18 03:38:25,997 - claude_project - INFO - Configuração salva
+2025-03-18 03:38:25,999 - claude_project - INFO - Prompt enviado, 52098 tokens usados, resposta em 122.56s
+2025-03-18 03:38:26,009 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/App.php'
+2025-03-18 03:38:26,010 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/Router.php'
+2025-03-18 03:38:26,011 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/Controller.php'
+2025-03-18 03:38:26,011 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/View.php'
+2025-03-18 03:38:26,012 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/Response.php'
+2025-03-18 03:38:26,027 - claude_project - INFO - Configuração salva
+2025-03-18 03:41:13,873 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-18 03:41:13,884 - claude_project - INFO - Configuração salva
+2025-03-18 03:41:13,884 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-18 03:41:13,885 - claude_project - INFO - Contexto do projeto carregado de project_context.txt
+2025-03-18 03:43:27,111 - claude_project - INFO - Configuração salva
+2025-03-18 03:43:27,114 - claude_project - INFO - Prompt enviado, 52338 tokens usados, resposta em 133.21s
+2025-03-18 03:43:27,120 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/config/app.php'
+2025-03-18 03:43:27,120 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/App.php'
+2025-03-18 03:43:27,120 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/Database/DatabaseConnection.php'
+2025-03-18 03:43:27,121 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/Model.php'
+2025-03-18 03:43:27,121 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/Exceptions/AppException.php'
+2025-03-18 03:43:27,122 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/Exceptions/DatabaseException.php'
+2025-03-18 03:43:27,133 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/Exceptions/ModelException.php'
+2025-03-18 03:43:27,133 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/Exceptions/ValidationException.php'
+2025-03-18 03:43:27,134 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/ErrorHandler.php'
+2025-03-18 03:43:27,134 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/Router.php'
+2025-03-18 03:43:27,138 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/config/app.php'
+2025-03-18 03:43:27,138 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/App.php'
+2025-03-18 03:43:27,138 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/Database/DatabaseConnection.php'
+2025-03-18 03:43:27,138 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/Model.php'
+2025-03-18 03:43:27,139 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/Exceptions/AppException.php'
+2025-03-18 03:43:27,139 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/ErrorHandler.php'
+2025-03-18 03:43:27,139 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/core/Router.php'
+2025-03-18 03:43:27,139 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/1.ArquivodeConfiguraçãodaAplicação'
+2025-03-18 03:43:27,140 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/2.ClassePrincipaldaAplicação'
+2025-03-18 03:43:27,140 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/3.ClassedeConexãocomoBancodeDados'
+2025-03-18 03:43:27,140 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/4.ClasseModeloBase'
+2025-03-18 03:43:27,140 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/5.ClassesdeExceçõesdoSistema'
+2025-03-18 03:43:27,140 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/6.ClassedeTratamentodeErros'
+2025-03-18 03:43:27,141 - claude_project - INFO - Código salvo em '/Applications/XAMPP/xamppfiles/htdocs/restaurante_sistema/restaurante-sistema/7.ClassedeRoteamento'
+2025-03-18 03:43:27,149 - claude_project - INFO - Configuração salva
+2025-03-18 04:46:41,238 - claude_project - INFO - Gerenciador de projeto inicializado
+2025-03-18 04:46:41,249 - claude_project - INFO - Configuração salva
+2025-03-18 04:46:41,250 - claude_project - INFO - Módulo atual definido como 'core'
+2025-03-18 04:46:41,250 - claude_project - INFO - Contexto do projeto carregado de project_context.txt
+2025-03-18 04:46:55,573 - claude_project - ERROR - Erro API (529): {"type":"error","error":{"type":"overloaded_error","message":"Overloaded"}}
