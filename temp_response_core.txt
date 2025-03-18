@@ -1,0 +1,1319 @@
+# Análise do Sistema de Gestão de Restaurantes SaaS
+
+Vou iniciar o desenvolvimento do módulo core do sistema, que é fundamental para o funcionamento de toda a aplicação. Este módulo vai fornecer a estrutura base para o sistema multi-tenant, autenticação, gerenciamento de sessões e outras funcionalidades essenciais.
+
+## Arquivos do Módulo Core
+
+Vamos começar com os seguintes arquivos fundamentais:
+
+### 1. Arquivo de Configuração da Aplicação
+
+```php
+// File: config/app.php
+<?php
+
+return [
+    'name' => 'Sistema de Gestão de Restaurantes',
+    'version' => '1.0.0',
+    'environment' => 'development', // development, production, testing
+    'debug' => true,
+    'timezone' => 'America/Sao_Paulo',
+    'locale' => 'pt_BR',
+    'url' => 'http://localhost/restaurante-sistema',
+    'encryption_key' => 'sua_chave_de_encriptacao_segura_aqui',
+    'session' => [
+        'lifetime' => 120, // em minutos
+        'secure_cookies' => false, // true em produção
+        'same_site' => 'lax', // none, lax, strict
+        'http_only' => true,
+    ],
+    'security' => [
+        'password_min_length' => 8,
+        'password_requires_special' => true,
+        'password_requires_number' => true,
+        'password_requires_uppercase' => true,
+        'max_login_attempts' => 5,
+        'lockout_time' => 15, // em minutos
+    ],
+    'logs' => [
+        'enabled' => true,
+        'path' => 'logs',
+        'level' => 'debug', // debug, info, notice, warning, error, critical, alert, emergency
+    ],
+    'tenant' => [
+        'column' => 'tenant_id',
+        'header' => 'X-Tenant',
+        'validate_all_routes' => true,
+        'exempt_routes' => ['/auth/login', '/auth/register', '/auth/reset-password']
+    ]
+];
+```
+
+### 2. Classe Principal da Aplicação
+
+```php
+// File: core/App.php
+<?php
+
+namespace Core;
+
+class App {
+    private static $instance = null;
+    private $config = [];
+    private $container = [];
+    private $currentTenant = null;
+
+    /**
+     * Constructor
+     */
+    private function __construct() {
+        $this->loadConfigurations();
+        $this->setupErrorHandling();
+        $this->initializeContainer();
+    }
+
+    /**
+     * Get singleton instance
+     */
+    public static function getInstance() {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
+    /**
+     * Load configuration files
+     */
+    private function loadConfigurations() {
+        $configFiles = glob(__DIR__ . '/../config/*.php');
+        foreach ($configFiles as $file) {
+            $key = basename($file, '.php');
+            $this->config[$key] = require $file;
+        }
+    }
+
+    /**
+     * Setup error and exception handling
+     */
+    private function setupErrorHandling() {
+        $errorHandler = new ErrorHandler($this->config['app']['debug']);
+        $errorHandler->register();
+    }
+
+    /**
+     * Initialize service container
+     */
+    private function initializeContainer() {
+        // Register core services
+        $this->bind('db', function() {
+            return new Database\DatabaseConnection($this->config['database']);
+        });
+        
+        $this->bind('router', function() {
+            return new Router();
+        });
+        
+        $this->bind('request', function() {
+            return new Request();
+        });
+        
+        $this->bind('response', function() {
+            return new Response();
+        });
+        
+        $this->bind('session', function() {
+            return new Session($this->config['app']['session']);
+        });
+        
+        $this->bind('auth', function() {
+            return new Auth\AuthManager($this->get('db'), $this->get('session'));
+        });
+        
+        $this->bind('tenant', function() {
+            return new Tenant\TenantManager($this->config['app']['tenant']);
+        });
+    }
+
+    /**
+     * Run the application
+     */
+    public function run() {
+        // Start session
+        $this->get('session')->start();
+        
+        // Resolve tenant
+        $tenantManager = $this->get('tenant');
+        $this->currentTenant = $tenantManager->resolveTenant();
+        
+        // Set up database with tenant context
+        if ($this->currentTenant) {
+            $this->get('db')->setTenant($this->currentTenant->id);
+        }
+        
+        // Process the request through the router
+        $router = $this->get('router');
+        $router->loadRoutes();
+        
+        $request = $this->get('request');
+        $response = $router->dispatch($request);
+        
+        // Send response
+        $response->send();
+    }
+
+    /**
+     * Get configuration value
+     */
+    public function config($key, $default = null) {
+        $parts = explode('.', $key);
+        $value = $this->config;
+        
+        foreach ($parts as $part) {
+            if (!isset($value[$part])) {
+                return $default;
+            }
+            $value = $value[$part];
+        }
+        
+        return $value;
+    }
+
+    /**
+     * Bind a service to the container
+     */
+    public function bind($name, $resolver) {
+        $this->container[$name] = [
+            'resolver' => $resolver,
+            'instance' => null
+        ];
+    }
+
+    /**
+     * Get a service from the container
+     */
+    public function get($name) {
+        if (!isset($this->container[$name])) {
+            throw new Exceptions\AppException("Service '$name' not found in container");
+        }
+        
+        if ($this->container[$name]['instance'] === null) {
+            $resolver = $this->container[$name]['resolver'];
+            $this->container[$name]['instance'] = $resolver();
+        }
+        
+        return $this->container[$name]['instance'];
+    }
+
+    /**
+     * Get current tenant
+     */
+    public function getCurrentTenant() {
+        return $this->currentTenant;
+    }
+
+    /**
+     * Set current tenant
+     */
+    public function setCurrentTenant($tenant) {
+        $this->currentTenant = $tenant;
+        
+        if ($tenant) {
+            $this->get('db')->setTenant($tenant->id);
+        }
+    }
+}
+```
+
+### 3. Classe de Conexão com o Banco de Dados
+
+```php
+// File: core/Database/DatabaseConnection.php
+<?php
+
+namespace Core\Database;
+
+use Core\Exceptions\DatabaseException;
+use Core\App;
+
+class DatabaseConnection {
+    private $pdo;
+    private $tenantId = null;
+    private $config;
+    private $queryLog = [];
+    private $isLoggingEnabled = false;
+
+    /**
+     * Constructor
+     */
+    public function __construct(array $config) {
+        $this->config = $config;
+        $this->connect();
+        
+        $app = App::getInstance();
+        $this->isLoggingEnabled = $app->config('app.environment') === 'development';
+    }
+
+    /**
+     * Establish database connection
+     */
+    private function connect() {
+        $dsn = "mysql:host={$this->config['host']};dbname={$this->config['database']};charset=utf8mb4";
+        
+        $options = [
+            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+            \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+            \PDO::ATTR_EMULATE_PREPARES => false,
+            \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci"
+        ];
+        
+        try {
+            $this->pdo = new \PDO($dsn, $this->config['username'], $this->config['password'], $options);
+        } catch (\PDOException $e) {
+            throw new DatabaseException("Database connection failed: " . $e->getMessage());
+        }
+    }
+
+    /**
+     * Set current tenant ID
+     */
+    public function setTenant($tenantId) {
+        $this->tenantId = $tenantId;
+    }
+
+    /**
+     * Execute a SELECT query
+     */
+    public function select($table, $columns = '*', $where = null, $params = [], $orderBy = null, $limit = null, $offset = null) {
+        $query = "SELECT $columns FROM $table";
+        
+        // Apply tenant filter if tenant ID is set and the table has a tenant column
+        if ($this->tenantId && $this->tableHasTenantColumn($table)) {
+            $query .= $where ? " WHERE tenant_id = ? AND $where" : " WHERE tenant_id = ?";
+            array_unshift($params, $this->tenantId);
+        } elseif ($where) {
+            $query .= " WHERE $where";
+        }
+        
+        if ($orderBy) {
+            $query .= " ORDER BY $orderBy";
+        }
+        
+        if ($limit) {
+            $query .= " LIMIT $limit";
+            
+            if ($offset) {
+                $query .= " OFFSET $offset";
+            }
+        }
+        
+        return $this->query($query, $params);
+    }
+
+    /**
+     * Execute an INSERT query
+     */
+    public function insert($table, $data) {
+        // Add tenant ID to the data if tenant ID is set and the table has a tenant column
+        if ($this->tenantId && $this->tableHasTenantColumn($table)) {
+            $data['tenant_id'] = $this->tenantId;
+        }
+        
+        $columns = implode(', ', array_keys($data));
+        $placeholders = implode(', ', array_fill(0, count($data), '?'));
+        
+        $query = "INSERT INTO $table ($columns) VALUES ($placeholders)";
+        
+        $this->query($query, array_values($data));
+        
+        return $this->pdo->lastInsertId();
+    }
+
+    /**
+     * Execute an UPDATE query
+     */
+    public function update($table, $data, $where = null, $params = []) {
+        $sets = [];
+        foreach (array_keys($data) as $column) {
+            $sets[] = "$column = ?";
+        }
+        
+        $query = "UPDATE $table SET " . implode(', ', $sets);
+        
+        // Apply tenant filter if tenant ID is set and the table has a tenant column
+        if ($this->tenantId && $this->tableHasTenantColumn($table)) {
+            $query .= $where ? " WHERE tenant_id = ? AND $where" : " WHERE tenant_id = ?";
+            array_push($params, $this->tenantId);
+        } elseif ($where) {
+            $query .= " WHERE $where";
+        }
+        
+        return $this->query($query, array_merge(array_values($data), $params))->rowCount();
+    }
+
+    /**
+     * Execute a DELETE query
+     */
+    public function delete($table, $where = null, $params = []) {
+        $query = "DELETE FROM $table";
+        
+        // Apply tenant filter if tenant ID is set and the table has a tenant column
+        if ($this->tenantId && $this->tableHasTenantColumn($table)) {
+            $query .= $where ? " WHERE tenant_id = ? AND $where" : " WHERE tenant_id = ?";
+            array_unshift($params, $this->tenantId);
+        } elseif ($where) {
+            $query .= " WHERE $where";
+        }
+        
+        return $this->query($query, $params)->rowCount();
+    }
+
+    /**
+     * Execute a raw query
+     */
+    public function query($query, $params = []) {
+        $startTime = microtime(true);
+        
+        try {
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute($params);
+            
+            if ($this->isLoggingEnabled) {
+                $endTime = microtime(true);
+                $executionTime = round(($endTime - $startTime) * 1000, 2); // in milliseconds
+                $this->logQuery($query, $params, $executionTime);
+            }
+            
+            return $stmt;
+        } catch (\PDOException $e) {
+            throw new DatabaseException("Query execution failed: " . $e->getMessage() . "\nQuery: $query");
+        }
+    }
+
+    /**
+     * Begin a transaction
+     */
+    public function beginTransaction() {
+        return $this->pdo->beginTransaction();
+    }
+
+    /**
+     * Commit a transaction
+     */
+    public function commit() {
+        return $this->pdo->commit();
+    }
+
+    /**
+     * Rollback a transaction
+     */
+    public function rollback() {
+        return $this->pdo->rollBack();
+    }
+
+    /**
+     * Get PDO instance
+     */
+    public function getPdo() {
+        return $this->pdo;
+    }
+
+    /**
+     * Check if a table has a tenant column
+     */
+    private function tableHasTenantColumn($table) {
+        // List of tables that don't have tenant_id column
+        $tablesWithoutTenant = ['tenants', 'plans', 'permissions', 'platform_admins'];
+        
+        return !in_array($table, $tablesWithoutTenant);
+    }
+
+    /**
+     * Log a query for debugging purposes
+     */
+    private function logQuery($query, $params, $executionTime) {
+        $this->queryLog[] = [
+            'query' => $query,
+            'params' => $params,
+            'execution_time' => $executionTime . 'ms',
+            'time' => date('Y-m-d H:i:s')
+        ];
+        
+        // Keep only the last 100 queries in the log
+        if (count($this->queryLog) > 100) {
+            array_shift($this->queryLog);
+        }
+    }
+
+    /**
+     * Get query log
+     */
+    public function getQueryLog() {
+        return $this->queryLog;
+    }
+}
+```
+
+### 4. Classe Modelo Base
+
+```php
+// File: core/Model.php
+<?php
+
+namespace Core;
+
+use Core\App;
+use Core\Exceptions\ModelException;
+
+abstract class Model {
+    protected $table;
+    protected $primaryKey = 'id';
+    protected $fillable = [];
+    protected $guarded = ['id'];
+    protected $db;
+    protected $attributes = [];
+    protected $original = [];
+    protected $exists = false;
+
+    /**
+     * Constructor
+     */
+    public function __construct(array $attributes = []) {
+        $this->db = App::getInstance()->get('db');
+        
+        if (!$this->table) {
+            // Derive table name from class name if not set
+            $reflection = new \ReflectionClass($this);
+            $this->table = strtolower($reflection->getShortName()) . 's';
+        }
+        
+        $this->fill($attributes);
+    }
+
+    /**
+     * Fill model with attributes
+     */
+    public function fill(array $attributes) {
+        foreach ($attributes as $key => $value) {
+            if ($this->isFillable($key)) {
+                $this->setAttribute($key, $value);
+            }
+        }
+        
+        return $this;
+    }
+
+    /**
+     * Check if an attribute is fillable
+     */
+    public function isFillable($key) {
+        if (in_array($key, $this->guarded)) {
+            return false;
+        }
+        
+        return empty($this->fillable) || in_array($key, $this->fillable);
+    }
+
+    /**
+     * Set an attribute
+     */
+    public function setAttribute($key, $value) {
+        $this->attributes[$key] = $value;
+        return $this;
+    }
+
+    /**
+     * Get an attribute
+     */
+    public function getAttribute($key) {
+        if (!isset($this->attributes[$key])) {
+            return null;
+        }
+        
+        return $this->attributes[$key];
+    }
+
+    /**
+     * Magic method for getting attributes
+     */
+    public function __get($key) {
+        return $this->getAttribute($key);
+    }
+
+    /**
+     * Magic method for setting attributes
+     */
+    public function __set($key, $value) {
+        $this->setAttribute($key, $value);
+    }
+
+    /**
+     * Magic method for checking if attribute exists
+     */
+    public function __isset($key) {
+        return isset($this->attributes[$key]);
+    }
+
+    /**
+     * Get all attributes
+     */
+    public function getAttributes() {
+        return $this->attributes;
+    }
+
+    /**
+     * Find a record by primary key
+     */
+    public function find($id) {
+        $result = $this->db->select($this->table, '*', "{$this->primaryKey} = ?", [$id]);
+        
+        if ($result->rowCount() === 0) {
+            return null;
+        }
+        
+        $model = new static($result->fetch());
+        $model->exists = true;
+        $model->original = $model->attributes;
+        
+        return $model;
+    }
+
+    /**
+     * Find a record or fail
+     */
+    public function findOrFail($id) {
+        $model = $this->find($id);
+        
+        if ($model === null) {
+            throw new ModelException("Record with ID {$id} not found in {$this->table}");
+        }
+        
+        return $model;
+    }
+
+    /**
+     * Get all records
+     */
+    public function all() {
+        $result = $this->db->select($this->table);
+        
+        $models = [];
+        foreach ($result->fetchAll() as $attributes) {
+            $model = new static($attributes);
+            $model->exists = true;
+            $model->original = $model->attributes;
+            $models[] = $model;
+        }
+        
+        return $models;
+    }
+
+    /**
+     * Save the model
+     */
+    public function save() {
+        if ($this->exists) {
+            return $this->update();
+        }
+        
+        return $this->insert();
+    }
+
+    /**
+     * Insert a new record
+     */
+    private function insert() {
+        // Filter out non-fillable attributes
+        $attributes = array_filter($this->attributes, function($key) {
+            return $this->isFillable($key);
+        }, ARRAY_FILTER_USE_KEY);
+        
+        $id = $this->db->insert($this->table, $attributes);
+        
+        $this->attributes[$this->primaryKey] = $id;
+        $this->exists = true;
+        $this->original = $this->attributes;
+        
+        return true;
+    }
+
+    /**
+     * Update an existing record
+     */
+    private function update() {
+        if (!isset($this->attributes[$this->primaryKey])) {
+            throw new ModelException("Cannot update model without primary key");
+        }
+        
+        // Get only changed attributes
+        $dirty = array_diff_assoc($this->attributes, $this->original);
+        
+        // Filter out primary key and non-fillable attributes
+        $dirty = array_filter($dirty, function($key) {
+            return $key !== $this->primaryKey && $this->isFillable($key);
+        }, ARRAY_FILTER_USE_KEY);
+        
+        if (empty($dirty)) {
+            return true; // No changes to save
+        }
+        
+        $this->db->update($this->table, $dirty, "{$this->primaryKey} = ?", [$this->attributes[$this->primaryKey]]);
+        
+        $this->original = $this->attributes;
+        
+        return true;
+    }
+
+    /**
+     * Delete the model
+     */
+    public function delete() {
+        if (!$this->exists) {
+            throw new ModelException("Cannot delete model that doesn't exist");
+        }
+        
+        if (!isset($this->attributes[$this->primaryKey])) {
+            throw new ModelException("Cannot delete model without primary key");
+        }
+        
+        $this->db->delete($this->table, "{$this->primaryKey} = ?", [$this->attributes[$this->primaryKey]]);
+        
+        $this->exists = false;
+        
+        return true;
+    }
+
+    /**
+     * Create a new instance of the model
+     */
+    public static function create(array $attributes) {
+        $model = new static($attributes);
+        $model->save();
+        
+        return $model;
+    }
+
+    /**
+     * Execute a where query
+     */
+    public function where($column, $operator, $value = null) {
+        // Handle two-argument syntax: where('column', 'value')
+        if ($value === null) {
+            $value = $operator;
+            $operator = '=';
+        }
+        
+        $result = $this->db->select($this->table, '*', "$column $operator ?", [$value]);
+        
+        $models = [];
+        foreach ($result->fetchAll() as $attributes) {
+            $model = new static($attributes);
+            $model->exists = true;
+            $model->original = $model->attributes;
+            $models[] = $model;
+        }
+        
+        return $models;
+    }
+
+    /**
+     * Get the first record matching the criteria
+     */
+    public function firstWhere($column, $operator, $value = null) {
+        $models = $this->where($column, $operator, $value);
+        
+        return !empty($models) ? $models[0] : null;
+    }
+
+    /**
+     * Count records
+     */
+    public function count() {
+        $result = $this->db->select($this->table, 'COUNT(*) as count');
+        return (int) $result->fetch()['count'];
+    }
+}
+```
+
+### 5. Classes de Exceções do Sistema
+
+```php
+// File: core/Exceptions/AppException.php
+<?php
+
+namespace Core\Exceptions;
+
+class AppException extends \Exception {
+    // Base exception class for the application
+}
+```
+
+```php
+// File: core/Exceptions/DatabaseException.php
+<?php
+
+namespace Core\Exceptions;
+
+class DatabaseException extends AppException {
+    // Exception for database-related errors
+}
+```
+
+```php
+// File: core/Exceptions/ModelException.php
+<?php
+
+namespace Core\Exceptions;
+
+class ModelException extends AppException {
+    // Exception for model-related errors
+}
+```
+
+```php
+// File: core/Exceptions/ValidationException.php
+<?php
+
+namespace Core\Exceptions;
+
+class ValidationException extends AppException {
+    protected $errors = [];
+    
+    public function __construct($message = "Validation failed", array $errors = [], $code = 0, \Throwable $previous = null) {
+        parent::__construct($message, $code, $previous);
+        $this->errors = $errors;
+    }
+    
+    public function getErrors() {
+        return $this->errors;
+    }
+}
+```
+
+### 6. Classe de Tratamento de Erros
+
+```php
+// File: core/ErrorHandler.php
+<?php
+
+namespace Core;
+
+use Core\Exceptions\AppException;
+
+class ErrorHandler {
+    private $debug;
+    
+    public function __construct($debug = false) {
+        $this->debug = $debug;
+    }
+    
+    /**
+     * Register error and exception handlers
+     */
+    public function register() {
+        error_reporting(E_ALL);
+        set_error_handler([$this, 'handleError']);
+        set_exception_handler([$this, 'handleException']);
+        register_shutdown_function([$this, 'handleShutdown']);
+    }
+    
+    /**
+     * Handle PHP errors
+     */
+    public function handleError($level, $message, $file, $line) {
+        if (!(error_reporting() & $level)) {
+            // This error code is not included in error_reporting
+            return;
+        }
+        
+        throw new \ErrorException($message, 0, $level, $file, $line);
+    }
+    
+    /**
+     * Handle uncaught exceptions
+     */
+    public function handleException($exception) {
+        $this->logException($exception);
+        
+        if (php_sapi_name() === 'cli') {
+            $this->renderCliException($exception);
+        } else {
+            $this->renderHttpException($exception);
+        }
+    }
+    
+    /**
+     * Handle fatal errors
+     */
+    public function handleShutdown() {
+        $error = error_get_last();
+        
+        if ($error !== null && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
+            $this->handleError($error['type'], $error['message'], $error['file'], $error['line']);
+        }
+    }
+    
+    /**
+     * Log the exception
+     */
+    private function logException($exception) {
+        $message = sprintf(
+            "[%s] %s in %s on line %d\n%s\n",
+            get_class($exception),
+            $exception->getMessage(),
+            $exception->getFile(),
+            $exception->getLine(),
+            $exception->getTraceAsString()
+        );
+        
+        error_log($message);
+        
+        // Additional logging for specific exception types
+        if ($exception instanceof \Core\Exceptions\ValidationException) {
+            error_log("Validation errors: " . json_encode($exception->getErrors()));
+        }
+    }
+    
+    /**
+     * Render exception for CLI
+     */
+    private function renderCliException($exception) {
+        echo "\033[31mError: " . $exception->getMessage() . "\033[0m\n";
+        
+        if ($this->debug) {
+            echo "\nFile: " . $exception->getFile() . " (Line: " . $exception->getLine() . ")\n";
+            echo "\nStack Trace:\n" . $exception->getTraceAsString() . "\n";
+        }
+    }
+    
+    /**
+     * Render exception for HTTP
+     */
+    private function renderHttpException($exception) {
+        $statusCode = 500;
+        
+        // Determine status code based on exception type
+        if ($exception instanceof \Core\Exceptions\ValidationException) {
+            $statusCode = 422;
+        } elseif ($exception instanceof \Core\Exceptions\ModelException) {
+            $statusCode = 404;
+        }
+        
+        // Set HTTP response headers
+        http_response_code($statusCode);
+        header('Content-Type: application/json');
+        
+        $response = [
+            'error' => true,
+            'message' => $exception->getMessage()
+        ];
+        
+        // Add debug information if in debug mode
+        if ($this->debug) {
+            $response['debug'] = [
+                'type' => get_class($exception),
+                'file' => $exception->getFile(),
+                'line' => $exception->getLine(),
+                'trace' => explode("\n", $exception->getTraceAsString())
+            ];
+        }
+        
+        // Add validation errors if available
+        if ($exception instanceof \Core\Exceptions\ValidationException) {
+            $response['errors'] = $exception->getErrors();
+        }
+        
+        echo json_encode($response, JSON_PRETTY_PRINT);
+    }
+}
+```
+
+### 7. Classe de Roteamento
+
+```php
+// File: core/Router.php
+<?php
+
+namespace Core;
+
+use Core\Exceptions\AppException;
+
+class Router {
+    private $routes = [
+        'GET' => [],
+        'POST' => [],
+        'PUT' => [],
+        'DELETE' => [],
+        'PATCH' => []
+    ];
+    
+    private $namedRoutes = [];
+    private $middlewares = [];
+    private $globalMiddlewares = [];
+    private $routeGroups = [];
+    private $currentGroup = null;
+    
+    /**
+     * Load routes from routes file
+     */
+    public function loadRoutes() {
+        require_once __DIR__ . '/../routes/web.php';
+        
+        if (file_exists(__DIR__ . '/../routes/api.php')) {
+            require_once __DIR__ . '/../routes/api.php';
+        }
+    }
+    
+    /**
+     * Register a GET route
+     */
+    public function get($uri, $handler, $name = null) {
+        return $this->addRoute('GET', $uri, $handler, $name);
+    }
+    
+    /**
+     * Register a POST route
+     */
+    public function post($uri, $handler, $name = null) {
+        return $this->addRoute('POST', $uri, $handler, $name);
+    }
+    
+    /**
+     * Register a PUT route
+     */
+    public function put($uri, $handler, $name = null) {
+        return $this->addRoute('PUT', $uri, $handler, $name);
+    }
+    
+    /**
+     * Register a DELETE route
+     */
+    public function delete($uri, $handler, $name = null) {
+        return $this->addRoute('DELETE', $uri, $handler, $name);
+    }
+    
+    /**
+     * Register a PATCH route
+     */
+    public function patch($uri, $handler, $name = null) {
+        return $this->addRoute('PATCH', $uri, $handler, $name);
+    }
+    
+    /**
+     * Add a route to the router
+     */
+    private function addRoute($method, $uri, $handler, $name = null) {
+        // Apply group prefix if in a group
+        if ($this->currentGroup) {
+            $uri = $this->routeGroups[$this->currentGroup]['prefix'] . $uri;
+        }
+        
+        // Replace named parameters with regex
+        $pattern = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '(?P<$1>[^/]+)', $uri);
+        $pattern = "#^{$pattern}$#";
+        
+        $this->routes[$method][$pattern] = [
+            'uri' => $uri,
+            'handler' => $handler,
+            'middlewares' => $this->currentGroup 
+                ? array_merge($this->routeGroups[$this->currentGroup]['middlewares'], $this->middlewares) 
+                : $this->middlewares
+        ];
+        
+        // Reset middlewares for next route
+        $this->middlewares = [];
+        
+        // Store named route
+        if ($name) {
+            $this->namedRoutes[$name] = $uri;
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * Apply middleware to the next registered route
+     */
+    public function middleware($middleware) {
+        if (is_array($middleware)) {
+            $this->middlewares = array_merge($this->middlewares, $middleware);
+        } else {
+            $this->middlewares[] = $middleware;
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * Add a global middleware
+     */
+    public function addGlobalMiddleware($middleware) {
+        $this->globalMiddlewares[] = $middleware;
+    }
+    
+    /**
+     * Create a route group
+     */
+    public function group(array $attributes, callable $callback) {
+        $groupId = uniqid('group_');
+        
+        $this->routeGroups[$groupId] = [
+            'prefix' => $attributes['prefix'] ?? '',
+            'middlewares' => $attributes['middleware'] ?? []
+        ];
+        
+        $previousGroup = $this->currentGroup;
+        $this->currentGroup = $groupId;
+        
+        call_user_func($callback, $this);
+        
+        $this->currentGroup = $previousGroup;
+    }
+    
+    /**
+     * Generate URL for a named route
+     */
+    public function url($name, $parameters = []) {
+        if (!isset($this->namedRoutes[$name])) {
+            throw new AppException("Route with name '{$name}' not found");
+        }
+        
+        $uri = $this->namedRoutes[$name];
+        
+        // Replace parameters in URI
+        foreach ($parameters as $key => $value) {
+            $uri = str_replace("{{$key}}", $value, $uri);
+        }
+        
+        return $uri;
+    }
+    
+    /**
+     * Dispatch the request to the appropriate route handler
+     */
+    public function dispatch(Request $request) {
+        $method = $request->getMethod();
+        $uri = $request->getUri();
+        
+        // Remove query string
+        $uri = explode('?', $uri)[0];
+        
+        // Remove trailing slash
+        $uri = rtrim($uri, '/');
+        
+        // Default route if empty
+        if ($uri === '') {
+            $uri = '/';
+        }
+        
+        // Find matching route
+        foreach ($this->routes[$method] as $pattern => $route) {
+            if (preg_match($pattern, $uri, $matches)) {
+                // Extract route parameters
+                $params = array_filter($matches, function($key) {
+                    return !is_numeric($key);
+                }, ARRAY_FILTER_USE_KEY);
+                
+                $request->setParams($params);
+                
+                // Process global middlewares
+                foreach ($this->globalMiddlewares as $middleware) {
+                    $middlewareInstance = $this->resolveMiddleware($middleware);
+                    $response = $middlewareInstance->handle($request, function ($request) {
+                        return null;
+                    });
+                    
+                    if ($response) {
+                        return $response;
+                    }
+                }
+                
+                // Process route middlewares
+                $middlewares = $route['middlewares'];
+                return $this->processMiddlewares($middlewares, $request, function ($request) use ($route) {
+                    return $this->callRouteHandler($route['handler'], $request);
+                });
+            }
+        }
+        
+        // No matching route found
+        $response = new Response();
+        return $response->setStatus(404)->setContent([
+            'error' => true,
+            'message' => 'Route not found'
+        ]);
+    }
+    
+    /**
+     * Process middleware stack
+     */
+    private function processMiddlewares(array $middlewares, Request $request, callable $target) {
+        if (empty($middlewares)) {
+            return $target($request);
+        }
+        
+        $middleware = array_shift($middlewares);
+        $middlewareInstance = $this->resolveMiddleware($middleware);
+        
+        return $middlewareInstance->handle($request, function ($request) use ($middlewares, $target) {
+            return $this->processMiddlewares($middlewares, $request, $target);
+        });
+    }
+    
+    /**
+     * Resolve middleware class
+     */
+    private function resolveMiddleware($middleware) {
+        // Lookup middleware in aliases or use full class name
+        $middlewareMap = [
+            'auth' => \App\Middleware\AuthMiddleware::class,
+            'guest' => \App\Middleware\GuestMiddleware::class,
+            'tenant' => \App\Middleware\TenantMiddleware::class,
+            'api' => \App\Middleware\ApiMiddleware::class,
+            'throttle' => \App\Middleware\ThrottleMiddleware::class,
+            // Add more aliases as needed
+        ];
+        
+        $class = isset($middlewareMap[$middleware]) ? $middlewareMap[$middleware] : $middleware;
+        
+        if (!class_exists($class)) {
+            throw new AppException("Middleware class '{$class}' not found");
+        }
+        
+        return new $class();
+    }
+    
+    /**
+     * Call the route handler
+     */
+    private function callRouteHandler($handler, Request $request) {
+        if (is_callable($handler)) {
+            return $handler($request);
+        }
+        
+        if (is_string($handler)) {
+            // Resolve Controller@method syntax
+            if (strpos($handler, '@') !== false) {
+                list($controller, $method) = explode('@', $handler);
+                
+                $controllerClass = "\\App\\Controllers\\{$controller}";
+                
+                if (!class_exists($controllerClass)) {
+                    throw new AppException("Controller '{$controllerClass}' not found");
+                }
+                
+                $controllerInstance = new $controllerClass();
+                
+                if (!method_exists($controllerInstance, $method)) {
+                    throw new AppException("Method '{$method}' not found in controller '{$controllerClass}'");
+                }
+                
+                return $controllerInstance->$method($request);
+            }
+        }
+        
+        if (is_array($handler) && count($handler) === 2) {
+            list($controller, $method) = $handler;
+            
+            if (is_string($controller)) {
+                $controller = new $controller();
+            }
+            
+            return $controller->$method($request);
+        }
+        
+        throw new AppException("Invalid route handler");
+    }
+}
+```
+
+### 8. Classe de Requisição
+
+```php
+// File: core/Request.php
+<?php
+
+namespace Core;
+
+class Request {
+    private $params = [];
+    private $query = [];
+    private $body = [];
+    private $files = [];
+    private $headers = [];
+    private $method;
+    private $uri;
+    
+    /**
+     * Constructor - initialize from PHP globals
+     */
+    public function __construct() {
+        $this->uri = $_SERVER['REQUEST_URI'] ?? '/';
+        $this->method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+        
+        // Parse query parameters
+        $this->query = $_GET ?? [];
+        
+        // Parse request body
+        $this->parseBody();
+        
+        // Get uploaded files
+        $this->files = $_FILES ?? [];
+        
+        // Get request headers
+        $this->parseHeaders();
+    }
+    
+    /**
+     * Parse request body based on content type
+     */
+    private function parseBody() {
+        if ($this->method === 'GET') {
+            $this->body = [];
+            return;
+        }
+        
+        $contentType = $_SERVER['CONTENT_TYPE'] ?? '';
+        
+        if (strpos($contentType, 'application/json') !== false) {
+            $input = file_get_contents('php://input');
+            $this->body = json_decode($input, true) ?? [];
+        } else {
+            $this->body = $_POST ?? [];
+        }
+        
+        // Handle PUT, PATCH, DELETE methods with standard form data
+        if (in_array($this->method, ['PUT', 'PATCH', 'DELETE']) && empty($this->body)) {
+            parse_str(file_get_contents('php://input'), $this->body);
+        }
+    }
+    
+    /**
+     * Parse request headers
+     */
+    private function parseHeaders() {
+        if (function_exists('getallheaders')) {
+            $this->headers = getallheaders();
+        } else {
+            $this->headers = [];
+            foreach ($_SERVER as $name => $value) {
+                if (substr($name, 0, 5) === 'HTTP_') {
+                    $name = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))));
+                    $this->headers[$name] = $value;
+                }
+            }
+        }
+    }
+    
+    /**
+     * Get request method
+     */
+    public function getMethod() {
+        return $this->method;
+    }
+    
+    /**
+     * Get request URI
+     */
+    public function getUri() {
+        
